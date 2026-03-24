@@ -30,7 +30,7 @@ import appeng.api.util.DimensionalCoord;
 import appeng.tile.grid.AENetworkTile;
 import appeng.tile.storage.TileChest;
 import appeng.tile.storage.TileDrive;
-import shedar.mods.ic2.nuclearcontrol.utils.NCLog;
+import shedar.mods.ic2.nuclearcontrol.IC2NuclearControl;
 
 public class TileEntityNetworkLink extends AENetworkTile {
 
@@ -110,12 +110,12 @@ public class TileEntityNetworkLink extends AENetworkTile {
 
     private static TileEntity getBaseTileEntity(DimensionalCoord coord) {
         if (coord == null) {
-            NCLog.fatal("Coord is null");
+            IC2NuclearControl.logger.fatal("Coord is null");
             return null;
         }
         World world = coord.getWorld();
         if (world == null) {
-            NCLog.fatal("World is null?");
+            IC2NuclearControl.logger.fatal("World is null?");
             return null;
         }
         return world.getTileEntity(coord.x, coord.y, coord.z);

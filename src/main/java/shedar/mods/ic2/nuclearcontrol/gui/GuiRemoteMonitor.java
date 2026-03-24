@@ -11,6 +11,7 @@ import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
+import shedar.mods.ic2.nuclearcontrol.IC2NuclearControl;
 import shedar.mods.ic2.nuclearcontrol.InventoryItem;
 import shedar.mods.ic2.nuclearcontrol.api.CardState;
 import shedar.mods.ic2.nuclearcontrol.api.IPanelDataSource;
@@ -22,7 +23,6 @@ import shedar.mods.ic2.nuclearcontrol.network.ChannelHandler;
 import shedar.mods.ic2.nuclearcontrol.network.message.PacketServerUpdate;
 import shedar.mods.ic2.nuclearcontrol.panel.CardWrapperImpl;
 import shedar.mods.ic2.nuclearcontrol.utils.LangHelper;
-import shedar.mods.ic2.nuclearcontrol.utils.NCLog;
 import shedar.mods.ic2.nuclearcontrol.utils.StringUtils;
 
 public class GuiRemoteMonitor extends GuiContainer {
@@ -97,7 +97,7 @@ public class GuiRemoteMonitor extends GuiContainer {
 
     private void drawCardStuff(Boolean anyCardFound, List<PanelString> joinedData) {
         if (!anyCardFound) {
-            NCLog.fatal(
+            IC2NuclearControl.logger.fatal(
                     "This should never happen. If you see this report immediately to NC2 repo. Include GuiRemoteMonitorError-123 in the report!");
             return;
         }
