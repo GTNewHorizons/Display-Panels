@@ -130,12 +130,6 @@ public class ScreenManager {
         return null;
     }
 
-    public Screen loadScreen(World world, int coreX, int coreY, int coreZ) {
-        TileEntity core = world.getTileEntity(coreX, coreY, coreZ);
-        if (core != null && core instanceof TileEntityInfoPanel) return loadScreen((TileEntityInfoPanel) core);
-        return null;
-    }
-
     private Screen tryBuildFromPanel(TileEntityInfoPanel panel) {
         boolean advanced = panel instanceof TileEntityAdvancedInfoPanel;
         Screen screen = new Screen();

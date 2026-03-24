@@ -456,13 +456,6 @@ public class TileEntityAdvancedInfoPanel extends TileEntityInfoPanel {
         return new ItemStack(IC2NuclearControl.blockNuclearControlMain, 1, BlockDamages.DAMAGE_ADVANCED_PANEL);
     }
 
-    public Map<Byte, Map<UUID, DataSorter>> getDataSorters() {
-        if (dataSorters == null) {
-            return new HashMap<>();
-        }
-        return dataSorters;
-    }
-
     public DataSorter getDataSorter(byte slot) {
         UUID uuid = ((IPanelDataSource) getStackInSlot(slot).getItem()).getCardType();
         if (dataSorters.containsKey(slot)) {

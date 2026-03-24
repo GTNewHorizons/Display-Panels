@@ -144,10 +144,6 @@ public class Screen {
         return result;
     }
 
-    public boolean isCore(int x, int y, int z) {
-        return x == coreX && y == coreY && z == coreZ;
-    }
-
     public int getDx() {
         return maxX - minX;
     }

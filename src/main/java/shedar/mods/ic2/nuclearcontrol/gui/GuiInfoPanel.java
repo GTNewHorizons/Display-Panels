@@ -58,18 +58,6 @@ public class GuiInfoPanel extends GuiContainer {
         isColored = !this.container.panel.getColored();
     }
 
-    /*
-     * @SuppressWarnings("unchecked") protected void drawItemStack(ItemStack itemStack, int par2, int par3){
-     * @SuppressWarnings("rawtypes") List list = itemStack.getTooltip(this.mc.thePlayer,
-     * this.mc.gameSettings.advancedItemTooltips); if(container.panel.getIsWeb() && itemStack.hasTagCompound()) {
-     * NBTTagCompound tags = itemStack.getTagCompound(); if(tags.hasKey("_webSensorId")){ long id =
-     * tags.getLong("_webSensorId"); if(id>0) list.add("Web Id: "+id); } } for (int k = 0; k < list.size(); ++k){ if (k
-     * == 0){ list.set(k, "\u00a7" + Integer.toHexString(itemStack.getRarity().rarityColor) + (String)list.get(k));
-     * }else{ list.set(k, EnumChatFormatting.GRAY + (String)list.get(k)); } } FontRenderer font =
-     * itemStack.getItem().getFontRenderer(itemStack); drawHoveringText(list, par2, par3, (font == null ?
-     * fontRendererObj : font)); }
-     */
-
     @Override
     protected void drawHoveringText(List par1List, int par2, int par3, FontRenderer font) {
         if (!par1List.isEmpty()) {

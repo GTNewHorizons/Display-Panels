@@ -104,7 +104,6 @@ public class IC2NuclearControl {
     public static BlockNuclearControlMain blockNuclearControlMain;
     public static BlockNuclearControlLight blockNuclearControlLight;
     public int modelId;
-    public String httpSensorKey;
     public List<String> availableAlarms;
     public ScreenManager screenManager = new ScreenManager();
 

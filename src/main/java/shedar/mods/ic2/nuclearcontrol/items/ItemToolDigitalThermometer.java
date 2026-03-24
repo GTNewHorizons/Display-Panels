@@ -18,16 +18,12 @@ import shedar.mods.ic2.nuclearcontrol.utils.TextureResolver;
 public class ItemToolDigitalThermometer extends ItemToolThermometer implements IElectricItem {
 
     public final int tier;
-    public final int ratio;
-    public final int transfer;
 
     public ItemToolDigitalThermometer(int k, int l, int i1) {
         super();
         setMaxDamage(101);
         setTextureName(TextureResolver.getItemTexture("thermometerDigital"));
         tier = k;
-        ratio = l;
-        transfer = i1;
     }
 
     @Override

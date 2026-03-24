@@ -42,14 +42,6 @@ public class TileEntityInfoPanelExtender extends TileEntity
         return (short) Facing.oppositeSide[facing];
     }
 
-    public boolean getPartOfScreen() {
-        return partOfScreen;
-    }
-
-    public boolean getNBTLoaded() {
-        return NBTLoaded;
-    }
-
     @Override
     public void setFacing(short f) {
         setSide((short) Facing.oppositeSide[f]);

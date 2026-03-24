@@ -17,7 +17,6 @@ import shedar.mods.ic2.nuclearcontrol.items.ItemRemoteMonitor;
 
 public class ContainerRemoteMonitor extends Container {
 
-    protected final ItemStack is;
     public final InventoryItem item;
 
     private static final String NBT_KEY_UID = "UID";
@@ -37,7 +36,6 @@ public class ContainerRemoteMonitor extends Container {
     }
 
     public ContainerRemoteMonitor(InventoryPlayer inv, ItemStack stack, InventoryItem iItem) {
-        this.is = stack;
         this.item = iItem;
 
         Slot slot = this.addSlotToContainer(new SlotFilter(this.item, 0, 177, 21));

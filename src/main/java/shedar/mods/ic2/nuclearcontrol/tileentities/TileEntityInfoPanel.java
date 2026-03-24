@@ -56,8 +56,6 @@ public class TileEntityInfoPanel extends TileEntity
 
     public static final int I_PANEL_BACKGROUND = 6;
 
-    public static final int DISPLAY_DEFAULT = Integer.MAX_VALUE;
-
     private static final byte SLOT_CARD = 0;
     private static final byte SLOT_UPGRADE_RANGE = 1;
     private static final byte SLOT_UPGRADE_COLOR = 2;
@@ -675,18 +673,6 @@ public class TileEntityInfoPanel extends TileEntity
         return slot;
     }
 
-    protected long getIdForCard(CardWrapperImpl cardHelper) {
-        long id = cardHelper.getLong("_webSensorId");
-        if (id <= 0) {
-            /*
-             * if (id <= -10) id += 10; if (id == 0) HttpCardSender.instance.requestId(); Long newId =
-             * HttpCardSender.instance.availableIds.poll(); if (newId == null) id--; else id = newId;
-             * cardHelper.setLong("_webSensorId", id);
-             */
-        }
-        return id;
-    }
-
     public void processCard(ItemStack card, int upgradeCountRange, int slot) {
         if (card == null) {
             return;
@@ -872,10 +858,6 @@ public class TileEntityInfoPanel extends TileEntity
         return displaySettings.get(slot);
     }
 
-    public int getDisplaySettingsForCardInSlot(int slot) {
-        return getNewDisplaySettingsForCardInSlot(slot).getAsInteger();
-    }
-
     public DisplaySettingHelper getNewDisplaySettingsForCardInSlot(int slot) {
         ItemStack card = inventory[slot];
         if (card == null) {
@@ -902,10 +884,6 @@ public class TileEntityInfoPanel extends TileEntity
             return displaySettings.get(slot).get(cardType);
         }
         return new DisplaySettingHelper();
-    }
-
-    public int getDisplaySettingsByCard(ItemStack card) {
-        return getNewDisplaySettingsByCard(card).getAsInteger();
     }
 
     @Override

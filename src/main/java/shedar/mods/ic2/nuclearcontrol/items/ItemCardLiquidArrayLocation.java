@@ -142,7 +142,7 @@ public class ItemCardLiquidArrayLocation extends ItemCardBase {
         boolean showEach = displaySettings.getSetting(DISPLAY_EACH);
         boolean showSummary = displaySettings.getSetting(DISPLAY_TOTAL);
         boolean showName = displaySettings.getSetting(DISPLAY_NAME);
-        boolean showAmount = true;
+
         boolean showFree = displaySettings.getSetting(DISPLAY_FREE);
         boolean showCapacity = displaySettings.getSetting(DISPLAY_CAPACITY);
         boolean showPercentage = displaySettings.getSetting(DISPLAY_PERCENTAGE);

@@ -259,19 +259,6 @@ public class BlockNuclearControlMain extends BlockContainer {
         super.onNeighborBlockChange(world, x, y, z, neighbor);
     }
 
-    public boolean canPlaceBlockOnSide(World world, int x, int y, int z, int side, int metadata) {
-        ForgeDirection dir = ForgeDirection.getOrientation(side);
-        if (!isSolidBlockRequired(metadata)) {
-            return true;
-        }
-        return (dir == ForgeDirection.DOWN && world.isSideSolid(x, y + 1, z, ForgeDirection.DOWN))
-                || (dir == ForgeDirection.UP && world.isSideSolid(x, y - 1, z, ForgeDirection.UP))
-                || (dir == ForgeDirection.NORTH && world.isSideSolid(x, y, z + 1, ForgeDirection.NORTH))
-                || (dir == ForgeDirection.SOUTH && world.isSideSolid(x, y, z - 1, ForgeDirection.SOUTH))
-                || (dir == ForgeDirection.WEST && world.isSideSolid(x + 1, y, z, ForgeDirection.WEST))
-                || (dir == ForgeDirection.EAST && world.isSideSolid(x - 1, y, z, ForgeDirection.EAST));
-    }
-
     /**
      * Tests if the block can remain at its current location and will drop as an item if it is unable to stay. Returns
      * True if it can stay and False if it drops. Args: world, x, y, z
@@ -636,15 +623,4 @@ public class BlockNuclearControlMain extends BlockContainer {
             return 16777215;
         }
     }
-
-    // Color testing code - Unused
-    private int RGBToInt(final int r, final int g, final int b) {
-        int color = 0;
-        color = color | b;
-        color = color | g << 8;
-        color = color | r << 16;
-
-        return color;
-    }
-
 }

@@ -44,10 +44,6 @@ public class GuiToggleButton extends GuiButton {
         }
     }
 
-    public boolean isChecked() {
-        return isChecked;
-    }
-
     public void toggle() {
         isChecked = !isChecked;
     }

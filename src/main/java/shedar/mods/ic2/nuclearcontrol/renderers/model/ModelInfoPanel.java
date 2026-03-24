@@ -70,8 +70,7 @@ public class ModelInfoPanel {
         double dTopRight = 0;
         double dBottomLeft = 0;
         double dBottomRight = 0;
-        int height = screen.getHeight(panel);
-        int width = screen.getWidth(panel);
+
         double maxDelta = 0;
         if (isTopBottom) {
             if (panel.rotateVert > 0) // |\

@@ -161,7 +161,7 @@ public class GuiAdvancedInfoPanel extends GuiInfoPanel {
             return;
         willReturn = false;
         initialized = true;
-        int h = fontRendererObj.FONT_HEIGHT + 1;
+
         buttonList.clear();
         prevCard = card;
 

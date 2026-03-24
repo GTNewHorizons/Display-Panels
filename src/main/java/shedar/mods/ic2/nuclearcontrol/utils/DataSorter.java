@@ -28,26 +28,6 @@ public class DataSorter {
     }
 
     /**
-     * Save a custom order, and completely overwrite the one currently stored.
-     *
-     * @param newOrder the new custom order
-     */
-    public void saveCustomOrder(List<Integer> newOrder) {
-        this.customOrder = new ArrayList<>(newOrder);
-    }
-
-    /**
-     * Reset the order of the list, whilst keeping the original size.
-     */
-    public void resetOrder() {
-        int size = customOrder.size();
-        customOrder = new ArrayList<>();
-        for (int i = 0; i < size; i++) {
-            customOrder.add(i);
-        }
-    }
-
-    /**
      * Reset the order and set it to a specific size.
      *
      * @param size size to be set
