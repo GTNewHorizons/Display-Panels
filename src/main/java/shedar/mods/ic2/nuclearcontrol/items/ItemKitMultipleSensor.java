@@ -15,6 +15,7 @@ import net.minecraftforge.fluids.FluidTankInfo;
 
 import ic2.core.block.generator.tileentity.TileEntityBaseGenerator;
 import shedar.mods.ic2.nuclearcontrol.IC2NuclearControl;
+import shedar.mods.ic2.nuclearcontrol.Refstrings;
 import shedar.mods.ic2.nuclearcontrol.tileentities.TileEntityAverageCounter;
 import shedar.mods.ic2.nuclearcontrol.tileentities.TileEntityEnergyCounter;
 import shedar.mods.ic2.nuclearcontrol.utils.LiquidStorageHelper;
@@ -25,9 +26,9 @@ public class ItemKitMultipleSensor extends ItemSensorKitBase {
     public static final int TYPE_LIQUID = 1;
     public static final int TYPE_GENERATOR = 2;
 
-    private static final ResourceLocation TEXTURE_KIT_COUNTER = new ResourceLocation("kitCounter");
-    private static final ResourceLocation TEXTURE_KIT_LIQUID = new ResourceLocation("kitLiquid");
-    private static final ResourceLocation TEXTURE_KIT_GENERATOR = new ResourceLocation("kitGenerator");
+    private static final ResourceLocation TEXTURE_KIT_COUNTER = new ResourceLocation(Refstrings.ASSETS_FOLDER,"kitCounter");
+    private static final ResourceLocation TEXTURE_KIT_LIQUID = new ResourceLocation(Refstrings.ASSETS_FOLDER,"kitLiquid");
+    private static final ResourceLocation TEXTURE_KIT_GENERATOR = new ResourceLocation(Refstrings.ASSETS_FOLDER,"kitGenerator");
 
     private IIcon iconCounter;
     private IIcon iconLiquid;
