@@ -7,12 +7,12 @@ import org.lwjgl.opengl.GL11;
 
 import cpw.mods.fml.client.FMLClientHandler;
 import ic2.core.IC2;
+import shedar.mods.ic2.nuclearcontrol.Refstrings;
 import shedar.mods.ic2.nuclearcontrol.tileentities.TileEntityAdvancedInfoPanel;
 
 public class GuiPanelSlope extends GuiScreen {
 
-    private static final String TEXTURE_FILE = "nuclearcontrol:textures/gui/GUISlope.png";
-    private static final ResourceLocation TEXTURE_LOCATION = new ResourceLocation(TEXTURE_FILE);
+    private static final ResourceLocation TEXTURE_LOCATION = new ResourceLocation(Refstrings.ASSETS_FOLDER, "textures/gui/GUISlope.png");
 
     protected final int xSize = 171;
     protected final int ySize = 94;

@@ -12,6 +12,7 @@ import org.lwjgl.opengl.GL11;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import shedar.mods.ic2.nuclearcontrol.IC2NuclearControl;
+import shedar.mods.ic2.nuclearcontrol.Refstrings;
 import shedar.mods.ic2.nuclearcontrol.containers.ContainerEmpty;
 import shedar.mods.ic2.nuclearcontrol.gui.controls.GuiHowlerAlarmListBox;
 import shedar.mods.ic2.nuclearcontrol.gui.controls.GuiHowlerAlarmSlider;
@@ -20,8 +21,7 @@ import shedar.mods.ic2.nuclearcontrol.tileentities.TileEntityHowlerAlarm;
 @SideOnly(Side.CLIENT)
 public class GuiHowlerAlarm extends GuiContainer {
 
-    private static final String TEXTURE_FILE = "nuclearcontrol:textures/gui/GUIHowlerAlarm.png";
-    private static final ResourceLocation TEXTURE_LOCATION = new ResourceLocation(TEXTURE_FILE);
+    private static final ResourceLocation TEXTURE_LOCATION = new ResourceLocation(Refstrings.ASSETS_FOLDER, "textures/gui/GUIHowlerAlarm.png");
 
     private final TileEntityHowlerAlarm alarm;
     private GuiHowlerAlarmSlider slider;
