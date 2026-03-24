@@ -29,6 +29,7 @@ import ic2.core.IC2;
 import ic2.core.network.NetworkManager;
 import shedar.mods.ic2.nuclearcontrol.IC2NuclearControl;
 import shedar.mods.ic2.nuclearcontrol.ISlotItemFilter;
+import shedar.mods.ic2.nuclearcontrol.config.Configuration;
 import shedar.mods.ic2.nuclearcontrol.crossmod.EnergyStorageData;
 import shedar.mods.ic2.nuclearcontrol.utils.BlockDamages;
 
@@ -63,7 +64,7 @@ public class TileEntityEnergyCounter extends TileEntity
         packetSize = BASE_PACKET_SIZE;
         prevFacing = facing = 0;
         counter = 0.0;
-        tickRate = IC2NuclearControl.instance.screenRefreshPeriod;
+        tickRate = Configuration.infoPanelRefreshPeriod;
         updateTicker = tickRate;
     }
 

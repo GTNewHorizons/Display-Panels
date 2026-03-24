@@ -10,6 +10,7 @@ import net.minecraftforge.event.world.WorldEvent;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
+import shedar.mods.ic2.nuclearcontrol.config.Configuration;
 import shedar.mods.ic2.nuclearcontrol.network.ChannelHandler;
 import shedar.mods.ic2.nuclearcontrol.network.message.PacketAlarm;
 
@@ -27,12 +28,7 @@ public class ServerTickHandler {
     @SubscribeEvent
     public void onPlayerLogin(PlayerLoggedInEvent event) {
         ChannelHandler.network.sendTo(
-                new PacketAlarm(IC2NuclearControl.instance.maxAlarmRange, IC2NuclearControl.instance.allowedAlarms),
+                new PacketAlarm(Configuration.maxAlarmRange, Configuration.allowedAlarms),
                 (EntityPlayerMP) event.player);
     }
-
-    /*
-     * @SubscribeEvent public void onTick(TickEvent.ServerTickEvent event) { if (event.type == Type.SERVER && event.side
-     * == Side.SERVER && event.phase == Phase.END) { HttpCardSender.instance.send(); } }
-     */
 }

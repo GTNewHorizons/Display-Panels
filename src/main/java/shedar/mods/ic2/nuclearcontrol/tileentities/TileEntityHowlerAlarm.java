@@ -21,6 +21,7 @@ import ic2.core.network.ClientModifiable;
 import ic2.core.network.NetworkManager;
 import shedar.mods.ic2.nuclearcontrol.IC2NuclearControl;
 import shedar.mods.ic2.nuclearcontrol.IRedstoneConsumer;
+import shedar.mods.ic2.nuclearcontrol.config.Configuration;
 import shedar.mods.ic2.nuclearcontrol.utils.BlockDamages;
 import shedar.mods.ic2.nuclearcontrol.utils.RedstoneHelper;
 
@@ -62,7 +63,7 @@ public class TileEntityHowlerAlarm extends TileEntity implements INetworkDataPro
         powered = false;
         prevPowered = false;
         soundName = "";
-        range = IC2NuclearControl.instance.alarmRange;
+        range = Configuration.alarmRange;
         soundReceived = false;
         color = 16777215;
         if (FMLCommonHandler.instance().getEffectiveSide().isClient()) {
@@ -191,7 +192,7 @@ public class TileEntityHowlerAlarm extends TileEntity implements INetworkDataPro
 
     private float getNormalizedRange() {
         if (worldObj.isRemote) {
-            return Math.min(range, IC2NuclearControl.instance.SMPMaxAlarmRange) / BASE_SOUND_RANGE;
+            return Math.min(range, Configuration.SMPMaxAlarmRange) / BASE_SOUND_RANGE;
         }
         return range / BASE_SOUND_RANGE;
     }

@@ -31,6 +31,7 @@ import shedar.mods.ic2.nuclearcontrol.api.IPanelDataSource;
 import shedar.mods.ic2.nuclearcontrol.api.IRangeTriggerable;
 import shedar.mods.ic2.nuclearcontrol.api.IRemoteSensor;
 import shedar.mods.ic2.nuclearcontrol.blocks.subblocks.RangeTrigger;
+import shedar.mods.ic2.nuclearcontrol.config.Configuration;
 import shedar.mods.ic2.nuclearcontrol.items.ItemUpgrade;
 import shedar.mods.ic2.nuclearcontrol.panel.CardWrapperImpl;
 import shedar.mods.ic2.nuclearcontrol.utils.BlockDamages;
@@ -187,7 +188,7 @@ public class TileEntityRangeTrigger extends TileEntity
         inventory = new ItemStack[2];// card + range upgrades
         card = null;
         init = false;
-        tickRate = IC2NuclearControl.instance.rangeTriggerRefreshPeriod;
+        tickRate = Configuration.rangeTriggerRefreshPeriod;
         updateTicker = tickRate;
         facing = 0;
         prevFacing = 0;

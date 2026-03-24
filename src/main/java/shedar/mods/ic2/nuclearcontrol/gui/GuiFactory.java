@@ -1,30 +1,17 @@
 package shedar.mods.ic2.nuclearcontrol.gui;
 
-import java.util.Set;
-
-import net.minecraft.client.Minecraft;
+import com.gtnewhorizon.gtnhlib.config.SimpleGuiFactory;
 import net.minecraft.client.gui.GuiScreen;
 
-import cpw.mods.fml.client.IModGuiFactory;
-
-@SuppressWarnings("unused") // referenced class through string in the mod annotation
-public class GuiFactory implements IModGuiFactory {
-
-    @Override
-    public void initialize(Minecraft minecraftInstance) {}
+@SuppressWarnings("unused")
+/**
+ * Referenced through {@link shedar.mods.ic2.nuclearcontrol.Refstrings.GUI_FACTORY this field}.
+ */
+public class GuiFactory implements SimpleGuiFactory {
 
     @Override
     public Class<? extends GuiScreen> mainConfigGuiClass() {
         return ConfigGui.class;
     }
-
-    @Override
-    public Set<RuntimeOptionCategoryElement> runtimeGuiCategories() {
-        return null;
-    }
-
-    @Override
-    public RuntimeOptionGuiHandler getHandlerFor(RuntimeOptionCategoryElement element) {
-        return null;
-    }
 }
+

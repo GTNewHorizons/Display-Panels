@@ -11,6 +11,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import ic2.core.IC2;
 import ic2.core.network.NetworkManager;
 import shedar.mods.ic2.nuclearcontrol.IC2NuclearControl;
+import shedar.mods.ic2.nuclearcontrol.config.Configuration;
 import shedar.mods.ic2.nuclearcontrol.tileentities.TileEntityHowlerAlarm;
 
 @SideOnly(Side.CLIENT)
@@ -31,7 +32,7 @@ public class GuiHowlerAlarmSlider extends GuiButton {
         this.alarm = alarm;
         dragging = false;
         this.label = label;
-        if (alarm.getWorldObj().isRemote) maxValue = IC2NuclearControl.instance.maxAlarmRange;
+        if (alarm.getWorldObj().isRemote) maxValue = Configuration.maxAlarmRange;
         int currentRange = alarm.getRange();
         if (alarm.getWorldObj().isRemote && currentRange > maxValue) currentRange = maxValue;
         sliderValue = ((float) currentRange - minValue) / (maxValue - minValue);

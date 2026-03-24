@@ -25,6 +25,7 @@ import ic2.core.IC2;
 import shedar.mods.ic2.nuclearcontrol.IC2NuclearControl;
 import shedar.mods.ic2.nuclearcontrol.IRotation;
 import shedar.mods.ic2.nuclearcontrol.ISlotItemFilter;
+import shedar.mods.ic2.nuclearcontrol.config.Configuration;
 import shedar.mods.ic2.nuclearcontrol.items.ItemCard55Reactor;
 import shedar.mods.ic2.nuclearcontrol.items.ItemCardReactorSensorLocation;
 import shedar.mods.ic2.nuclearcontrol.items.ItemUpgrade;
@@ -94,7 +95,7 @@ public class TileEntityRemoteThermo extends TileEntityThermo
         markDirty();
 
         int fire;
-        if (energy >= IC2NuclearControl.instance.remoteThermalMonitorEnergyConsumption) {
+        if (energy >= Configuration.remoteThermalMonitorEnergyConsumption) {
             IReactor reactor = NuclearHelper.getReactorAt(worldObj, xCoord + deltaX, yCoord + deltaY, zCoord + deltaZ);
             // UUID cardType = null;
             if (reactor == null) {
@@ -176,7 +177,7 @@ public class TileEntityRemoteThermo extends TileEntityThermo
     public void updateEntity() {
         super.updateEntity();
         if (!worldObj.isRemote) { // If is server
-            int consumption = IC2NuclearControl.instance.remoteThermalMonitorEnergyConsumption;
+            int consumption = Configuration.remoteThermalMonitorEnergyConsumption;
             if (inventory[SLOT_CHARGER] != null) {
                 if (energy < maxStorage) {
                     if (inventory[SLOT_CHARGER].getItem() instanceof IElectricItem ielectricitem) {

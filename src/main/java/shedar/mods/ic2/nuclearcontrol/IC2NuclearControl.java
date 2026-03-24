@@ -1,8 +1,9 @@
 package shedar.mods.ic2.nuclearcontrol;
 
-import java.io.File;
 import java.util.List;
 
+import com.gtnewhorizon.gtnhlib.config.ConfigException;
+import com.gtnewhorizon.gtnhlib.config.ConfigurationManager;
 import net.minecraft.item.Item;
 import net.minecraftforge.common.MinecraftForge;
 
@@ -23,6 +24,8 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import shedar.mods.ic2.nuclearcontrol.blocks.BlockNuclearControlLight;
 import shedar.mods.ic2.nuclearcontrol.blocks.BlockNuclearControlMain;
+import shedar.mods.ic2.nuclearcontrol.config.Configuration;
+import shedar.mods.ic2.nuclearcontrol.config.RecipeType;
 import shedar.mods.ic2.nuclearcontrol.crossmod.CrossModLoader;
 import shedar.mods.ic2.nuclearcontrol.crossmod.RF.CrossBuildcraft;
 import shedar.mods.ic2.nuclearcontrol.crossmod.RF.CrossRF;
@@ -79,10 +82,8 @@ public class IC2NuclearControl {
 
     // For logging purposes
     public static final Logger logger = LogManager.getLogger(Refstrings.MOD_NAME);
-    public static ConfigurationHandler config;
 
     public static boolean isServer;
-    public String allowedAlarms;
     public List<String> serverAllowedAlarms;
     public static Item itemPanelMemoryCard;
     public static Item itemToolThermometer;
@@ -103,17 +104,9 @@ public class IC2NuclearControl {
     public static BlockNuclearControlMain blockNuclearControlMain;
     public static BlockNuclearControlLight blockNuclearControlLight;
     public int modelId;
-    public int alarmRange;
-    public int SMPMaxAlarmRange;
-    public int maxAlarmRange;
     public String httpSensorKey;
     public List<String> availableAlarms;
-    public int remoteThermalMonitorEnergyConsumption;
     public ScreenManager screenManager = new ScreenManager();
-    public int screenRefreshPeriod;
-    public int dataRefreshPeriod;
-    public int rangeTriggerRefreshPeriod;
-    public String recipes;
 
     public CrossBuildcraft crossBC;
     public CrossRailcraft crossRailcraft;
@@ -121,6 +114,15 @@ public class IC2NuclearControl {
     public CrossOpenComputers crossOC;
     public IC2Cross crossIc2;
     public CrossGregTech crossGT;
+
+    static {
+        try {
+            ConfigurationManager.registerConfig(Configuration.class);
+        }
+        catch (ConfigException e){
+            throw new RuntimeException(e);
+        }
+    }
 
     protected void initBlocks() {
         blockNuclearControlMain = new BlockNuclearControlMain();
@@ -172,11 +174,6 @@ public class IC2NuclearControl {
     public void preInit(FMLPreInitializationEvent event) {
         isServer = event.getSide() != Side.CLIENT;
 
-        // Loads configuration
-        config = new ConfigurationHandler();
-        FMLCommonHandler.instance().bus().register(config);
-        config.init(event.getSuggestedConfigurationFile());
-
         // registers channel handler
         ChannelHandler.init();
 
@@ -209,28 +206,23 @@ public class IC2NuclearControl {
         crossRF = new CrossRF();
         crossIc2 = IC2Cross.getIC2Cross();
         if (crossIc2.getType() == IC2Type.SPEIGER) {
-            if (recipes.equalsIgnoreCase("normal-force")) {
+            if (Configuration.recipes == RecipeType.normalForce) {
                 logger.info("Loading normal recipes with IC2 Classic may prevent certain recipes working");
                 RecipesNew.addRecipes();
-            } else if (recipes.equalsIgnoreCase("gregtech-force")) {
+            } else if (Configuration.recipes == RecipeType.gregtechForce) {
                 logger.info("Loading Gregtech recipes with IC2 Classic will prevent certain recipes working");
                 GregtechRecipes.addRecipes();
             } else {
                 RecipesOld.addOldRecipes();
             }
-        } else if (recipes.equalsIgnoreCase("old")) {
+        } else if (Configuration.recipes == RecipeType.old) {
             RecipesOld.addOldRecipes();
-        } else if (recipes.equalsIgnoreCase("gregtech") || recipes.equalsIgnoreCase("gregtech5")) {
+        } else if (Configuration.recipes == RecipeType.gregtech || Configuration.recipes == RecipeType.gregtech5) {
             GregtechRecipes.addRecipes();
             logger.info("Hard... I mean, FUN recipes turned on! Have fun!");
         } else {
             RecipesNew.addRecipes();
         }
         crossGT = new CrossGregTech();
-        /*
-         * //I thought about doing this, but I didn't :P ItemStack dBlock = new ItemStack(Blocks.diamond_block);
-         * dBlock.setStackDisplayName("ERROR: report to skyboy!"); Recipes.advRecipes.addRecipe(dBlock, new Object[]{
-         * "GGG", "GGG", "GGG", 'G', "greggy_greg_do_please_kindly_stuff_a_sock_in_it"});
-         */
     }
 }
