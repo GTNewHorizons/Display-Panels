@@ -195,7 +195,11 @@ public class CardWrapperImpl implements ICardWrapper {
 
     @Override
     public boolean hasField(String field) {
-        return ItemStackUtils.getTagCompound(card).hasKey(field);
+        NBTTagCompound nbtTagCompound = card.getTagCompound();
+        if (nbtTagCompound == null) {
+            return false;
+        }
+        return nbtTagCompound.hasKey(field);
     }
 
     @Override
@@ -231,8 +235,10 @@ public class CardWrapperImpl implements ICardWrapper {
     }
 
     public void clearField(String name) {
-        NBTTagCompound nbtTagCompound = ItemStackUtils.getTagCompound(card);
-        nbtTagCompound.removeTag(name);
+        NBTTagCompound nbtTagCompound = card.getTagCompound();
+        if (nbtTagCompound != null && nbtTagCompound.hasKey(name)) {
+            nbtTagCompound.removeTag(name);
+        }
     }
 
     public Map<String, Object> getUpdateSet() {
