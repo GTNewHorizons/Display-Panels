@@ -57,7 +57,7 @@ public class ClientTickHandler {
 
         try {
             List list = Minecraft.getMinecraft().getResourceManager()
-                    .getAllResources(new ResourceLocation("nuclearcontrol", "sounds.json"));
+                    .getAllResources(new ResourceLocation(Refstrings.ASSETS_FOLDER, "sounds.json"));
 
             for (int i = list.size() - 1; i >= 0; --i) {
                 IResource iresource = (IResource) list.get(i);

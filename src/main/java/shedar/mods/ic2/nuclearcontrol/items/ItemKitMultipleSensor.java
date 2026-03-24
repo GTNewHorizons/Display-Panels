@@ -9,6 +9,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.util.IIcon;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidTankInfo;
 
@@ -17,7 +18,6 @@ import shedar.mods.ic2.nuclearcontrol.IC2NuclearControl;
 import shedar.mods.ic2.nuclearcontrol.tileentities.TileEntityAverageCounter;
 import shedar.mods.ic2.nuclearcontrol.tileentities.TileEntityEnergyCounter;
 import shedar.mods.ic2.nuclearcontrol.utils.LiquidStorageHelper;
-import shedar.mods.ic2.nuclearcontrol.utils.TextureResolver;
 
 public class ItemKitMultipleSensor extends ItemSensorKitBase {
 
@@ -25,9 +25,9 @@ public class ItemKitMultipleSensor extends ItemSensorKitBase {
     public static final int TYPE_LIQUID = 1;
     public static final int TYPE_GENERATOR = 2;
 
-    private static final String TEXTURE_KIT_COUNTER = "kitCounter";
-    private static final String TEXTURE_KIT_LIQUID = "kitLiquid";
-    private static final String TEXTURE_KIT_GENERATOR = "kitGenerator";
+    private static final ResourceLocation TEXTURE_KIT_COUNTER = new ResourceLocation("kitCounter");
+    private static final ResourceLocation TEXTURE_KIT_LIQUID = new ResourceLocation("kitLiquid");
+    private static final ResourceLocation TEXTURE_KIT_GENERATOR = new ResourceLocation("kitGenerator");
 
     private IIcon iconCounter;
     private IIcon iconLiquid;
@@ -50,9 +50,9 @@ public class ItemKitMultipleSensor extends ItemSensorKitBase {
 
     @Override
     public void registerIcons(IIconRegister iconRegister) {
-        iconCounter = iconRegister.registerIcon(TextureResolver.getItemTexture(TEXTURE_KIT_COUNTER));
-        iconLiquid = iconRegister.registerIcon(TextureResolver.getItemTexture(TEXTURE_KIT_LIQUID));
-        iconGenerator = iconRegister.registerIcon(TextureResolver.getItemTexture(TEXTURE_KIT_GENERATOR));
+        iconCounter = iconRegister.registerIcon(TEXTURE_KIT_COUNTER.toString());
+        iconLiquid = iconRegister.registerIcon(TEXTURE_KIT_LIQUID.toString());
+        iconGenerator = iconRegister.registerIcon(TEXTURE_KIT_GENERATOR.toString());
     }
 
     @Override

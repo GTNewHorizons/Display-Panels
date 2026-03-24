@@ -1,6 +1,5 @@
 package shedar.mods.ic2.nuclearcontrol.gui;
 
-import java.util.Iterator;
 import java.util.List;
 
 import net.minecraft.client.gui.FontRenderer;
@@ -20,6 +19,7 @@ import org.lwjgl.opengl.GL12;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import shedar.mods.ic2.nuclearcontrol.IC2NuclearControl;
+import shedar.mods.ic2.nuclearcontrol.Refstrings;
 import shedar.mods.ic2.nuclearcontrol.api.IAdvancedCardSettings;
 import shedar.mods.ic2.nuclearcontrol.api.ICardGui;
 import shedar.mods.ic2.nuclearcontrol.api.ICardSettingsWrapper;
@@ -38,8 +38,8 @@ import shedar.mods.ic2.nuclearcontrol.utils.NuclearNetworkHelper;
 @SideOnly(Side.CLIENT)
 public class GuiInfoPanel extends GuiContainer {
 
-    private static final String TEXTURE_FILE = "nuclearcontrol:textures/gui/GUIInfoPanel.png";
-    private static final ResourceLocation TEXTURE_LOCATION = new ResourceLocation(TEXTURE_FILE);
+    private static final String TEXTURE_FILE = "textures/gui/GUIInfoPanel.png";
+    private static final ResourceLocation TEXTURE_LOCATION = new ResourceLocation(Refstrings.MOD_ID, TEXTURE_FILE);
 
     protected String name;
     protected final ContainerInfoPanel container;

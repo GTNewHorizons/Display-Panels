@@ -14,6 +14,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.util.IIcon;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidTankInfo;
@@ -22,6 +23,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import ic2.api.energy.EnergyNet;
 import ic2.core.block.generator.tileentity.TileEntityBaseGenerator;
+import shedar.mods.ic2.nuclearcontrol.Refstrings;
 import shedar.mods.ic2.nuclearcontrol.api.CardState;
 import shedar.mods.ic2.nuclearcontrol.api.DisplaySettingHelper;
 import shedar.mods.ic2.nuclearcontrol.api.ICardWrapper;
@@ -38,7 +40,6 @@ import shedar.mods.ic2.nuclearcontrol.tileentities.TileEntityEnergyCounter;
 import shedar.mods.ic2.nuclearcontrol.utils.LangHelper;
 import shedar.mods.ic2.nuclearcontrol.utils.LiquidStorageHelper;
 import shedar.mods.ic2.nuclearcontrol.utils.StringUtils;
-import shedar.mods.ic2.nuclearcontrol.utils.TextureResolver;
 
 public class ItemCardMultipleSensorLocation extends ItemCardBase
         implements IRemoteSensor, IPanelMultiCard, IRangeTriggerable {
@@ -57,9 +58,9 @@ public class ItemCardMultipleSensorLocation extends ItemCardBase
     private static final UUID CARD_TYPE_LIQUID = UUID.fromString("210dc1f0-118c-48ee-9d08-42bfbee1ea15");
     private static final UUID CARD_TYPE_GENERATOR = UUID.fromString("210dc1f0-118c-48ee-9d08-42bfbee1ea16");
 
-    private static final String TEXTURE_CARD_COUNTER = "cardCounter";
-    private static final String TEXTURE_CARD_LIQUID = "cardLiquid";
-    private static final String TEXTURE_CARD_GENERATOR = "cardGenerator";
+    private static final ResourceLocation TEXTURE_CARD_COUNTER = new ResourceLocation(Refstrings.ASSETS_FOLDER,"cardCounter");
+    private static final ResourceLocation TEXTURE_CARD_LIQUID = new ResourceLocation(Refstrings.ASSETS_FOLDER,"cardLiquid");
+    private static final ResourceLocation TEXTURE_CARD_GENERATOR = new ResourceLocation(Refstrings.ASSETS_FOLDER,"cardGenerator");
 
     private IIcon iconCounter;
     private IIcon iconLiquid;
@@ -71,9 +72,9 @@ public class ItemCardMultipleSensorLocation extends ItemCardBase
 
     @Override
     public void registerIcons(IIconRegister iconRegister) {
-        iconCounter = iconRegister.registerIcon(TextureResolver.getItemTexture(TEXTURE_CARD_COUNTER));
-        iconLiquid = iconRegister.registerIcon(TextureResolver.getItemTexture(TEXTURE_CARD_LIQUID));
-        iconGenerator = iconRegister.registerIcon(TextureResolver.getItemTexture(TEXTURE_CARD_GENERATOR));
+        iconCounter = iconRegister.registerIcon(TEXTURE_CARD_COUNTER.toString());
+        iconLiquid = iconRegister.registerIcon(TEXTURE_CARD_LIQUID.toString());
+        iconGenerator = iconRegister.registerIcon(TEXTURE_CARD_GENERATOR.toString());
     }
 
     @Override
