@@ -6,6 +6,7 @@ import java.util.List;
 import net.minecraft.item.Item;
 import net.minecraftforge.common.MinecraftForge;
 
+import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -55,11 +56,11 @@ import shedar.mods.ic2.nuclearcontrol.recipes.RecipesNew;
 import shedar.mods.ic2.nuclearcontrol.recipes.RecipesOld;
 
 @Mod(
-        modid = "IC2NuclearControl",
-        name = "Nuclear Control 2",
+        modid = Refstrings.MOD_ID,
+        name = Refstrings.MOD_NAME,
         version = Tags.VERSION,
         dependencies = "required-after:IC2; after:gregtech_nh;",
-        guiFactory = "shedar.mods.ic2.nuclearcontrol.gui.GuiFactory")
+        guiFactory = Refstrings.GUI_FACTORY)
 public class IC2NuclearControl {
 
     // The instance of your mod forge uses
@@ -68,8 +69,8 @@ public class IC2NuclearControl {
 
     // Says where the client and server 'proxy' code is loaded.
     @SidedProxy(
-            clientSide = "shedar.mods.ic2.nuclearcontrol.ClientProxy",
-            serverSide = "shedar.mods.ic2.nuclearcontrol.CommonProxy")
+            clientSide = Refstrings.CLIENT_SIDE,
+            serverSide = Refstrings.SERVER_SIDE)
     // The proxy to be used by client and server
     public static CommonProxy proxy;
 
@@ -77,7 +78,7 @@ public class IC2NuclearControl {
     public static final IC2NCCreativeTabs tabIC2NC = new IC2NCCreativeTabs();
 
     // For logging purposes
-    public static Logger logger;
+    public static final Logger logger = LogManager.getLogger(Refstrings.MOD_NAME);
     public static ConfigurationHandler config;
 
     protected File configFile;
@@ -175,7 +176,6 @@ public class IC2NuclearControl {
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
         isThorfusionLoaded = Loader.isModLoaded("thorfusion");
-        logger = event.getModLog();
         isServer = event.getSide() != Side.CLIENT;
 
         // Loads configuration

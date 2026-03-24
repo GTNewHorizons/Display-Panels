@@ -7,6 +7,7 @@ import net.minecraft.client.gui.GuiScreen;
 
 import cpw.mods.fml.client.IModGuiFactory;
 
+@SuppressWarnings("unused") // referenced class through string in the mod annotation
 public class GuiFactory implements IModGuiFactory {
 
     @Override
