@@ -11,11 +11,12 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 import shedar.mods.ic2.nuclearcontrol.IC2NuclearControl;
-import shedar.mods.ic2.nuclearcontrol.utils.LightDamages;
+import shedar.mods.ic2.nuclearcontrol.Refstrings;
 
 public class BlockNuclearControlLight extends Block {
 
@@ -28,28 +29,19 @@ public class BlockNuclearControlLight extends Block {
         this.setHardness(0.3F);
         this.setCreativeTab(IC2NuclearControl.tabIC2NC);
         setStepSound(soundTypeGlass);
-        register(LightDamages.DAMAGE_WHITE_OFF, false);
-        register(LightDamages.DAMAGE_WHITE_ON, true);
-        register(LightDamages.DAMAGE_ORANGE_OFF, false);
-        register(LightDamages.DAMAGE_ORANGE_ON, true);
-        icon = new IIcon[subblocks.size() + 1];
-    }
-
-    public void register(int damage, boolean isOn) {
-        subblocks.put(damage, isOn);
+        icon = new IIcon[LightDamages.values.length];
     }
 
     @Override
     public int getLightValue(IBlockAccess world, int x, int y, int z) {
         int meta = world.getBlockMetadata(x, y, z);
-        if (meta == 1 || meta % 2 == 1) return 15;
+        if (meta % 2 == 1) return 15;
         return 0;
     }
 
     @Override
     public int damageDropped(int i) {
-        if (i % 2 == 0) return i;
-        return i - 1;
+        return i%2 == 0 ? i : i-1;
     }
 
     @Override
@@ -59,54 +51,63 @@ public class BlockNuclearControlLight extends Block {
 
     @Override
     public void registerBlockIcons(IIconRegister register) {
-        for (int i = 0; i <= subblocks.size(); i++) {
-            icon[i] = register.registerIcon("nuclearcontrol:light/lamp" + i);
+        for (LightDamages block: LightDamages.values) {
+            icon[block.id] = register.registerIcon(block.texture.toString());
         }
     }
 
     @Override
     public void onBlockAdded(World world, int x, int y, int z) {
         super.onBlockAdded(world, x, y, z);
-        int meta = world.getBlockMetadata(x, y, z);
-        if (meta == 1 || meta % 2 == 1) {
-            if (!world.isRemote) {
-                if (!world.isBlockIndirectlyGettingPowered(x, y, z)) {
-                    world.setBlock(x, y, z, this, meta - 1, 2);
-                }
-            }
-        } else {
-            if (!world.isRemote) {
-                if (world.isBlockIndirectlyGettingPowered(x, y, z)) {
-                    world.setBlock(x, y, z, this, meta + 1, 2);
-                }
-            }
-        }
+        setBlockWithCorrectState(world, x, y, z);
     }
 
     @Override
     public void onNeighborBlockChange(World world, int x, int y, int z, Block neighbor) {
+        setBlockWithCorrectState(world, x, y, z);
+    }
+
+    public void setBlockWithCorrectState(World world, int x, int y, int z){
+        if (world.isRemote) {
+            return;
+        }
+
         int meta = world.getBlockMetadata(x, y, z);
-        if (meta == 1 || meta % 2 == 1) {
-            if (!world.isRemote) {
-                if (!world.isBlockIndirectlyGettingPowered(x, y, z)) {
-                    world.setBlock(x, y, z, this, meta - 1, 2);
-                }
-            }
-        } else {
-            if (!world.isRemote) {
-                if (world.isBlockIndirectlyGettingPowered(x, y, z)) {
-                    world.setBlock(x, y, z, this, meta + 1, 2);
-                }
-            }
+        boolean isLit = meta % 2 == 1;
+
+        if (isLit && !world.isBlockIndirectlyGettingPowered(x, y, z)) {
+            world.setBlock(x, y, z, this, meta - 1, 2);
+
+        } else if (!isLit && world.isBlockIndirectlyGettingPowered(x, y, z)) {
+            world.setBlock(x, y, z, this, meta + 1, 2);
         }
     }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
     @Override
     public void getSubBlocks(Item id, CreativeTabs tab, List itemList) {
-        for (int i = 0; i <= LightDamages.DAMAGE_MAX; i++) {
-            itemList.add(new ItemStack(this, 1, i));
+        for (LightDamages light : LightDamages.values) {
+            itemList.add(new ItemStack(this, 1, light.id));
         }
     }
+
+    public enum LightDamages{
+        DAMAGE_WHITE_OFF(0),
+        DAMAGE_WHITE_ON(1),
+        DAMAGE_ORANGE_OFF(2),
+        DAMAGE_ORANGE_ON(3);
+
+        public final int id;
+        public final ResourceLocation texture;
+
+        public static final LightDamages[] values = LightDamages.values();
+
+        LightDamages(int id){
+            this.id = id;
+            this.texture = new ResourceLocation(Refstrings.ASSETS_FOLDER,"light/lamp"+id);
+        }
+    }
+
+
 
 }

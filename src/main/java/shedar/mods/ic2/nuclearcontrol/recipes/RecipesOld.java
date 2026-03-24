@@ -11,10 +11,10 @@ import ic2.api.recipe.Recipes;
 import ic2.core.util.StackUtil;
 import shedar.mods.ic2.nuclearcontrol.IC2NuclearControl;
 import shedar.mods.ic2.nuclearcontrol.StorageArrayRecipe;
+import shedar.mods.ic2.nuclearcontrol.blocks.BlockNuclearControlLight;
 import shedar.mods.ic2.nuclearcontrol.items.ItemKitMultipleSensor;
 import shedar.mods.ic2.nuclearcontrol.items.ItemUpgrade;
 import shedar.mods.ic2.nuclearcontrol.utils.BlockDamages;
-import shedar.mods.ic2.nuclearcontrol.utils.LightDamages;
 
 public class RecipesOld {
 
@@ -110,7 +110,7 @@ public class RecipesOld {
         ItemStack lampWhite = new ItemStack(
                 IC2NuclearControl.blockNuclearControlLight,
                 1,
-                LightDamages.DAMAGE_WHITE_OFF);
+                BlockNuclearControlLight.LightDamages.DAMAGE_WHITE_OFF.id);
         Recipes.advRecipes.addRecipe(
                 lampWhite,
                 "GGG", "GWG", "GLG", 'G', "paneGlass", 'W', "dyeWhite", 'L', Blocks.redstone_lamp);
@@ -118,7 +118,7 @@ public class RecipesOld {
         ItemStack lampOrange = new ItemStack(
                 IC2NuclearControl.blockNuclearControlLight,
                 1,
-                LightDamages.DAMAGE_ORANGE_OFF);
+                BlockNuclearControlLight.LightDamages.DAMAGE_ORANGE_OFF.id);
         Recipes.advRecipes.addRecipe(
                 lampOrange,
                 "GGG", "GWG", "GLG", 'G', "paneGlass", 'W', "dyeOrange", 'L', Blocks.redstone_lamp);
