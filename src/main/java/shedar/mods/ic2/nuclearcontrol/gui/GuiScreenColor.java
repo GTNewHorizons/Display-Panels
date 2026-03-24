@@ -7,14 +7,14 @@ import net.minecraft.util.StatCollector;
 import org.lwjgl.opengl.GL11;
 
 import cpw.mods.fml.client.FMLClientHandler;
+import shedar.mods.ic2.nuclearcontrol.Refstrings;
 import shedar.mods.ic2.nuclearcontrol.tileentities.TileEntityInfoPanel;
 
 import shedar.mods.ic2.nuclearcontrol.utils.NuclearNetworkHelper;
 
 public class GuiScreenColor extends GuiScreen {
 
-    private static final String TEXTURE_FILE = "nuclearcontrol:textures/gui/GUIColors.png";
-    private static final ResourceLocation TEXTURE_LOCATION = new ResourceLocation(TEXTURE_FILE);
+    private static final ResourceLocation TEXTURE_LOCATION = new ResourceLocation(Refstrings.ASSETS_FOLDER,"textures/gui/GUIColors.png");
 
     private final GuiInfoPanel parentGui;
 

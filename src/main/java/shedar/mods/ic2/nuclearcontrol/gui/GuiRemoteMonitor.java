@@ -30,6 +30,7 @@ import shedar.mods.ic2.nuclearcontrol.utils.StringUtils;
 public class GuiRemoteMonitor extends GuiContainer {
 
     public static final int REMOTEMONITOR_GUI = 17;
+    private static final ResourceLocation TEXTURE_LOCATION = new ResourceLocation(Refstrings.ASSETS_FOLDER, "textures/gui/GUIRemoteMonitor.png");
     private final InventoryItem inv;
     private final EntityPlayer e;
 
@@ -51,7 +52,7 @@ public class GuiRemoteMonitor extends GuiContainer {
     @Override
     protected void drawGuiContainerBackgroundLayer(float par1, int par2, int par3) {
         GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-        this.mc.renderEngine.bindTexture(new ResourceLocation(Refstrings.ASSETS_FOLDER, "textures/gui/GUIRemoteMonitor.png"));
+        this.mc.renderEngine.bindTexture(TEXTURE_LOCATION);
         int x = (width - xSize) / 2;
         int y = (height - ySize) / 2;
         this.drawTexturedModalRect(x, y, 0, 0, 204, ySize);
