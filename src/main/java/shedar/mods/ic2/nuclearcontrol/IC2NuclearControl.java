@@ -81,11 +81,7 @@ public class IC2NuclearControl {
     public static final Logger logger = LogManager.getLogger(Refstrings.MOD_NAME);
     public static ConfigurationHandler config;
 
-    protected File configFile;
-    protected File configDir;
-
     public static boolean isServer;
-    public static boolean isThorfusionLoaded;
     public String allowedAlarms;
     public List<String> serverAllowedAlarms;
     public static Item itemPanelMemoryCard;
@@ -102,7 +98,6 @@ public class IC2NuclearControl {
     public static Item itemUpgrade;
     public static Item itemTextCard;
     public static Item itemLiquidArrayLocationCard;
-    public static Item itemWindCard;
     public static Item itemRemoteMonitor;
     public static Item item55ReactorCard;
     public static BlockNuclearControlMain blockNuclearControlMain;
@@ -175,7 +170,6 @@ public class IC2NuclearControl {
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
-        isThorfusionLoaded = Loader.isModLoaded("thorfusion");
         isServer = event.getSide() != Side.CLIENT;
 
         // Loads configuration
