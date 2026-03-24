@@ -51,7 +51,9 @@ public class ItemToolThermometer extends Item {
                 damage(itemstack, 1, player);
                 return true;
             }
-        } catch (NullPointerException e) {}
+        } catch (NullPointerException e) {
+            IC2NuclearControl.logger.error(e);
+        }
         return false;
 
     }

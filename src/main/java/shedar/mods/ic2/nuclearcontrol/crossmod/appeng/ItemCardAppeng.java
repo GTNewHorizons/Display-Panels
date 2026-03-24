@@ -13,6 +13,7 @@ import net.minecraft.world.World;
 
 import appeng.api.storage.data.IAEItemStack;
 import appeng.tile.crafting.TileCraftingMonitorTile;
+import shedar.mods.ic2.nuclearcontrol.IC2NuclearControl;
 import shedar.mods.ic2.nuclearcontrol.api.CardState;
 import shedar.mods.ic2.nuclearcontrol.api.DisplaySettingHelper;
 import shedar.mods.ic2.nuclearcontrol.api.ICardWrapper;
@@ -49,7 +50,7 @@ public class ItemCardAppeng extends ItemCardEnergySensorLocation {
         int targetType = card.getInt("targetType");
         if (targetType == 1) {
             TileEntity check = world.getTileEntity(target.posX, target.posY, target.posZ);
-            if (check instanceof TileEntityNetworkLink tileNetworkLink) {
+            if (check instanceof TileEntityNetworkLink) {
                 card.setInt("ByteTotal", TileEntityNetworkLink.getTOTALBYTES());
                 card.setInt("UsedBytes", TileEntityNetworkLink.getUSEDBYTES());
                 card.setInt("ItemsTotal", TileEntityNetworkLink.getITEMTYPETOTAL());
@@ -87,7 +88,7 @@ public class ItemCardAppeng extends ItemCardEnergySensorLocation {
         int targetType = card.getInt("targetType");
         if (targetType == 1) {
             TileEntity check = panel.getWorldObj().getTileEntity(target.posX, target.posY, target.posZ);
-            if (check instanceof TileEntityNetworkLink tileNetworkLink) {
+            if (check instanceof TileEntityNetworkLink) {
                 card.setInt("ByteTotal", TileEntityNetworkLink.getTOTALBYTES());
                 card.setInt("UsedBytes", TileEntityNetworkLink.getUSEDBYTES());
                 card.setInt("ItemsTotal", TileEntityNetworkLink.getITEMTYPETOTAL());
@@ -154,7 +155,9 @@ public class ItemCardAppeng extends ItemCardEnergySensorLocation {
             String localName = "item.null.name";
             try {
                 localName = StatCollector.translateToLocal(item.getUnlocalizedName() + ".name");
-            } catch (NullPointerException e) {}
+            } catch (NullPointerException e) {
+                IC2NuclearControl.logger.error(e);
+            }
             if (localName == "item.null.name" || localName.equals("Applied Energistics Card")) {
                 localName = StatCollector.translateToLocal("msg.null.craft");
             }

@@ -104,7 +104,9 @@ public class TileEntityNetworkLink extends AENetworkTile {
                     }
                 }
             }
-        } catch (Exception e) {}
+        } catch (Exception e) {
+            IC2NuclearControl.logger.error(e);
+        }
         return list;
     }
 

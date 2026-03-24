@@ -78,9 +78,11 @@ public class ClientTickHandler {
                         }
                     }
                 } catch (RuntimeException runtimeexception) {
+                    IC2NuclearControl.logger.error(runtimeexception);
                 }
             }
         } catch (IOException ioexception) {
+            IC2NuclearControl.logger.error(ioexception);
         }
 
         ncInstance.serverAllowedAlarms = new ArrayList<>();
