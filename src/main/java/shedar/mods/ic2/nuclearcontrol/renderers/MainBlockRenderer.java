@@ -71,33 +71,36 @@ public class MainBlockRenderer implements ISimpleBlockRenderingHandler {
             RenderBlocks renderer) {
         if (model == modelId) {
             TileEntity tileEntity = world.getTileEntity(x, y, z);
-            if (tileEntity instanceof IRotation) {
-                switch (((IRotation) tileEntity).getFacing()) {
+            if (tileEntity instanceof IRotation te) {
+                switch (te.getFacing()) {
                     case 0:
-                        renderer.uvRotateBottom = ((IRotation) tileEntity).getRotation();
+                        renderer.uvRotateBottom = te.getRotation();
                         break;
                     case 1:
-                        renderer.uvRotateTop = ((IRotation) tileEntity).getRotation();
+                        renderer.uvRotateTop = te.getRotation();
                         break;
                     case 2:
-                        renderer.uvRotateEast = ((IRotation) tileEntity).getRotation();
+                        renderer.uvRotateEast = te.getRotation();
                         break;
                     case 3:
-                        renderer.uvRotateWest = ((IRotation) tileEntity).getRotation();
+                        renderer.uvRotateWest = te.getRotation();
                         break;
                     case 4:
-                        renderer.uvRotateNorth = ((IRotation) tileEntity).getRotation();
+                        renderer.uvRotateNorth = te.getRotation();
                         break;
                     case 5:
-                        renderer.uvRotateSouth = ((IRotation) tileEntity).getRotation();
+                        renderer.uvRotateSouth = te.getRotation();
                         break;
 
                 }
             }
             if (tileEntity instanceof TileEntityAdvancedInfoPanel advancedCore) {
-                if (advancedCore.getScreen() != null)
+                if (advancedCore.getScreen() != null) {
                     new ModelInfoPanel().renderScreen(block, advancedCore, x, y, z, renderer);
-                else renderer.renderStandardBlock(block, x, y, z);
+                }
+                else {
+                    renderer.renderStandardBlock(block, x, y, z);
+                }
 
             } else if (tileEntity instanceof TileEntityAdvancedInfoPanelExtender advancedExtender) {
                 boolean wasRendered = false;

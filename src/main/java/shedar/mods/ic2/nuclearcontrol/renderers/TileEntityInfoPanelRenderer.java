@@ -27,26 +27,11 @@ import shedar.mods.ic2.nuclearcontrol.utils.StringUtils;
 
 public class TileEntityInfoPanelRenderer extends TileEntitySpecialRenderer {
 
-    private static String implodeArray(String[] inputArray, String glueString) {
-        String output = "";
-        if (inputArray.length > 0) {
-            StringBuilder sb = new StringBuilder();
-            for (String s : inputArray) {
-                if (s == null || s.isEmpty()) continue;
-                sb.append(glueString);
-                sb.append(s);
-            }
-            output = sb.toString();
-            if (output.length() > 1) output = output.substring(1);
-        }
-        return output;
-    }
-
     @Override
     public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float f) {
         boolean isPanel = tileEntity instanceof TileEntityInfoPanel;
-        if (!isPanel && tileEntity instanceof IScreenPart) {
-            Screen scr = ((IScreenPart) tileEntity).getScreen();
+        if (!isPanel && tileEntity instanceof IScreenPart screenTE) {
+            Screen scr = screenTE.getScreen();
             if (scr != null) {
                 TileEntity core = scr.getCore(tileEntity.getWorldObj());
                 if (core != null) {
@@ -79,8 +64,8 @@ public class TileEntityInfoPanelRenderer extends TileEntitySpecialRenderer {
                 if (state != CardState.OK && state != CardState.CUSTOM_ERROR) {
                     data = StringUtils.getStateMessage(state);
                 } else {
-                    if (panel instanceof TileEntityAdvancedInfoPanel) {
-                        data = ((TileEntityAdvancedInfoPanel) panel).getSortedCardData(displaySettings, card, helper);
+                    if (panel instanceof TileEntityAdvancedInfoPanel panelTE) {
+                        data = panelTE.getSortedCardData(displaySettings, card, helper);
                     } else {
                         data = panel.getCardData(displaySettings, card, helper);
                     }
@@ -232,9 +217,8 @@ public class TileEntityInfoPanelRenderer extends TileEntitySpecialRenderer {
 
             int maxWidth = 1;
             for (PanelString panelString : joinedData) {
-                String currentString = implodeArray(
-                        new String[] { panelString.textLeft, panelString.textCenter, panelString.textRight },
-                        " ");
+                String currentString = String.join(" ",
+                        new String[] { panelString.textLeft, panelString.textCenter, panelString.textRight });
                 maxWidth = Math.max(fontRenderer.getStringWidth(currentString), maxWidth);
             }
             maxWidth += 4;
