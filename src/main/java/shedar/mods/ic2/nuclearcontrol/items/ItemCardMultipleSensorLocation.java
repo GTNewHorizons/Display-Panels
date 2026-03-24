@@ -15,6 +15,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidTankInfo;
@@ -37,7 +38,7 @@ import shedar.mods.ic2.nuclearcontrol.crossmod.EnergyStorageData;
 import shedar.mods.ic2.nuclearcontrol.panel.CardWrapperImpl;
 import shedar.mods.ic2.nuclearcontrol.tileentities.TileEntityAverageCounter;
 import shedar.mods.ic2.nuclearcontrol.tileentities.TileEntityEnergyCounter;
-import shedar.mods.ic2.nuclearcontrol.utils.LangHelper;
+
 import shedar.mods.ic2.nuclearcontrol.utils.LiquidStorageHelper;
 import shedar.mods.ic2.nuclearcontrol.utils.StringUtils;
 
@@ -215,7 +216,7 @@ public class ItemCardMultipleSensorLocation extends ItemCardBase
         if (displaySettings.getSetting(DISPLAY_LIQUID_NAME)) {
             int liquidId = card.getInt("liquidId");
             String name;
-            if (liquidId == 0) name = LangHelper.translate("msg.nc.None");
+            if (liquidId == 0) name = StatCollector.translateToLocal("msg.nc.None");
             else name = FluidRegistry.getFluidName(liquidId); // TODO deprecated
             line = new PanelString();
             line.textLeft = StringUtils.getFormatted("msg.nc.InfoPanelLiquidName", name, showLabels);
@@ -296,7 +297,7 @@ public class ItemCardMultipleSensorLocation extends ItemCardBase
         List<PanelSetting> result = new ArrayList<>(1);
         result.add(
                 new NewPanelSetting(
-                        LangHelper.translate("msg.nc.cbInfoPanelEnergyCurrent"),
+                        StatCollector.translateToLocal("msg.nc.cbInfoPanelEnergyCurrent"),
                         DISPLAY_ENERGY,
                         CARD_TYPE_COUNTER));
         return result;
@@ -306,27 +307,27 @@ public class ItemCardMultipleSensorLocation extends ItemCardBase
         List<PanelSetting> result = new ArrayList<>(5);
         result.add(
                 new NewPanelSetting(
-                        LangHelper.translate("msg.nc.cbInfoPanelLiquidName"),
+                        StatCollector.translateToLocal("msg.nc.cbInfoPanelLiquidName"),
                         DISPLAY_LIQUID_NAME,
                         CARD_TYPE_LIQUID));
         result.add(
                 new NewPanelSetting(
-                        LangHelper.translate("msg.nc.cbInfoPanelLiquidAmount"),
+                        StatCollector.translateToLocal("msg.nc.cbInfoPanelLiquidAmount"),
                         DISPLAY_LIQUID_AMOUNT,
                         CARD_TYPE_LIQUID));
         result.add(
                 new NewPanelSetting(
-                        LangHelper.translate("msg.nc.cbInfoPanelLiquidFree"),
+                        StatCollector.translateToLocal("msg.nc.cbInfoPanelLiquidFree"),
                         DISPLAY_LIQUID_FREE,
                         CARD_TYPE_LIQUID));
         result.add(
                 new NewPanelSetting(
-                        LangHelper.translate("msg.nc.cbInfoPanelLiquidCapacity"),
+                        StatCollector.translateToLocal("msg.nc.cbInfoPanelLiquidCapacity"),
                         DISPLAY_LIQUID_CAPACITY,
                         CARD_TYPE_LIQUID));
         result.add(
                 new NewPanelSetting(
-                        LangHelper.translate("msg.nc.cbInfoPanelLiquidPercentage"),
+                        StatCollector.translateToLocal("msg.nc.cbInfoPanelLiquidPercentage"),
                         DISPLAY_LIQUID_PERCENTAGE,
                         CARD_TYPE_LIQUID));
         return result;

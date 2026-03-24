@@ -21,7 +21,7 @@ import shedar.mods.ic2.nuclearcontrol.api.NewPanelSetting;
 import shedar.mods.ic2.nuclearcontrol.api.PanelSetting;
 import shedar.mods.ic2.nuclearcontrol.api.PanelString;
 import shedar.mods.ic2.nuclearcontrol.items.ItemCardEnergySensorLocation;
-import shedar.mods.ic2.nuclearcontrol.utils.LangHelper;
+
 import shedar.mods.ic2.nuclearcontrol.utils.StringUtils;
 
 public class ItemCardAppeng extends ItemCardEnergySensorLocation {
@@ -182,10 +182,10 @@ public class ItemCardAppeng extends ItemCardEnergySensorLocation {
     @Override
     public List<PanelSetting> getSettingsList() {
         List<PanelSetting> result = new ArrayList<>(4);
-        result.add(new NewPanelSetting(LangHelper.translate("1"), DISPLAY_BYTES, CARD_TYPE));
-        result.add(new NewPanelSetting(LangHelper.translate("2"), DISPLAY_ITEMS, CARD_TYPE));
-        result.add(new NewPanelSetting(LangHelper.translate("3"), DISPLAY_CRAFTER, CARD_TYPE));
-        result.add(new NewPanelSetting(LangHelper.translate("4"), DISPLAY_CRAFTSTACK, CARD_TYPE));
+        result.add(new NewPanelSetting(StatCollector.translateToLocal("1"), DISPLAY_BYTES, CARD_TYPE));
+        result.add(new NewPanelSetting(StatCollector.translateToLocal("2"), DISPLAY_ITEMS, CARD_TYPE));
+        result.add(new NewPanelSetting(StatCollector.translateToLocal("3"), DISPLAY_CRAFTER, CARD_TYPE));
+        result.add(new NewPanelSetting(StatCollector.translateToLocal("4"), DISPLAY_CRAFTSTACK, CARD_TYPE));
         return result;
     }
 }

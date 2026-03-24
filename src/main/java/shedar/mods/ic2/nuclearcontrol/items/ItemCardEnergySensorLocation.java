@@ -9,6 +9,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChunkCoordinates;
+import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 
 import cpw.mods.fml.relauncher.Side;
@@ -24,7 +25,7 @@ import shedar.mods.ic2.nuclearcontrol.api.PanelString;
 import shedar.mods.ic2.nuclearcontrol.crossmod.EnergyStorageData;
 import shedar.mods.ic2.nuclearcontrol.panel.CardWrapperImpl;
 import shedar.mods.ic2.nuclearcontrol.utils.EnergyStorageHelper;
-import shedar.mods.ic2.nuclearcontrol.utils.LangHelper;
+
 import shedar.mods.ic2.nuclearcontrol.utils.StringUtils;
 
 public class ItemCardEnergySensorLocation extends ItemCardBase implements IRemoteSensor, IRangeTriggerable {
@@ -137,18 +138,18 @@ public class ItemCardEnergySensorLocation extends ItemCardBase implements IRemot
         List<PanelSetting> result = new ArrayList<>(4); // Initial capacity should be 4
         result.add(
                 new NewPanelSetting(
-                        LangHelper.translate("msg.nc.cbInfoPanelEnergyCurrent"),
+                        StatCollector.translateToLocal("msg.nc.cbInfoPanelEnergyCurrent"),
                         DISPLAY_ENERGY,
                         CARD_TYPE));
         result.add(
                 new NewPanelSetting(
-                        LangHelper.translate("msg.nc.cbInfoPanelEnergyStorage"),
+                        StatCollector.translateToLocal("msg.nc.cbInfoPanelEnergyStorage"),
                         DISPLAY_STORAGE,
                         CARD_TYPE));
-        result.add(new NewPanelSetting(LangHelper.translate("msg.nc.cbInfoPanelEnergyFree"), DISPLAY_FREE, CARD_TYPE));
+        result.add(new NewPanelSetting(StatCollector.translateToLocal("msg.nc.cbInfoPanelEnergyFree"), DISPLAY_FREE, CARD_TYPE));
         result.add(
                 new NewPanelSetting(
-                        LangHelper.translate("msg.nc.cbInfoPanelEnergyPercentage"),
+                        StatCollector.translateToLocal("msg.nc.cbInfoPanelEnergyPercentage"),
                         DISPLAY_PERCENTAGE,
                         CARD_TYPE));
         return result;

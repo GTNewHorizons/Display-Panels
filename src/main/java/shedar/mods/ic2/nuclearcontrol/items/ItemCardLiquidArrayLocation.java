@@ -10,6 +10,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChunkCoordinates;
+import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidTankInfo;
@@ -23,7 +24,7 @@ import shedar.mods.ic2.nuclearcontrol.api.NewPanelSetting;
 import shedar.mods.ic2.nuclearcontrol.api.PanelSetting;
 import shedar.mods.ic2.nuclearcontrol.api.PanelString;
 import shedar.mods.ic2.nuclearcontrol.panel.CardWrapperImpl;
-import shedar.mods.ic2.nuclearcontrol.utils.LangHelper;
+
 import shedar.mods.ic2.nuclearcontrol.utils.LiquidStorageHelper;
 import shedar.mods.ic2.nuclearcontrol.utils.StringUtils;
 
@@ -100,7 +101,7 @@ public class ItemCardLiquidArrayLocation extends ItemCardBase {
                                 liquidId = storage.fluid.getFluidID();
                             }
                             if (liquidId == 0)
-                                card.setString(String.format("_%dname", i), LangHelper.translate("msg.nc.None"));
+                                card.setString(String.format("_%dname", i), StatCollector.translateToLocal("msg.nc.None"));
                             else card.setString(String.format("_%dname", i), FluidRegistry.getFluidName(storage.fluid));
                         }
                         card.setInt(String.format("_%dcapacity", i), storage.capacity);
@@ -248,23 +249,23 @@ public class ItemCardLiquidArrayLocation extends ItemCardBase {
     @Override
     public List<PanelSetting> getSettingsList() {
         List<PanelSetting> result = new ArrayList<>(7);
-        result.add(new NewPanelSetting(LangHelper.translate("msg.nc.cbInfoPanelLiquidName"), DISPLAY_NAME, CARD_TYPE));
+        result.add(new NewPanelSetting(StatCollector.translateToLocal("msg.nc.cbInfoPanelLiquidName"), DISPLAY_NAME, CARD_TYPE));
         result.add(
-                new NewPanelSetting(LangHelper.translate("msg.nc.cbInfoPanelLiquidAmount"), DISPLAY_AMOUNT, CARD_TYPE));
-        result.add(new NewPanelSetting(LangHelper.translate("msg.nc.cbInfoPanelLiquidFree"), DISPLAY_FREE, CARD_TYPE));
+                new NewPanelSetting(StatCollector.translateToLocal("msg.nc.cbInfoPanelLiquidAmount"), DISPLAY_AMOUNT, CARD_TYPE));
+        result.add(new NewPanelSetting(StatCollector.translateToLocal("msg.nc.cbInfoPanelLiquidFree"), DISPLAY_FREE, CARD_TYPE));
         result.add(
                 new NewPanelSetting(
-                        LangHelper.translate("msg.nc.cbInfoPanelLiquidCapacity"),
+                        StatCollector.translateToLocal("msg.nc.cbInfoPanelLiquidCapacity"),
                         DISPLAY_CAPACITY,
                         CARD_TYPE));
         result.add(
                 new NewPanelSetting(
-                        LangHelper.translate("msg.nc.cbInfoPanelLiquidPercentage"),
+                        StatCollector.translateToLocal("msg.nc.cbInfoPanelLiquidPercentage"),
                         DISPLAY_PERCENTAGE,
                         CARD_TYPE));
-        result.add(new NewPanelSetting(LangHelper.translate("msg.nc.cbInfoPanelLiquidEach"), DISPLAY_EACH, CARD_TYPE));
+        result.add(new NewPanelSetting(StatCollector.translateToLocal("msg.nc.cbInfoPanelLiquidEach"), DISPLAY_EACH, CARD_TYPE));
         result.add(
-                new NewPanelSetting(LangHelper.translate("msg.nc.cbInfoPanelLiquidTotal"), DISPLAY_TOTAL, CARD_TYPE));
+                new NewPanelSetting(StatCollector.translateToLocal("msg.nc.cbInfoPanelLiquidTotal"), DISPLAY_TOTAL, CARD_TYPE));
         return result;
     }
 
@@ -279,7 +280,7 @@ public class ItemCardLiquidArrayLocation extends ItemCardBase {
             if (title != null && !title.isEmpty()) {
                 info.add(title);
             }
-            String hint = String.format(LangHelper.translate("msg.nc.LiquidCardQuantity"), cardCount);
+            String hint = String.format(StatCollector.translateToLocal("msg.nc.LiquidCardQuantity"), cardCount);
             info.add(hint);
         }
     }

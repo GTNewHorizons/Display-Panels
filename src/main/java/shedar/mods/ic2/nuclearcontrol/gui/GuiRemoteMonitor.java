@@ -9,6 +9,7 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
+import net.minecraft.util.StatCollector;
 import org.lwjgl.opengl.GL11;
 
 import shedar.mods.ic2.nuclearcontrol.IC2NuclearControl;
@@ -23,7 +24,7 @@ import shedar.mods.ic2.nuclearcontrol.items.ItemTimeCard;
 import shedar.mods.ic2.nuclearcontrol.network.ChannelHandler;
 import shedar.mods.ic2.nuclearcontrol.network.message.PacketServerUpdate;
 import shedar.mods.ic2.nuclearcontrol.panel.CardWrapperImpl;
-import shedar.mods.ic2.nuclearcontrol.utils.LangHelper;
+
 import shedar.mods.ic2.nuclearcontrol.utils.StringUtils;
 
 public class GuiRemoteMonitor extends GuiContainer {
@@ -82,16 +83,16 @@ public class GuiRemoteMonitor extends GuiContainer {
     private List<PanelString> getRemoteCustomMSG() {
         PanelString line = new PanelString();
         List<PanelString> result = new LinkedList<>();
-        line.textCenter = LangHelper.translate("nc.msg.notValid");
+        line.textCenter = StatCollector.translateToLocal("nc.msg.notValid");
         result.add(line);
         line = new PanelString();
-        line.textCenter = LangHelper.translate("nc.msg.notValid2");
+        line.textCenter = StatCollector.translateToLocal("nc.msg.notValid2");
         result.add(line);
         line = new PanelString();
         line.textCenter = "";
         result.add(line);
         line = new PanelString();
-        line.textCenter = LangHelper.translate("nc.msg.notValid3");
+        line.textCenter = StatCollector.translateToLocal("nc.msg.notValid3");
         result.add(line);
         return result;
     }

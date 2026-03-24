@@ -7,6 +7,7 @@ import java.util.UUID;
 
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChunkCoordinates;
+import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -18,7 +19,7 @@ import shedar.mods.ic2.nuclearcontrol.api.NewPanelSetting;
 import shedar.mods.ic2.nuclearcontrol.api.PanelSetting;
 import shedar.mods.ic2.nuclearcontrol.api.PanelString;
 import shedar.mods.ic2.nuclearcontrol.items.ItemCardEnergySensorLocation;
-import shedar.mods.ic2.nuclearcontrol.utils.LangHelper;
+
 import shedar.mods.ic2.nuclearcontrol.utils.StringUtils;
 
 public class ItemCardRFEnergyLocation extends ItemCardEnergySensorLocation {
@@ -103,10 +104,10 @@ public class ItemCardRFEnergyLocation extends ItemCardEnergySensorLocation {
     @Override
     public List<PanelSetting> getSettingsList() {
         List<PanelSetting> result = new ArrayList<>();
-        result.add(new NewPanelSetting(LangHelper.translate("1"), DISPLAY_ENERGY, CARD_TYPE));
-        result.add(new NewPanelSetting(LangHelper.translate("2"), DISPLAY_STORAGE, CARD_TYPE));
-        result.add(new NewPanelSetting(LangHelper.translate("3"), DISPLAY_FREE, CARD_TYPE));
-        result.add(new NewPanelSetting(LangHelper.translate("4"), DISPLAY_PERCENTAGE, CARD_TYPE));
+        result.add(new NewPanelSetting(StatCollector.translateToLocal("1"), DISPLAY_ENERGY, CARD_TYPE));
+        result.add(new NewPanelSetting(StatCollector.translateToLocal("2"), DISPLAY_STORAGE, CARD_TYPE));
+        result.add(new NewPanelSetting(StatCollector.translateToLocal("3"), DISPLAY_FREE, CARD_TYPE));
+        result.add(new NewPanelSetting(StatCollector.translateToLocal("4"), DISPLAY_PERCENTAGE, CARD_TYPE));
         return result;
     }
 }

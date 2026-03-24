@@ -10,6 +10,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChunkCoordinates;
+import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 
 import cpw.mods.fml.relauncher.Side;
@@ -23,7 +24,7 @@ import shedar.mods.ic2.nuclearcontrol.api.PanelString;
 import shedar.mods.ic2.nuclearcontrol.crossmod.EnergyStorageData;
 import shedar.mods.ic2.nuclearcontrol.panel.CardWrapperImpl;
 import shedar.mods.ic2.nuclearcontrol.utils.EnergyStorageHelper;
-import shedar.mods.ic2.nuclearcontrol.utils.LangHelper;
+
 import shedar.mods.ic2.nuclearcontrol.utils.StringUtils;
 
 public class ItemCardEnergyArrayLocation extends ItemCardBase {
@@ -238,23 +239,23 @@ public class ItemCardEnergyArrayLocation extends ItemCardBase {
         List<PanelSetting> result = new ArrayList<>(6);
         result.add(
                 new NewPanelSetting(
-                        LangHelper.translate("msg.nc.cbInfoPanelEnergyCurrent"),
+                        StatCollector.translateToLocal("msg.nc.cbInfoPanelEnergyCurrent"),
                         DISPLAY_ENERGY,
                         CARD_TYPE));
         result.add(
                 new NewPanelSetting(
-                        LangHelper.translate("msg.nc.cbInfoPanelEnergyStorage"),
+                        StatCollector.translateToLocal("msg.nc.cbInfoPanelEnergyStorage"),
                         DISPLAY_STORAGE,
                         CARD_TYPE));
-        result.add(new NewPanelSetting(LangHelper.translate("msg.nc.cbInfoPanelEnergyFree"), DISPLAY_FREE, CARD_TYPE));
+        result.add(new NewPanelSetting(StatCollector.translateToLocal("msg.nc.cbInfoPanelEnergyFree"), DISPLAY_FREE, CARD_TYPE));
         result.add(
                 new NewPanelSetting(
-                        LangHelper.translate("msg.nc.cbInfoPanelEnergyPercentage"),
+                        StatCollector.translateToLocal("msg.nc.cbInfoPanelEnergyPercentage"),
                         DISPLAY_PERCENTAGE,
                         CARD_TYPE));
-        result.add(new NewPanelSetting(LangHelper.translate("msg.nc.cbInfoPanelEnergyEach"), DISPLAY_EACH, CARD_TYPE));
+        result.add(new NewPanelSetting(StatCollector.translateToLocal("msg.nc.cbInfoPanelEnergyEach"), DISPLAY_EACH, CARD_TYPE));
         result.add(
-                new NewPanelSetting(LangHelper.translate("msg.nc.cbInfoPanelEnergyTotal"), DISPLAY_TOTAL, CARD_TYPE));
+                new NewPanelSetting(StatCollector.translateToLocal("msg.nc.cbInfoPanelEnergyTotal"), DISPLAY_TOTAL, CARD_TYPE));
         return result;
     }
 
@@ -269,7 +270,7 @@ public class ItemCardEnergyArrayLocation extends ItemCardBase {
             if (title != null && !title.isEmpty()) {
                 info.add(title);
             }
-            String hint = String.format(LangHelper.translate("msg.nc.EnergyCardQuantity"), cardCount);
+            String hint = String.format(StatCollector.translateToLocal("msg.nc.EnergyCardQuantity"), cardCount);
             info.add(hint);
         }
     }

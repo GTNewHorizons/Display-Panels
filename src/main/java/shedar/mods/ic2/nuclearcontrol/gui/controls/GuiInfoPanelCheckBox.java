@@ -5,6 +5,7 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.util.ResourceLocation;
 
+import net.minecraft.util.StatCollector;
 import org.lwjgl.opengl.GL11;
 
 import cpw.mods.fml.relauncher.Side;
@@ -12,7 +13,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import shedar.mods.ic2.nuclearcontrol.api.DisplaySettingHelper;
 import shedar.mods.ic2.nuclearcontrol.api.PanelSetting;
 import shedar.mods.ic2.nuclearcontrol.tileentities.TileEntityInfoPanel;
-import shedar.mods.ic2.nuclearcontrol.utils.LangHelper;
+
 import shedar.mods.ic2.nuclearcontrol.utils.NuclearNetworkHelper;
 
 @SideOnly(Side.CLIENT)
@@ -28,7 +29,7 @@ public class GuiInfoPanelCheckBox extends GuiButton {
 
     public GuiInfoPanelCheckBox(int id, int x, int y, PanelSetting setting, TileEntityInfoPanel panel, byte slot,
             FontRenderer renderer) {
-        super(id, x, y, 0, 0, id < 10 ? LangHelper.translate("0" + id) : LangHelper.translate(String.valueOf(id)));
+        super(id, x, y, 0, 0, id < 10 ? StatCollector.translateToLocal("0" + id) : StatCollector.translateToLocal(String.valueOf(id)));
         this.setting = setting;
         this.slot = slot;
         height = renderer.FONT_HEIGHT + 1;

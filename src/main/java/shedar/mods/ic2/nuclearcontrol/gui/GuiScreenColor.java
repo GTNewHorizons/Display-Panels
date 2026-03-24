@@ -3,11 +3,12 @@ package shedar.mods.ic2.nuclearcontrol.gui;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.util.ResourceLocation;
 
+import net.minecraft.util.StatCollector;
 import org.lwjgl.opengl.GL11;
 
 import cpw.mods.fml.client.FMLClientHandler;
 import shedar.mods.ic2.nuclearcontrol.tileentities.TileEntityInfoPanel;
-import shedar.mods.ic2.nuclearcontrol.utils.LangHelper;
+
 import shedar.mods.ic2.nuclearcontrol.utils.NuclearNetworkHelper;
 
 public class GuiScreenColor extends GuiScreen {
@@ -66,8 +67,8 @@ public class GuiScreenColor extends GuiScreen {
         drawTexturedModalRect(left, top, 0, 0, xSize, ySize);
         drawTexturedModalRect(left + 5 + colorBack * 14, top + 30, 226, 0, 14, 14);
         drawTexturedModalRect(left + 5 + colorText * 14, top + 61, 226, 0, 14, 14);
-        fontRendererObj.drawString(LangHelper.translate("msg.nc.ScreenColor"), guiLeft + 8, guiTop + 20, 0x404040);
-        fontRendererObj.drawString(LangHelper.translate("msg.nc.TextColor"), guiLeft + 8, guiTop + 52, 0x404040);
+        fontRendererObj.drawString(StatCollector.translateToLocal("msg.nc.ScreenColor"), guiLeft + 8, guiTop + 20, 0x404040);
+        fontRendererObj.drawString(StatCollector.translateToLocal("msg.nc.TextColor"), guiLeft + 8, guiTop + 52, 0x404040);
 
         super.drawScreen(par1, par2, par3);
     }
