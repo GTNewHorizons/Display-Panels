@@ -152,16 +152,16 @@ public class ItemCardEnergyArrayLocation extends ItemCardBase {
             if (showEach) {
                 if (isOutOfRange) {
                     line = new PanelString();
-                    line.textLeft = StringUtils.getFormattedKey("msg.nc.InfoPanelOutOfRangeN", i + 1);
+                    line.textLeft = StatCollector.translateToLocalFormatted("msg.nc.InfoPanelOutOfRangeN", i + 1);
                     result.add(line);
                 } else if (isNotFound) {
                     line = new PanelString();
-                    line.textLeft = StringUtils.getFormattedKey("msg.nc.InfoPanelNotFoundN", i + 1);
+                    line.textLeft = StatCollector.translateToLocalFormatted("msg.nc.InfoPanelNotFoundN", i + 1);
                     result.add(line);
                 } else {
                     if (showEnergy) {
                         line = new PanelString();
-                        if (showLabels) line.textLeft = StringUtils.getFormattedKey(
+                        if (showLabels) line.textLeft = StatCollector.translateToLocalFormatted(
                                 "msg.nc.InfoPanelEnergyN",
                                 i + 1,
                                 StringUtils.getFormatted("", energy, false));
@@ -170,7 +170,7 @@ public class ItemCardEnergyArrayLocation extends ItemCardBase {
                     }
                     if (showFree) {
                         line = new PanelString();
-                        if (showLabels) line.textLeft = StringUtils.getFormattedKey(
+                        if (showLabels) line.textLeft = StatCollector.translateToLocalFormatted(
                                 "msg.nc.InfoPanelEnergyFreeN",
                                 i + 1,
                                 StringUtils.getFormatted("", storage - energy, false));
@@ -180,7 +180,7 @@ public class ItemCardEnergyArrayLocation extends ItemCardBase {
                     }
                     if (showStorage) {
                         line = new PanelString();
-                        if (showLabels) line.textLeft = StringUtils.getFormattedKey(
+                        if (showLabels) line.textLeft = StatCollector.translateToLocalFormatted(
                                 "msg.nc.InfoPanelEnergyStorageN",
                                 i + 1,
                                 StringUtils.getFormatted("", storage, false));
@@ -189,7 +189,7 @@ public class ItemCardEnergyArrayLocation extends ItemCardBase {
                     }
                     if (showPercentage) {
                         line = new PanelString();
-                        if (showLabels) line.textLeft = StringUtils.getFormattedKey(
+                        if (showLabels) line.textLeft = StatCollector.translateToLocalFormatted(
                                 "msg.nc.InfoPanelEnergyPercentageN",
                                 i + 1,
                                 StringUtils.getFormatted(

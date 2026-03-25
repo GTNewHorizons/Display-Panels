@@ -161,16 +161,16 @@ public class ItemCardLiquidArrayLocation extends ItemCardBase {
             if (showEach) {
                 if (isOutOfRange) {
                     line = new PanelString();
-                    line.textLeft = StringUtils.getFormattedKey("msg.nc.InfoPanelOutOfRangeN", i + 1);
+                    line.textLeft = StatCollector.translateToLocalFormatted("msg.nc.InfoPanelOutOfRangeN", i + 1);
                     result.add(line);
                 } else if (isNotFound) {
                     line = new PanelString();
-                    line.textLeft = StringUtils.getFormattedKey("msg.nc.InfoPanelNotFoundN", i + 1);
+                    line.textLeft = StatCollector.translateToLocalFormatted("msg.nc.InfoPanelNotFoundN", i + 1);
                     result.add(line);
                 } else {
                     if (showName) {
                         line = new PanelString();
-                        if (showLabels) line.textLeft = StringUtils.getFormattedKey(
+                        if (showLabels) line.textLeft = StatCollector.translateToLocalFormatted(
                                 "msg.nc.InfoPanelLiquidNameN",
                                 i + 1,
                                 card.getString(String.format("_%dname", i)));
@@ -178,7 +178,7 @@ public class ItemCardLiquidArrayLocation extends ItemCardBase {
                         result.add(line);
                     }
                     line = new PanelString();
-                    if (showLabels) line.textLeft = StringUtils.getFormattedKey(
+                    if (showLabels) line.textLeft = StatCollector.translateToLocalFormatted(
                             "msg.nc.InfoPanelLiquidN",
                             i + 1,
                             StringUtils.getFormatted("", amount, false));
@@ -186,7 +186,7 @@ public class ItemCardLiquidArrayLocation extends ItemCardBase {
                     result.add(line);
                     if (showFree) {
                         line = new PanelString();
-                        if (showLabels) line.textLeft = StringUtils.getFormattedKey(
+                        if (showLabels) line.textLeft = StatCollector.translateToLocalFormatted(
                                 "msg.nc.InfoPanelLiquidFreeN",
                                 i + 1,
                                 StringUtils.getFormatted("", capacity - amount, false));
@@ -196,7 +196,7 @@ public class ItemCardLiquidArrayLocation extends ItemCardBase {
                     }
                     if (showCapacity) {
                         line = new PanelString();
-                        if (showLabels) line.textLeft = StringUtils.getFormattedKey(
+                        if (showLabels) line.textLeft = StatCollector.translateToLocalFormatted(
                                 "msg.nc.InfoPanelLiquidCapacityN",
                                 i + 1,
                                 StringUtils.getFormatted("", capacity, false));
@@ -205,7 +205,7 @@ public class ItemCardLiquidArrayLocation extends ItemCardBase {
                     }
                     if (showPercentage) {
                         line = new PanelString();
-                        if (showLabels) line.textLeft = StringUtils.getFormattedKey(
+                        if (showLabels) line.textLeft = StatCollector.translateToLocalFormatted(
                                 "msg.nc.InfoPanelLiquidPercentageN",
                                 i + 1,
                                 StringUtils.getFormatted(

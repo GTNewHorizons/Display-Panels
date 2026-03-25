@@ -25,16 +25,12 @@ public class StringUtils {
     }
 
     public static String getFormatted(String resourceName, String value, boolean showLabels) {
-        if (showLabels) return String.format(StatCollector.translateToLocal(resourceName), value);
+        if (showLabels) return StatCollector.translateToLocalFormatted(resourceName, value);
         else return value;
     }
 
     public static String getFormatted(String resourceName, double value, boolean showLabels) {
         return getFormatted(resourceName, getFormatter().format(value), showLabels);
-    }
-
-    public static String getFormattedKey(String resourceName, Object... arguments) {
-        return String.format(StatCollector.translateToLocal(resourceName), arguments);
     }
 
     public static List<PanelString> getStateMessage(CardState state) {
