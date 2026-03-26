@@ -5,6 +5,7 @@ import net.minecraft.tileentity.TileEntity;
 
 import cpw.mods.fml.common.Loader;
 import shedar.mods.ic2.nuclearcontrol.crossmod.EnergyStorageData;
+import shedar.mods.ic2.nuclearcontrol.crossmod.ModLib;
 
 /**
  * 
@@ -43,14 +44,13 @@ public abstract class IC2Cross {
     }
 
     public static IC2Cross getIC2Cross() {
-        try {
-            if (Loader.isModLoaded("IC2")) {
-                Class clz = Class.forName("shedar.mods.ic2.nuclearcontrol.crossmod.ic2.IC2ExpCross");
-                return (IC2Cross) clz.newInstance();
-            }
-        } catch (Exception e) {
-
+        if (Loader.isModLoaded(ModLib.IC2)) {
+            return getIC2ExpCross();
         }
         return new IC2Fallback();
+    }
+
+    private static IC2ExpCross getIC2ExpCross(){
+        return new IC2ExpCross();
     }
 }

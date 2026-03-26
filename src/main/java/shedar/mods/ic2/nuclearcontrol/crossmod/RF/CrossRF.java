@@ -1,5 +1,6 @@
 package shedar.mods.ic2.nuclearcontrol.crossmod.RF;
 
+import cpw.mods.fml.common.Optional;
 import net.minecraft.tileentity.TileEntity;
 
 import cpw.mods.fml.common.Loader;
@@ -14,11 +15,9 @@ public class CrossRF {
     public boolean _RFModPresent = false;
 
     public CrossRF() {
-        if (Loader.isModLoaded(ModLib.TE) || Loader.isModLoaded(ModLib.BC)) {
+        if (Loader.isModLoaded(ModLib.COFHCore)) {
             _RFModPresent = true;
             registerTiles();
-        } else {
-            _RFModPresent = false;
         }
     }
 
@@ -29,26 +28,26 @@ public class CrossRF {
 
     public TileEntityAverageCounter getAverageCounter() {
         if (_RFModPresent) {
-            try {
-                return (TileEntityAverageCounter) Class
-                        .forName("shedar.mods.ic2.nuclearcontrol.crossmod.RF.RFTileEntityAverageCounter").newInstance();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            return getRFTileENtityAverageCounter();
         }
         return null;
     }
 
     public TileEntityEnergyCounter getEnergyCounter() {
         if (_RFModPresent) {
-            try {
-                return (TileEntityEnergyCounter) Class
-                        .forName("shedar.mods.ic2.nuclearcontrol.crossmod.RF.RFTileEntityEnergyCounter").newInstance();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            return getTileEntityEnergyCounter();
         }
         return null;
+    }
+
+    @Optional.Method(modid = ModLib.COFHCore)
+    private static RFTileEntityAverageCounter getRFTileENtityAverageCounter(){
+        return new RFTileEntityAverageCounter();
+    }
+
+    @Optional.Method(modid = ModLib.COFHCore)
+    private static TileEntityEnergyCounter getTileEntityEnergyCounter (){
+        return new TileEntityEnergyCounter();
     }
 
     public EnergyStorageData getStorageData(TileEntity target) {
