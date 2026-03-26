@@ -7,18 +7,20 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.Facing;
 import net.minecraft.util.IIcon;
 
+import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import shedar.mods.ic2.nuclearcontrol.Refstrings;
 import shedar.mods.ic2.nuclearcontrol.panel.Screen;
 import shedar.mods.ic2.nuclearcontrol.tileentities.TileEntityAdvancedInfoPanel;
 
 @SideOnly(Side.CLIENT)
 public class ModelInfoPanel {
 
-    private static final String TEXTURE_FILE = "nuclearcontrol:infoPanel/panelAdvancedSide";
-    private static final IIcon advSideTex = Minecraft.getMinecraft().getTextureMapBlocks().registerIcon(TEXTURE_FILE);
+    private static final ResourceLocation TEXTURE_LOCATION = new ResourceLocation(Refstrings.ASSETS_FOLDER,"infoPanel/panelAdvancedSide");
+    private static final IIcon advSideTex = Minecraft.getMinecraft().getTextureMapBlocks().registerIcon(TEXTURE_LOCATION.toString());
     private static final double Uma = advSideTex.getMaxU();
     private static final double Umi = advSideTex.getMinU();
     private static final double Vma = advSideTex.getMaxV();

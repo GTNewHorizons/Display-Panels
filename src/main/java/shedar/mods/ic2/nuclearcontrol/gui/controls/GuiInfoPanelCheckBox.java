@@ -10,6 +10,7 @@ import org.lwjgl.opengl.GL11;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import shedar.mods.ic2.nuclearcontrol.Refstrings;
 import shedar.mods.ic2.nuclearcontrol.api.DisplaySettingHelper;
 import shedar.mods.ic2.nuclearcontrol.api.PanelSetting;
 import shedar.mods.ic2.nuclearcontrol.tileentities.TileEntityInfoPanel;
@@ -19,8 +20,7 @@ import shedar.mods.ic2.nuclearcontrol.utils.NuclearNetworkHelper;
 @SideOnly(Side.CLIENT)
 public class GuiInfoPanelCheckBox extends GuiButton {
 
-    private static final String TEXTURE_FILE = "nuclearcontrol:textures/gui/GUIInfoPanel.png";
-    private static final ResourceLocation TEXTURE_LOCATION = new ResourceLocation(TEXTURE_FILE);
+    private static final ResourceLocation TEXTURE_LOCATION = new ResourceLocation(Refstrings.ASSETS_FOLDER,"textures/gui/GUIInfoPanel.png");
 
     private final TileEntityInfoPanel panel;
     private boolean checked;

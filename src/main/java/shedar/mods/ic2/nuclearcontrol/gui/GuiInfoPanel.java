@@ -38,7 +38,7 @@ import shedar.mods.ic2.nuclearcontrol.utils.NuclearNetworkHelper;
 @SideOnly(Side.CLIENT)
 public class GuiInfoPanel extends GuiContainer {
 
-    private static final ResourceLocation TEXTURE_LOCATION = new ResourceLocation(Refstrings.MOD_ID,"textures/gui/GUIInfoPanel.png");
+    private static final ResourceLocation TEXTURE_LOCATION = new ResourceLocation(Refstrings.ASSETS_FOLDER,"textures/gui/GUIInfoPanel.png");
 
     protected String name;
     protected final ContainerInfoPanel container;

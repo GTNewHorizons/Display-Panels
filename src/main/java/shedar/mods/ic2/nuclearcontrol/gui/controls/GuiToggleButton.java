@@ -7,6 +7,7 @@ import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
+import shedar.mods.ic2.nuclearcontrol.Refstrings;
 import shedar.mods.ic2.nuclearcontrol.api.DisplaySettingHelper;
 import shedar.mods.ic2.nuclearcontrol.api.PanelSetting;
 import shedar.mods.ic2.nuclearcontrol.tileentities.TileEntityAdvancedInfoPanel;
@@ -15,7 +16,7 @@ import shedar.mods.ic2.nuclearcontrol.utils.NuclearNetworkHelper;
 public class GuiToggleButton extends GuiButton {
 
     private static final ResourceLocation TEXTURE = new ResourceLocation(
-            "nuclearcontrol:textures/gui/GUIAdvancedInfoPanelLinesButtons.png");
+            Refstrings.ASSETS_FOLDER,"textures/gui/GUIAdvancedInfoPanelLinesButtons.png");
 
     private static final int ICON_HEIGHT = 16;
     final byte slot;

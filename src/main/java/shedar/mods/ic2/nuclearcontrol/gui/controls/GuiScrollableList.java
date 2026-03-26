@@ -13,6 +13,7 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
 import cpw.mods.fml.client.FMLClientHandler;
+import shedar.mods.ic2.nuclearcontrol.Refstrings;
 import shedar.mods.ic2.nuclearcontrol.api.DisplaySettingHelper;
 import shedar.mods.ic2.nuclearcontrol.api.IPanelDataSource;
 import shedar.mods.ic2.nuclearcontrol.api.IPanelMultiCard;
@@ -58,9 +59,9 @@ public class GuiScrollableList extends GuiScreen {
     private static final int SCROLL_SPEED = 1;
 
     private static final ResourceLocation BACKGROUND_TEXTURE = new ResourceLocation(
-            "nuclearcontrol:textures/gui/GUIAdvancedInfoPanelLinesBackground.png");
+            Refstrings.ASSETS_FOLDER,"textures/gui/GUIAdvancedInfoPanelLinesBackground.png");
     private static final ResourceLocation BUTTON_TEXTURE = new ResourceLocation(
-            "nuclearcontrol:textures/gui/GUIAdvancedInfoPanelLinesButtons.png");
+            Refstrings.ASSETS_FOLDER,"textures/gui/GUIAdvancedInfoPanelLinesButtons.png");
     private static final int HOVER_DELAY = 5;
 
     private int guiLeft = 0;

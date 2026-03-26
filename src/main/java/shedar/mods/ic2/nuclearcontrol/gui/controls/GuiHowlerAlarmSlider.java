@@ -11,14 +11,14 @@ import cpw.mods.fml.relauncher.SideOnly;
 import ic2.core.IC2;
 import ic2.core.network.NetworkManager;
 import shedar.mods.ic2.nuclearcontrol.IC2NuclearControl;
+import shedar.mods.ic2.nuclearcontrol.Refstrings;
 import shedar.mods.ic2.nuclearcontrol.config.Configuration;
 import shedar.mods.ic2.nuclearcontrol.tileentities.TileEntityHowlerAlarm;
 
 @SideOnly(Side.CLIENT)
 public class GuiHowlerAlarmSlider extends GuiButton {
 
-    private static final String TEXTURE_FILE = "nuclearcontrol:textures/gui/GUIHowlerAlarm.png";
-    private static final ResourceLocation TEXTURE_LOCATION = new ResourceLocation(TEXTURE_FILE);
+    private static final ResourceLocation TEXTURE_LOCATION = new ResourceLocation(Refstrings.ASSETS_FOLDER,"textures/gui/GUIHowlerAlarm.png");
 
     public float sliderValue;
     public boolean dragging;
