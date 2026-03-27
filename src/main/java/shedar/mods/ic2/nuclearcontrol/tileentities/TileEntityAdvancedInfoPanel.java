@@ -65,6 +65,7 @@ public class TileEntityAdvancedInfoPanel extends TileEntityInfoPanel {
     public ItemStack card3;
 
     protected final Map<Byte, Map<UUID, DataSorter>> dataSorters = new HashMap<>();
+    private static final DisplaySettingHelper allDisplaySettings = new DisplaySettingHelper(true);
     // </editor-fold>
 
     // <editor-fold desc="Constructor">
@@ -429,10 +430,9 @@ public class TileEntityAdvancedInfoPanel extends TileEntityInfoPanel {
      */
     public List<PanelString> getSortedCardData(DisplaySettingHelper settings, ItemStack cardStack,
             CardWrapperImpl helper) {
-        List<PanelString> data = new ArrayList<>(this.getCardData(settings, cardStack, helper));
-        List<PanelString> all_data = new ArrayList<>(
-                this.getCardData(new DisplaySettingHelper(true), cardStack, helper));
-        if (!Objects.equals(helper.getTitle(), "")) {
+        List<PanelString> data = this.getCardData(settings, cardStack, helper).getCardDataWithTitle();
+        List<PanelString> all_data = this.getCardData(allDisplaySettings, cardStack, helper).getCardDataWithTitle();
+        if (!helper.getTitle().isEmpty()) {
             PanelString title = data.remove(0);
             all_data.remove(0);
             getDataSorter(getIndexOfCard(cardStack)).sortListByPrefix(data, all_data);

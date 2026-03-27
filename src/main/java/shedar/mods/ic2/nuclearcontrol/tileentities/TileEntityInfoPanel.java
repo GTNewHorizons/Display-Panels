@@ -37,6 +37,7 @@ import shedar.mods.ic2.nuclearcontrol.api.IPanelDataSource;
 import shedar.mods.ic2.nuclearcontrol.api.IPanelMultiCard;
 import shedar.mods.ic2.nuclearcontrol.api.IRemoteSensor;
 import shedar.mods.ic2.nuclearcontrol.api.PanelString;
+import shedar.mods.ic2.nuclearcontrol.api.cards.CardData;
 import shedar.mods.ic2.nuclearcontrol.blocks.subblocks.InfoPanel;
 import shedar.mods.ic2.nuclearcontrol.config.Configuration;
 import shedar.mods.ic2.nuclearcontrol.items.ItemUpgrade;
@@ -371,22 +372,9 @@ public class TileEntityInfoPanel extends TileEntity
      * @param helper    Wrapper object, to access field values.
      * @return a list of PanelStrings to display
      */
-    public List<PanelString> getCardData(DisplaySettingHelper settings, ItemStack cardStack, ICardWrapper helper) {
-        IPanelDataSource card = (IPanelDataSource) cardStack.getItem();
-        int slot = getIndexOfCard(cardStack);
-        resetCardData();
-        List<PanelString> data = cardData.get(slot);
-        if (data == null) {
-            if (card != null) data = card.getStringData(settings, helper, getShowLabels());
-            String title = helper.getTitle();
-            if (data != null && title != null && !title.isEmpty()) {
-                PanelString titleString = new PanelString();
-                titleString.textCenter = title;
-                data.add(0, titleString);
-            }
-            cardData.put(slot, data);
-        }
-        return data;
+    public CardData getCardData(DisplaySettingHelper settings, ItemStack cardStack, ICardWrapper helper) {
+        if (cardStack == null || !(cardStack.getItem() instanceof IPanelDataSource card)) return null;
+        return new CardData(helper.getTitle(), card.getStringData(settings, helper, getShowLabels()));
     }
 
     @Override
