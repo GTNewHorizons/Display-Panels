@@ -23,12 +23,22 @@ public class CardWrapperImpl implements ICardWrapper {
     private final Map<String, Object> updateSet;
     private final byte slot;
 
+    // Slot only for nuclear card in commit
     public CardWrapperImpl(ItemStack card, int slot) {
         if (!(card.getItem() instanceof IPanelDataSource)) {
             IC2NuclearControl.logger.error("CardHelper should be used for IPanelDataSource items.");
         }
         this.card = card;
         this.slot = (byte) slot;
+        updateSet = new HashMap<>();
+    }
+
+    public CardWrapperImpl(ItemStack card){
+        if (!(card.getItem() instanceof IPanelDataSource)) {
+            IC2NuclearControl.logger.error("CardHelper should be used for IPanelDataSource items.");
+        }
+        this.card = card;
+        this.slot = -1;
         updateSet = new HashMap<>();
     }
 
