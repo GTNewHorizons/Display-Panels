@@ -101,6 +101,7 @@ public class TileEntityInfoPanel extends TileEntity
     public boolean colored;
 
     private final Map<Integer, List<PanelString>> cardData;
+    protected static final DisplaySettingHelper allDisplaySettings = new DisplaySettingHelper(true);
 
     @Override
     public short getFacing() {
@@ -374,7 +375,7 @@ public class TileEntityInfoPanel extends TileEntity
      */
     public CardData getCardData(DisplaySettingHelper settings, ItemStack cardStack, ICardWrapper helper) {
         if (cardStack == null || !(cardStack.getItem() instanceof IPanelDataSource card)) return null;
-        return new CardData(helper.getTitle(), card.getStringData(settings, helper, getShowLabels()));
+        return new CardData(helper.getTitle(), card.getStringData(settings, helper, showLabels), card.getStringData(allDisplaySettings, helper, showLabels));
     }
 
     @Override

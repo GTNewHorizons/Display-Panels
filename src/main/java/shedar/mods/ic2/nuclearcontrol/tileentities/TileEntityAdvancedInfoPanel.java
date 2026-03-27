@@ -18,6 +18,7 @@ import shedar.mods.ic2.nuclearcontrol.IC2NuclearControl;
 import shedar.mods.ic2.nuclearcontrol.api.DisplaySettingHelper;
 import shedar.mods.ic2.nuclearcontrol.api.IPanelDataSource;
 import shedar.mods.ic2.nuclearcontrol.api.PanelString;
+import shedar.mods.ic2.nuclearcontrol.api.cards.CardData;
 import shedar.mods.ic2.nuclearcontrol.items.ItemUpgrade;
 import shedar.mods.ic2.nuclearcontrol.panel.CardWrapperImpl;
 import shedar.mods.ic2.nuclearcontrol.utils.BlockDamages;
@@ -65,7 +66,6 @@ public class TileEntityAdvancedInfoPanel extends TileEntityInfoPanel {
     public ItemStack card3;
 
     protected final Map<Byte, Map<UUID, DataSorter>> dataSorters = new HashMap<>();
-    private static final DisplaySettingHelper allDisplaySettings = new DisplaySettingHelper(true);
     // </editor-fold>
 
     // <editor-fold desc="Constructor">
@@ -430,17 +430,9 @@ public class TileEntityAdvancedInfoPanel extends TileEntityInfoPanel {
      */
     public List<PanelString> getSortedCardData(DisplaySettingHelper settings, ItemStack cardStack,
             CardWrapperImpl helper) {
-        List<PanelString> data = this.getCardData(settings, cardStack, helper).getCardDataWithTitle();
-        List<PanelString> all_data = this.getCardData(allDisplaySettings, cardStack, helper).getCardDataWithTitle();
-        if (!helper.getTitle().isEmpty()) {
-            PanelString title = data.remove(0);
-            all_data.remove(0);
-            getDataSorter(getIndexOfCard(cardStack)).sortListByPrefix(data, all_data);
-            data.add(0, title);
-        } else {
-            getDataSorter(getIndexOfCard(cardStack)).sortListByPrefix(data, all_data);
-        }
-        return data;
+        CardData data = this.getCardData(settings, cardStack, helper);
+        data.sortByPrefix(getDataSorter(getIndexOfCard(cardStack)));
+        return data.getCardDataWithTitle();
     }
 
     // </editor-fold>
