@@ -217,9 +217,7 @@ public class TileEntityInfoPanelRenderer extends TileEntitySpecialRenderer {
 
             int maxWidth = 1;
             for (PanelString panelString : joinedData) {
-                String currentString = String.join(" ",
-                        new String[] { panelString.textLeft, panelString.textCenter, panelString.textRight });
-                maxWidth = Math.max(fontRenderer.getStringWidth(currentString), maxWidth);
+                maxWidth = Math.max(fontRenderer.getStringWidth(panelString.fullDisplayString()), maxWidth);
             }
             maxWidth += 4;
 

@@ -44,4 +44,8 @@ public class PanelString {
         String rv = textLeft + textCenter + textRight;
         return rv.replace("null", "");
     }
+
+    public String fullDisplayString(){
+        return textLeft + " " + textCenter + " " + textRight;
+    }
 }

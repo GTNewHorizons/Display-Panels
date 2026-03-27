@@ -102,7 +102,7 @@ public class DataSorter {
     }
 
     // Helper to extract prefix
-    private String getPrefix(String s) {
+    private static String getPrefix(String s) {
         int colonIndex = s.indexOf(':');
         return colonIndex == -1 ? s : s.substring(0, colonIndex);
     }
@@ -131,5 +131,11 @@ public class DataSorter {
 
     public int[] getArray() {
         return this.customOrder.stream().mapToInt(Integer::intValue).toArray();
+    }
+
+    @Override
+    public boolean equals(Object o){
+        if (!(o instanceof DataSorter dataSorter)) return false;
+        return this.customOrder.equals(dataSorter.customOrder);
     }
 }

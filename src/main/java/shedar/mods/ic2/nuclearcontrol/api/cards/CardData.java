@@ -11,6 +11,7 @@ public class CardData {
     private PanelString cardTitle;
     private List<PanelString> cardData;
     private List<PanelString> fullCardData;
+    private DataSorter previousDataSorter = null;
 
     public CardData(String cardTitle, List<PanelString> cardData, List<PanelString> fullCardData){
         this.cardTitle = new PanelString();
@@ -31,6 +32,8 @@ public class CardData {
     }
 
     public void sortByPrefix(DataSorter sorter){
-        sorter.sortListByPrefix(this.cardData, this.fullCardData);
+        if (sorter == null || sorter.equals(previousDataSorter)) return;
+        previousDataSorter = sorter;
+        previousDataSorter.sortListByPrefix(this.cardData, this.fullCardData);
     }
 }
