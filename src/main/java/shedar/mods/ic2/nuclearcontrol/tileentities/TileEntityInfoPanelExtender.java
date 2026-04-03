@@ -96,9 +96,12 @@ public class TileEntityInfoPanelExtender extends TileEntity
         }
         if (partOfScreen && screen == null) {
             TileEntity core = worldObj.getTileEntity(coreX, coreY, coreZ);
-            if (core instanceof TileEntityInfoPanel) {
-                screen = ((TileEntityInfoPanel) core).getScreen();
-                if (screen != null) screen.init(true, worldObj);
+            if (core instanceof TileEntityInfoPanel panel) {
+                screen = panel.getScreen();
+                if (screen != null) {
+                    screen.init(true, worldObj);
+                    if (panel instanceof TileEntityAdvancedInfoPanel advPanel) advPanel.screenModelInfo.update(screen);
+                }
             }
         }
         init = true;

@@ -21,6 +21,7 @@ import shedar.mods.ic2.nuclearcontrol.api.PanelString;
 import shedar.mods.ic2.nuclearcontrol.api.cards.CardData;
 import shedar.mods.ic2.nuclearcontrol.items.ItemUpgrade;
 import shedar.mods.ic2.nuclearcontrol.panel.CardWrapperImpl;
+import shedar.mods.ic2.nuclearcontrol.renderers.model.ScreenModelInfo;
 import shedar.mods.ic2.nuclearcontrol.utils.BlockDamages;
 import shedar.mods.ic2.nuclearcontrol.utils.DataSorter;
 import shedar.mods.ic2.nuclearcontrol.utils.NuclearNetworkHelper;
@@ -61,6 +62,8 @@ public class TileEntityAdvancedInfoPanel extends TileEntityInfoPanel {
     private byte prevRotateHor;
     private byte prevRotateVert;
     private byte prevTextRotation;
+
+    public final ScreenModelInfo screenModelInfo = new ScreenModelInfo(this);
 
     public ItemStack card2;
     public ItemStack card3;

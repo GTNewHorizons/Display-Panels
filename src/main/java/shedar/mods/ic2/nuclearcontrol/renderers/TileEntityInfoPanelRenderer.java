@@ -20,7 +20,6 @@ import shedar.mods.ic2.nuclearcontrol.api.IPanelDataSource;
 import shedar.mods.ic2.nuclearcontrol.api.PanelString;
 import shedar.mods.ic2.nuclearcontrol.panel.CardWrapperImpl;
 import shedar.mods.ic2.nuclearcontrol.panel.Screen;
-import shedar.mods.ic2.nuclearcontrol.renderers.model.ModelInfoPanel;
 import shedar.mods.ic2.nuclearcontrol.tileentities.TileEntityAdvancedInfoPanel;
 import shedar.mods.ic2.nuclearcontrol.tileentities.TileEntityInfoPanel;
 import shedar.mods.ic2.nuclearcontrol.utils.StringUtils;
@@ -35,8 +34,8 @@ public class TileEntityInfoPanelRenderer extends TileEntitySpecialRenderer {
 
     @Override
     public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float f) {
-        TileEntityInfoPanel panel = resolvePanel(tileEntity);
-        if (panel == null || !panel.getPowered()) return;
+        if (!(tileEntity instanceof TileEntityInfoPanel panel)) return;
+        if (!panel.getPowered()) return;
 
         List<PanelString> data = getCardData(panel.getCards(), panel);
         if (data.isEmpty()) return;
@@ -54,18 +53,6 @@ public class TileEntityInfoPanelRenderer extends TileEntitySpecialRenderer {
         GL11.glColor4f(1F, 1F, 1F, 1F);
         GL11.glDisable(GL11.GL_POLYGON_OFFSET_FILL);
         GL11.glPopMatrix();
-    }
-
-    private TileEntityInfoPanel resolvePanel(TileEntity te) {
-        if (te instanceof TileEntityInfoPanel p) return p;
-
-        if (te instanceof IScreenPart screenTE) {
-            Screen scr = screenTE.getScreen();
-            if (scr == null) return null;
-            TileEntity core = scr.getCore(te.getWorldObj());
-            if (core instanceof TileEntityInfoPanel p) return p;
-        }
-        return null;
     }
 
     @Desugar
@@ -90,7 +77,7 @@ public class TileEntityInfoPanelRenderer extends TileEntitySpecialRenderer {
         }
 
         if (panel instanceof TileEntityAdvancedInfoPanel adv && screen != null) {
-            deltas = new ModelInfoPanel().getDeltas(adv, screen);
+            deltas = adv.screenModelInfo.getDeltas();
         }
 
         return new RenderContext(x, y, z, displayWidth, displayHeight, side, deltas);
