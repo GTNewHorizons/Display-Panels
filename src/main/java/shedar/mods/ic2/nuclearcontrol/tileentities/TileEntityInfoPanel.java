@@ -13,6 +13,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.util.Facing;
 import net.minecraftforge.common.util.Constants;
@@ -23,7 +24,6 @@ import ic2.api.network.INetworkDataProvider;
 import ic2.api.network.INetworkUpdateListener;
 import ic2.api.tile.IWrenchable;
 import ic2.core.IC2;
-import ic2.core.network.NetworkManager;
 import shedar.mods.ic2.nuclearcontrol.IC2NuclearControl;
 import shedar.mods.ic2.nuclearcontrol.IRedstoneConsumer;
 import shedar.mods.ic2.nuclearcontrol.IRotation;
@@ -36,7 +36,6 @@ import shedar.mods.ic2.nuclearcontrol.api.ICardWrapper;
 import shedar.mods.ic2.nuclearcontrol.api.IPanelDataSource;
 import shedar.mods.ic2.nuclearcontrol.api.IPanelMultiCard;
 import shedar.mods.ic2.nuclearcontrol.api.IRemoteSensor;
-import shedar.mods.ic2.nuclearcontrol.api.PanelString;
 import shedar.mods.ic2.nuclearcontrol.api.cards.CardData;
 import shedar.mods.ic2.nuclearcontrol.blocks.subblocks.InfoPanel;
 import shedar.mods.ic2.nuclearcontrol.config.Configuration;
@@ -111,6 +110,34 @@ public class TileEntityInfoPanel extends TileEntity
     @Override
     public void setFacing(short f) {
         setSide((short) Facing.oppositeSide[f]);
+    }
+
+    @Override
+    public AxisAlignedBB getRenderBoundingBox() {
+        Screen screen = getScreen();
+        if (screen == null) return super.getRenderBoundingBox();
+        return AxisAlignedBB.getBoundingBox(screen.minX, screen.minY, screen.minZ, screen.maxX, screen.maxY, screen.maxZ);
+    }
+
+
+    @Override
+    public double getMaxRenderDistanceSquared() {
+        double defaultDistance = super.getMaxRenderDistanceSquared();
+        if (screen == null) return defaultDistance;
+
+        // Calculates the maximum render distance based on the screen size
+        // If there is an option for bigger fonts, then this should be updated to account for it in the future
+
+        double dx = screen.maxX - screen.minX;
+        double dy = screen.maxY - screen.minY;
+        double dz = screen.maxZ - screen.minZ;
+
+        double diagonal = Math.sqrt(dx*dx + dy*dy + dz*dz);
+
+        double scale = 10; // can be tweaked
+        double distance = diagonal * scale;
+
+        return Math.max(distance * distance, defaultDistance);
     }
 
     private void setCard(ItemStack value) {
