@@ -23,7 +23,7 @@ public class Screen {
 
     public TileEntityInfoPanel getCore(IBlockAccess world) {
         TileEntity tileEntity = world.getTileEntity(coreX, coreY, coreZ);
-        if (tileEntity == null || !(tileEntity instanceof TileEntityInfoPanel)) return null;
+        if (!(tileEntity instanceof TileEntityInfoPanel)) return null;
         return (TileEntityInfoPanel) tileEntity;
     }
 
@@ -58,7 +58,7 @@ public class Screen {
             for (int y = minY; y <= maxY; y++) {
                 for (int z = minZ; z <= maxZ; z++) {
                     TileEntity tileEntity = world.getTileEntity(x, y, z);
-                    if (tileEntity == null || !(tileEntity instanceof IScreenPart)) continue;
+                    if (!(tileEntity instanceof IScreenPart)) continue;
                     ((IScreenPart) tileEntity).setScreen(this);
                     if (powered || force) {
                         world.markBlockForUpdate(x, y, z);
@@ -74,8 +74,7 @@ public class Screen {
             for (int y = minY; y <= maxY; y++) {
                 for (int z = minZ; z <= maxZ; z++) {
                     TileEntity tileEntity = world.getTileEntity(x, y, z);
-                    if (tileEntity == null || !(tileEntity instanceof IScreenPart)) continue;
-                    IScreenPart part = (IScreenPart) tileEntity;
+                    if (!(tileEntity instanceof IScreenPart part)) continue;
                     Screen targetScreen = part.getScreen();
                     if (targetScreen != null && targetScreen.equals(this)) {
                         part.setScreen(null);
@@ -143,62 +142,6 @@ public class Screen {
         result = prime * result + minY;
         result = prime * result + minZ;
         return result;
-    }
-
-    public boolean isCore(int x, int y, int z) {
-        return x == coreX && y == coreY && z == coreZ;
-    }
-
-    public int getDx() {
-        return maxX - minX;
-    }
-
-    public int getDy() {
-        return maxY - minY;
-    }
-
-    public int getDz() {
-        return maxZ - minZ;
-    }
-
-    public int getHeight(TileEntityInfoPanel core) {
-        if (core == null) return 0;
-        int rotation = core.getRotation();
-        switch (core.getFacing()) {
-            case 0:
-            case 1:
-                if (rotation == 0 || rotation == 3) return getDz() + 1;
-                else return getDx() + 1;
-            case 2:
-            case 3:
-                if (rotation == 0 || rotation == 3) return getDy() + 1;
-                else return getDx() + 1;
-            case 4:
-            case 5:
-                if (rotation == 0 || rotation == 3) return getDy() + 1;
-                else return getDz() + 1;
-        }
-        return 1;
-    }
-
-    public int getWidth(TileEntityInfoPanel core) {
-        if (core == null) return 0;
-        int rotation = core.getRotation();
-        switch (core.getFacing()) {
-            case 0:
-            case 1:
-                if (rotation == 0 || rotation == 3) return getDx() + 1;
-                else return getDz() + 1;
-            case 2:
-            case 3:
-                if (rotation == 0 || rotation == 3) return getDx() + 1;
-                else return getDy() + 1;
-            case 4:
-            case 5:
-                if (rotation == 0 || rotation == 3) return getDz() + 1;
-                else return getDy() + 1;
-        }
-        return 1;
     }
 
     @Override

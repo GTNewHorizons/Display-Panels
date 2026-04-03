@@ -14,6 +14,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.util.IIcon;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidTankInfo;
@@ -22,6 +24,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import ic2.api.energy.EnergyNet;
 import ic2.core.block.generator.tileentity.TileEntityBaseGenerator;
+import shedar.mods.ic2.nuclearcontrol.Refstrings;
 import shedar.mods.ic2.nuclearcontrol.api.CardState;
 import shedar.mods.ic2.nuclearcontrol.api.DisplaySettingHelper;
 import shedar.mods.ic2.nuclearcontrol.api.ICardWrapper;
@@ -35,10 +38,9 @@ import shedar.mods.ic2.nuclearcontrol.crossmod.EnergyStorageData;
 import shedar.mods.ic2.nuclearcontrol.panel.CardWrapperImpl;
 import shedar.mods.ic2.nuclearcontrol.tileentities.TileEntityAverageCounter;
 import shedar.mods.ic2.nuclearcontrol.tileentities.TileEntityEnergyCounter;
-import shedar.mods.ic2.nuclearcontrol.utils.LangHelper;
+
 import shedar.mods.ic2.nuclearcontrol.utils.LiquidStorageHelper;
 import shedar.mods.ic2.nuclearcontrol.utils.StringUtils;
-import shedar.mods.ic2.nuclearcontrol.utils.TextureResolver;
 
 public class ItemCardMultipleSensorLocation extends ItemCardBase
         implements IRemoteSensor, IPanelMultiCard, IRangeTriggerable {
@@ -57,9 +59,9 @@ public class ItemCardMultipleSensorLocation extends ItemCardBase
     private static final UUID CARD_TYPE_LIQUID = UUID.fromString("210dc1f0-118c-48ee-9d08-42bfbee1ea15");
     private static final UUID CARD_TYPE_GENERATOR = UUID.fromString("210dc1f0-118c-48ee-9d08-42bfbee1ea16");
 
-    private static final String TEXTURE_CARD_COUNTER = "cardCounter";
-    private static final String TEXTURE_CARD_LIQUID = "cardLiquid";
-    private static final String TEXTURE_CARD_GENERATOR = "cardGenerator";
+    private static final ResourceLocation TEXTURE_CARD_COUNTER = new ResourceLocation(Refstrings.ASSETS_FOLDER,"cardCounter");
+    private static final ResourceLocation TEXTURE_CARD_LIQUID = new ResourceLocation(Refstrings.ASSETS_FOLDER,"cardLiquid");
+    private static final ResourceLocation TEXTURE_CARD_GENERATOR = new ResourceLocation(Refstrings.ASSETS_FOLDER,"cardGenerator");
 
     private IIcon iconCounter;
     private IIcon iconLiquid;
@@ -71,51 +73,42 @@ public class ItemCardMultipleSensorLocation extends ItemCardBase
 
     @Override
     public void registerIcons(IIconRegister iconRegister) {
-        iconCounter = iconRegister.registerIcon(TextureResolver.getItemTexture(TEXTURE_CARD_COUNTER));
-        iconLiquid = iconRegister.registerIcon(TextureResolver.getItemTexture(TEXTURE_CARD_LIQUID));
-        iconGenerator = iconRegister.registerIcon(TextureResolver.getItemTexture(TEXTURE_CARD_GENERATOR));
+        iconCounter = iconRegister.registerIcon(TEXTURE_CARD_COUNTER.toString());
+        iconLiquid = iconRegister.registerIcon(TEXTURE_CARD_LIQUID.toString());
+        iconGenerator = iconRegister.registerIcon(TEXTURE_CARD_GENERATOR.toString());
     }
 
     @Override
     public String getUnlocalizedName(ItemStack stack) {
         int damage = stack.getItemDamage();
-        switch (damage) {
-            case ItemKitMultipleSensor.TYPE_COUNTER:
-                return "item.itemCounterSensorLocationCard";
-            case ItemKitMultipleSensor.TYPE_LIQUID:
-                return "item.ItemLiquidSensorLocationCard";
-            case ItemKitMultipleSensor.TYPE_GENERATOR:
-                return "item.ItemGeneratorSensorLocationCard";
-        }
-        return "";
+        return switch (damage) {
+            case ItemKitMultipleSensor.TYPE_COUNTER -> "item.itemCounterSensorLocationCard";
+            case ItemKitMultipleSensor.TYPE_LIQUID -> "item.ItemLiquidSensorLocationCard";
+            case ItemKitMultipleSensor.TYPE_GENERATOR -> "item.ItemGeneratorSensorLocationCard";
+            default -> "";
+        };
     }
 
     @Override
     public CardState update(TileEntity panel, ICardWrapper card, int range) {
         int damage = card.getItemStack().getItemDamage();
-        switch (damage) {
-            case ItemKitMultipleSensor.TYPE_COUNTER:
-                return updateCounter(panel.getWorldObj(), card, range);
-            case ItemKitMultipleSensor.TYPE_LIQUID:
-                return updateLiquid(panel.getWorldObj(), card, range);
-            case ItemKitMultipleSensor.TYPE_GENERATOR:
-                return updateGenerator(panel.getWorldObj(), card, range);
-        }
-        return CardState.INVALID_CARD;
+        return switch (damage) {
+            case ItemKitMultipleSensor.TYPE_COUNTER -> updateCounter(panel.getWorldObj(), card, range);
+            case ItemKitMultipleSensor.TYPE_LIQUID -> updateLiquid(panel.getWorldObj(), card, range);
+            case ItemKitMultipleSensor.TYPE_GENERATOR -> updateGenerator(panel.getWorldObj(), card, range);
+            default -> CardState.INVALID_CARD;
+        };
     }
 
     @Override
     public CardState update(World world, ICardWrapper card, int range) {
         int damage = card.getItemStack().getItemDamage();
-        switch (damage) {
-            case ItemKitMultipleSensor.TYPE_COUNTER:
-                return updateCounter(world, card, range);
-            case ItemKitMultipleSensor.TYPE_LIQUID:
-                return updateLiquid(world, card, range);
-            case ItemKitMultipleSensor.TYPE_GENERATOR:
-                return updateGenerator(world, card, range);
-        }
-        return CardState.INVALID_CARD;
+        return switch (damage) {
+            case ItemKitMultipleSensor.TYPE_COUNTER -> updateCounter(world, card, range);
+            case ItemKitMultipleSensor.TYPE_LIQUID -> updateLiquid(world, card, range);
+            case ItemKitMultipleSensor.TYPE_GENERATOR -> updateGenerator(world, card, range);
+            default -> CardState.INVALID_CARD;
+        };
     }
 
     public CardState updateLiquid(World world, ICardWrapper card, int range) {
@@ -149,14 +142,12 @@ public class ItemCardMultipleSensorLocation extends ItemCardBase
         ChunkCoordinates target = card.getTarget();
         if (target == null) return CardState.NO_TARGET;
         TileEntity tileEntity = world.getTileEntity(target.posX, target.posY, target.posZ);
-        if (tileEntity != null && tileEntity instanceof TileEntityEnergyCounter) {
-            TileEntityEnergyCounter counter = (TileEntityEnergyCounter) tileEntity;
+        if (tileEntity instanceof TileEntityEnergyCounter counter) {
             card.setDouble("energy", counter.counter);
             card.setDouble("range_trigger_amount", counter.counter);
             card.setInt("powerType", (int) counter.powerType);
             return CardState.OK;
-        } else if (tileEntity != null && tileEntity instanceof TileEntityAverageCounter) {
-            TileEntityAverageCounter avgCounter = (TileEntityAverageCounter) tileEntity;
+        } else if (tileEntity instanceof TileEntityAverageCounter avgCounter) {
             card.setInt("average", avgCounter.getClientAverage());
             card.setDouble("range_trigger_amount", (double) avgCounter.getClientAverage());
             card.setInt("powerType", (int) avgCounter.powerType);
@@ -171,7 +162,6 @@ public class ItemCardMultipleSensorLocation extends ItemCardBase
         if (target == null) return CardState.NO_TARGET;
         TileEntity entity = world.getTileEntity(target.posX, target.posY, target.posZ);
         if (entity instanceof TileEntityBaseGenerator) {
-            // int production = ((TileEntityBaseGenerator)entity).production;
             int production = (int) EnergyNet.instance.getNodeStats(entity).getEnergyOut();
             card.setInt("production", production);
             card.setDouble("range_trigger_amount", (double) production);
@@ -184,49 +174,40 @@ public class ItemCardMultipleSensorLocation extends ItemCardBase
     @Override
     public List<PanelSetting> getSettingsList(ICardWrapper card) {
         int damage = card.getItemStack().getItemDamage();
-        switch (damage) {
-            case ItemKitMultipleSensor.TYPE_COUNTER:
-                return getSettingsListCounter();
-            case ItemKitMultipleSensor.TYPE_LIQUID:
-                return getSettingsListLiquid();
-            case ItemKitMultipleSensor.TYPE_GENERATOR:
-                return getSettingsListGenerator();
-        }
-        return null;
+        return switch (damage) {
+            case ItemKitMultipleSensor.TYPE_COUNTER -> getSettingsListCounter();
+            case ItemKitMultipleSensor.TYPE_LIQUID -> getSettingsListLiquid();
+            case ItemKitMultipleSensor.TYPE_GENERATOR -> null;
+            default -> null;
+        };
     }
 
     @Override
     public UUID getCardType(ICardWrapper card) {
         int damage = card.getItemStack().getItemDamage();
-        switch (damage) {
-            case ItemKitMultipleSensor.TYPE_COUNTER:
-                return CARD_TYPE_COUNTER;
-            case ItemKitMultipleSensor.TYPE_LIQUID:
-                return CARD_TYPE_LIQUID;
-            case ItemKitMultipleSensor.TYPE_GENERATOR:
-                return CARD_TYPE_GENERATOR;
-        }
-        return null;
+        return switch (damage) {
+            case ItemKitMultipleSensor.TYPE_COUNTER -> CARD_TYPE_COUNTER;
+            case ItemKitMultipleSensor.TYPE_LIQUID -> CARD_TYPE_LIQUID;
+            case ItemKitMultipleSensor.TYPE_GENERATOR -> CARD_TYPE_GENERATOR;
+            default -> null;
+        };
     }
 
     @Override
     public List<PanelString> getStringData(DisplaySettingHelper displaySettings, ICardWrapper card,
             boolean showLabels) {
         int damage = card.getItemStack().getItemDamage();
-        switch (damage) {
-            case ItemKitMultipleSensor.TYPE_COUNTER:
-                return getStringDataCounter(displaySettings, card, showLabels);
-            case ItemKitMultipleSensor.TYPE_LIQUID:
-                return getStringDataLiquid(displaySettings, card, showLabels);
-            case ItemKitMultipleSensor.TYPE_GENERATOR:
-                return getStringDataGenerator(displaySettings, card, showLabels);
-        }
-        return null;
+        return switch (damage) {
+            case ItemKitMultipleSensor.TYPE_COUNTER -> getStringDataCounter(displaySettings, card, showLabels);
+            case ItemKitMultipleSensor.TYPE_LIQUID -> getStringDataLiquid(displaySettings, card, showLabels);
+            case ItemKitMultipleSensor.TYPE_GENERATOR -> getStringDataGenerator(displaySettings, card, showLabels);
+            default -> null;
+        };
     }
 
     public List<PanelString> getStringDataLiquid(DisplaySettingHelper displaySettings, ICardWrapper card,
             boolean showLabels) {
-        List<PanelString> result = new LinkedList<PanelString>();
+        List<PanelString> result = new LinkedList<>();
         PanelString line;
 
         int capacity = card.getInt("capacity");
@@ -235,7 +216,7 @@ public class ItemCardMultipleSensorLocation extends ItemCardBase
         if (displaySettings.getSetting(DISPLAY_LIQUID_NAME)) {
             int liquidId = card.getInt("liquidId");
             String name;
-            if (liquidId == 0) name = LangHelper.translate("msg.nc.None");
+            if (liquidId == 0) name = StatCollector.translateToLocal("msg.nc.None");
             else name = FluidRegistry.getFluidName(liquidId); // TODO deprecated
             line = new PanelString();
             line.textLeft = StringUtils.getFormatted("msg.nc.InfoPanelLiquidName", name, showLabels);
@@ -269,7 +250,7 @@ public class ItemCardMultipleSensorLocation extends ItemCardBase
 
     public List<PanelString> getStringDataCounter(DisplaySettingHelper displaySettings, ICardWrapper card,
             boolean showLabels) {
-        List<PanelString> result = new LinkedList<PanelString>();
+        List<PanelString> result = new LinkedList<>();
         PanelString line;
         if (card.hasField("average")) {// average counter
             if (displaySettings.getSetting(DISPLAY_ENERGY)) {
@@ -295,7 +276,7 @@ public class ItemCardMultipleSensorLocation extends ItemCardBase
 
     public List<PanelString> getStringDataGenerator(DisplaySettingHelper displaySettings, ICardWrapper card,
             boolean showLabels) {
-        List<PanelString> result = new LinkedList<PanelString>();
+        List<PanelString> result = new LinkedList<>();
         PanelString line = new PanelString();
         line.textLeft = StringUtils.getFormatted("msg.nc.InfoPanelOutput", card.getInt("production"), showLabels);
         result.add(line);
@@ -304,22 +285,19 @@ public class ItemCardMultipleSensorLocation extends ItemCardBase
 
     @Override
     public IIcon getIconFromDamage(int damage) {
-        switch (damage) {
-            case ItemKitMultipleSensor.TYPE_COUNTER:
-                return iconCounter;
-            case ItemKitMultipleSensor.TYPE_LIQUID:
-                return iconLiquid;
-            case ItemKitMultipleSensor.TYPE_GENERATOR:
-                return iconGenerator;
-        }
-        return null;
+        return switch (damage) {
+            case ItemKitMultipleSensor.TYPE_COUNTER -> iconCounter;
+            case ItemKitMultipleSensor.TYPE_LIQUID -> iconLiquid;
+            case ItemKitMultipleSensor.TYPE_GENERATOR -> iconGenerator;
+            default -> null;
+        };
     }
 
     public List<PanelSetting> getSettingsListCounter() {
         List<PanelSetting> result = new ArrayList<>(1);
         result.add(
                 new NewPanelSetting(
-                        LangHelper.translate("msg.nc.cbInfoPanelEnergyCurrent"),
+                        StatCollector.translateToLocal("msg.nc.cbInfoPanelEnergyCurrent"),
                         DISPLAY_ENERGY,
                         CARD_TYPE_COUNTER));
         return result;
@@ -329,34 +307,30 @@ public class ItemCardMultipleSensorLocation extends ItemCardBase
         List<PanelSetting> result = new ArrayList<>(5);
         result.add(
                 new NewPanelSetting(
-                        LangHelper.translate("msg.nc.cbInfoPanelLiquidName"),
+                        StatCollector.translateToLocal("msg.nc.cbInfoPanelLiquidName"),
                         DISPLAY_LIQUID_NAME,
                         CARD_TYPE_LIQUID));
         result.add(
                 new NewPanelSetting(
-                        LangHelper.translate("msg.nc.cbInfoPanelLiquidAmount"),
+                        StatCollector.translateToLocal("msg.nc.cbInfoPanelLiquidAmount"),
                         DISPLAY_LIQUID_AMOUNT,
                         CARD_TYPE_LIQUID));
         result.add(
                 new NewPanelSetting(
-                        LangHelper.translate("msg.nc.cbInfoPanelLiquidFree"),
+                        StatCollector.translateToLocal("msg.nc.cbInfoPanelLiquidFree"),
                         DISPLAY_LIQUID_FREE,
                         CARD_TYPE_LIQUID));
         result.add(
                 new NewPanelSetting(
-                        LangHelper.translate("msg.nc.cbInfoPanelLiquidCapacity"),
+                        StatCollector.translateToLocal("msg.nc.cbInfoPanelLiquidCapacity"),
                         DISPLAY_LIQUID_CAPACITY,
                         CARD_TYPE_LIQUID));
         result.add(
                 new NewPanelSetting(
-                        LangHelper.translate("msg.nc.cbInfoPanelLiquidPercentage"),
+                        StatCollector.translateToLocal("msg.nc.cbInfoPanelLiquidPercentage"),
                         DISPLAY_LIQUID_PERCENTAGE,
                         CARD_TYPE_LIQUID));
         return result;
-    }
-
-    public List<PanelSetting> getSettingsListGenerator() {
-        return null;
     }
 
     @Override

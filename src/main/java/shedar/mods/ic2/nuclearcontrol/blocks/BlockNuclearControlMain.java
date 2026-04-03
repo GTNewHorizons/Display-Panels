@@ -70,7 +70,7 @@ public class BlockNuclearControlMain extends BlockContainer {
         super(Material.iron);
         setHardness(0.5F);
         setCreativeTab(IC2NuclearControl.tabIC2NC);
-        subblocks = new HashMap<Integer, Subblock>();
+        subblocks = new HashMap<>();
         register(new ThermalMonitor());
         register(new IndustrialAlarm());
         register(new HowlerAlarm());
@@ -163,8 +163,7 @@ public class BlockNuclearControlMain extends BlockContainer {
             metadata = 0;
         }
 
-        if (block instanceof IWrenchable) {
-            IWrenchable wrenchable = (IWrenchable) block;
+        if (block instanceof IWrenchable wrenchable) {
             wrenchable.setFacing((short) side);
             if (player != null && !isSolidBlockRequired(metadata)) {
                 int rotationSegment = MathHelper.floor_double(player.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
@@ -260,19 +259,6 @@ public class BlockNuclearControlMain extends BlockContainer {
         super.onNeighborBlockChange(world, x, y, z, neighbor);
     }
 
-    public boolean canPlaceBlockOnSide(World world, int x, int y, int z, int side, int metadata) {
-        ForgeDirection dir = ForgeDirection.getOrientation(side);
-        if (!isSolidBlockRequired(metadata)) {
-            return true;
-        }
-        return (dir == ForgeDirection.DOWN && world.isSideSolid(x, y + 1, z, ForgeDirection.DOWN))
-                || (dir == ForgeDirection.UP && world.isSideSolid(x, y - 1, z, ForgeDirection.UP))
-                || (dir == ForgeDirection.NORTH && world.isSideSolid(x, y, z + 1, ForgeDirection.NORTH))
-                || (dir == ForgeDirection.SOUTH && world.isSideSolid(x, y, z - 1, ForgeDirection.SOUTH))
-                || (dir == ForgeDirection.WEST && world.isSideSolid(x + 1, y, z, ForgeDirection.WEST))
-                || (dir == ForgeDirection.EAST && world.isSideSolid(x - 1, y, z, ForgeDirection.EAST));
-    }
-
     /**
      * Tests if the block can remain at its current location and will drop as an item if it is unable to stay. Returns
      * True if it can stay and False if it drops. Args: world, x, y, z
@@ -283,10 +269,8 @@ public class BlockNuclearControlMain extends BlockContainer {
             return true;
         }
         if (!canPlaceBlockAtlocal(world, x, y, z)) {
-            if (world.getBlock(x, y, z) == world.getBlock(x, y, z)) {
-                dropBlockAsItem(world, x, y, z, metadata, 0);
-                world.setBlockToAir(x, y, z);
-            }
+            dropBlockAsItem(world, x, y, z, metadata, 0);
+            world.setBlockToAir(x, y, z);
             return false;
         } else {
             return true;
@@ -389,10 +373,6 @@ public class BlockNuclearControlMain extends BlockContainer {
                 Math.max(baseZ1, baseZ2));
     }
 
-    public String getInvName() {
-        return "IC2 Thermo";
-    }
-
     @Override
     public boolean canProvidePower() {
         return true;
@@ -448,10 +428,6 @@ public class BlockNuclearControlMain extends BlockContainer {
         return false;
     }
 
-    public boolean isIndirectlyPoweringTo(World world, int i, int j, int k, int l) {
-        return false;
-    }
-
     /**
      * Returns a bounding box from the pool of bounding boxes (this means this box can change after the pool has been
      * cleared to be reused)
@@ -502,8 +478,7 @@ public class BlockNuclearControlMain extends BlockContainer {
                                 != null)) {
             return 0;
         }
-        if (tileentity instanceof TileEntityRemoteThermo) {
-            TileEntityRemoteThermo thermo = (TileEntityRemoteThermo) tileentity;
+        if (tileentity instanceof TileEntityRemoteThermo thermo) {
             if (thermo.getEnergy() > 0) {
                 return thermo.getOnFire() >= thermo.getHeatLevel() ^ thermo.isInvertRedstone() ? 15 : 0;
             } else {
@@ -565,8 +540,7 @@ public class BlockNuclearControlMain extends BlockContainer {
         } else if (entity instanceof TileEntityInfoPanel) {
             if (((TileEntityInfoPanel) entity).getPowered()) return 7;
             else return 0;
-        } else if (entity instanceof TileEntityInfoPanelExtender) {
-            TileEntityInfoPanelExtender extender = (TileEntityInfoPanelExtender) entity;
+        } else if (entity instanceof TileEntityInfoPanelExtender extender) {
             if (extender.getScreen() != null) {
                 TileEntityInfoPanel core = extender.getScreen().getCore(extender.getWorldObj());
                 if (core != null && core.getPowered()) return 7;
@@ -606,10 +580,9 @@ public class BlockNuclearControlMain extends BlockContainer {
         Random rand = new Random();
 
         TileEntity tileEntity = world.getTileEntity(x, y, z);
-        if (!(tileEntity instanceof IInventory)) {
+        if (!(tileEntity instanceof IInventory inventory)) {
             return;
         }
-        IInventory inventory = (IInventory) tileEntity;
 
         for (int i = 0; i < inventory.getSizeInventory(); i++) {
             ItemStack item = inventory.getStackInSlot(i);
@@ -638,9 +611,6 @@ public class BlockNuclearControlMain extends BlockContainer {
                 item.stackSize = 0;
             }
         }
-        // EntityItem e = new EntityItem(world, x, y, z, new ItemStack(this, 1,
-        // this.damageDropped(world.getBlockMetadata(x,y,z))));
-        // world.spawnEntityInWorld(e);
 
     }
 
@@ -653,15 +623,4 @@ public class BlockNuclearControlMain extends BlockContainer {
             return 16777215;
         }
     }
-
-    // Color testing code - Unused
-    private int RGBToInt(final int r, final int g, final int b) {
-        int color = 0;
-        color = color | b;
-        color = color | g << 8;
-        color = color | r << 16;
-
-        return color;
-    }
-
 }

@@ -11,7 +11,7 @@ import shedar.mods.ic2.nuclearcontrol.tileentities.TileEntityEnergyCounter;
 
 public class RFTileEntityEnergyCounter extends TileEntityEnergyCounter implements IEnergyHandler {
 
-    protected EnergyStorage storage = new EnergyStorage(32000);
+    protected final EnergyStorage storage = new EnergyStorage(32000);
     private int rec;
     private int send;
 
@@ -71,14 +71,10 @@ public class RFTileEntityEnergyCounter extends TileEntityEnergyCounter implement
     @Override
     public void updateEntity() {
         super.updateEntity();
-        // NCLog.error(storage.getEnergyStored());
         if (getNeibough()) {
             if (!worldObj.isRemote) {
-                // if (updateTicker-- == 0) {
-                // updateTicker = tickRate - 1;
                 counter += rec; // If rec / 2
                 this.setPowerType((byte) EnergyStorageData.TARGET_TYPE_RF);
-                // }
                 rec = 0;
             }
             if (storage.getEnergyStored() > 0) {
@@ -106,8 +102,7 @@ public class RFTileEntityEnergyCounter extends TileEntityEnergyCounter implement
             TileEntity tile = getWorldObj()
                     .getTileEntity(xCoord + direction.offsetX, yCoord + direction.offsetY, zCoord + direction.offsetZ);
             if (!(tile instanceof RFTileEntityAverageCounter)) {
-                if (tile instanceof IEnergyHandler) {
-                    IEnergyHandler receiver = (IEnergyHandler) tile;
+                if (tile instanceof IEnergyHandler receiver) {
                     this.sendMaxTo(receiver, direction.getOpposite());
                 }
             }

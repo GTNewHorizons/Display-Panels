@@ -6,22 +6,22 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ChunkCoordinates;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
 import shedar.mods.ic2.nuclearcontrol.IC2NuclearControl;
+import shedar.mods.ic2.nuclearcontrol.Refstrings;
 import shedar.mods.ic2.nuclearcontrol.utils.ItemStackUtils;
 import shedar.mods.ic2.nuclearcontrol.utils.NuclearNetworkHelper;
-import shedar.mods.ic2.nuclearcontrol.utils.TextureResolver;
 
 public abstract class ItemSensorKitBase extends Item {
 
-    private String textureItemName;
-
+    public final ResourceLocation texture;
     public ItemSensorKitBase(String textureItemName) {
         super();
-        this.textureItemName = textureItemName;
         setMaxStackSize(1);
-        setTextureName(TextureResolver.getItemTexture(textureItemName));
+        texture = new ResourceLocation(Refstrings.ASSETS_FOLDER, textureItemName);
+        setTextureName(texture.toString());
         setCreativeTab(IC2NuclearControl.tabIC2NC);
     }
 

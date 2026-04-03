@@ -6,6 +6,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 
 import mcp.mobius.waila.api.IWailaConfigHandler;
@@ -13,7 +14,7 @@ import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
 import shedar.mods.ic2.nuclearcontrol.tileentities.TileEntityHowlerAlarm;
 import shedar.mods.ic2.nuclearcontrol.tileentities.TileEntityIndustrialAlarm;
-import shedar.mods.ic2.nuclearcontrol.utils.LangHelper;
+
 
 /**
  * Provider for the howler alarm
@@ -40,11 +41,11 @@ public class HowlerAlarmProvider implements IWailaDataProvider {
         if (accessor.getTileEntity() instanceof TileEntityHowlerAlarm) {
             if (!(accessor.getTileEntity() instanceof TileEntityIndustrialAlarm)) { // Howler alarm only
                 currenttip.add(
-                        LangHelper.translate("msg.nc.waila.getSoundNames")
+                        StatCollector.translateToLocal("msg.nc.waila.getSoundNames")
                                 + ((TileEntityHowlerAlarm) accessor.getTileEntity()).getSoundName());
             }
             currenttip.add(
-                    LangHelper.translate("msg.nc.waila.getRange")
+                    StatCollector.translateToLocal("msg.nc.waila.getRange")
                             + ((TileEntityHowlerAlarm) accessor.getTileEntity()).getRange());
         }
         return currenttip;

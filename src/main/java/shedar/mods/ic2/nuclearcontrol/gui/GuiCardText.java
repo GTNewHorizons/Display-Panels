@@ -6,21 +6,21 @@ import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
+import shedar.mods.ic2.nuclearcontrol.Refstrings;
 import shedar.mods.ic2.nuclearcontrol.api.ICardGui;
 import shedar.mods.ic2.nuclearcontrol.api.ICardSettingsWrapper;
 import shedar.mods.ic2.nuclearcontrol.api.ICardWrapper;
 
 public class GuiCardText extends GuiScreen implements ICardGui {
 
-    private static final String TEXTURE_FILE = "nuclearcontrol:textures/gui/GUITextCard.png";
-    private static final ResourceLocation TEXTURE_LOCATION = new ResourceLocation(TEXTURE_FILE);
+    private static final ResourceLocation TEXTURE_LOCATION = new ResourceLocation(Refstrings.ASSETS_FOLDER,"textures/gui/GUITextCard.png");
 
     private ICardSettingsWrapper wrapper;
-    private ICardWrapper helper;
+    private final ICardWrapper helper;
     private GuiTextArea textArea;
 
-    protected int xSize = 226;
-    protected int ySize = 146;
+    protected final int xSize = 226;
+    protected final int ySize = 146;
     protected int guiLeft;
     protected int guiTop;
 

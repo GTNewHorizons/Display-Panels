@@ -42,14 +42,6 @@ public class TileEntityInfoPanelExtender extends TileEntity
         return (short) Facing.oppositeSide[facing];
     }
 
-    public boolean getPartOfScreen() {
-        return partOfScreen;
-    }
-
-    public boolean getNBTLoaded() {
-        return NBTLoaded;
-    }
-
     @Override
     public void setFacing(short f) {
         setSide((short) Facing.oppositeSide[f]);
@@ -64,7 +56,7 @@ public class TileEntityInfoPanelExtender extends TileEntity
                 IC2NuclearControl.instance.screenManager.registerInfoPanelExtender(this);
             }
 
-            ((NetworkManager) IC2.network.get()).updateTileEntityField(this, "facing");
+            IC2.network.get().updateTileEntityField(this, "facing");
         }
 
         prevFacing = f;
@@ -90,7 +82,7 @@ public class TileEntityInfoPanelExtender extends TileEntity
 
     @Override
     public List<String> getNetworkedFields() {
-        List<String> list = new ArrayList<String>(1);
+        List<String> list = new ArrayList<>(1);
         list.add("facing");
         return list;
     }
@@ -104,9 +96,12 @@ public class TileEntityInfoPanelExtender extends TileEntity
         }
         if (partOfScreen && screen == null) {
             TileEntity core = worldObj.getTileEntity(coreX, coreY, coreZ);
-            if (core != null && core instanceof TileEntityInfoPanel) {
-                screen = ((TileEntityInfoPanel) core).getScreen();
-                if (screen != null) screen.init(true, worldObj);
+            if (core instanceof TileEntityInfoPanel panel) {
+                screen = panel.getScreen();
+                if (screen != null) {
+                    screen.init(true, worldObj);
+                    if (panel instanceof TileEntityAdvancedInfoPanel advPanel) advPanel.screenModelInfo.update(screen);
+                }
             }
         }
         init = true;
@@ -162,7 +157,7 @@ public class TileEntityInfoPanelExtender extends TileEntity
     @Override
     public boolean wrenchCanSetFacing(EntityPlayer entityPlayer, int face) {
         return !entityPlayer.isSneaking() && getFacing() != face;
-    };
+    }
 
     @Override
     public float getWrenchDropRate() {

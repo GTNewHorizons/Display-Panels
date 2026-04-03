@@ -37,7 +37,7 @@ public class TileEntityIndustrialAlarm extends TileEntityHowlerAlarm implements 
 
     @Override
     public int modifyTextureIndex(int texture) {
-        if (texture == IndustrialAlarm.I_BACK) return texture;
+        if (texture == IndustrialAlarm.IndustrialAlarmSides.BACK.id) return texture;
         switch (lightLevel) {
             case 7:
                 texture += 1;

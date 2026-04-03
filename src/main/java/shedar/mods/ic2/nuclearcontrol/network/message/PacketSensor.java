@@ -59,7 +59,7 @@ public class PacketSensor implements IMessage, IMessageHandler<PacketSensor, IMe
         z = buf.readInt();
         slot = buf.readByte();
         int fieldCount = buf.readShort();
-        fields = new HashMap<String, Object>();
+        fields = new HashMap<>();
         for (int i = 0; i < fieldCount; i++) {
             String name = ByteBufUtils.readUTF8String(buf);
             byte type = buf.readByte();
@@ -151,10 +151,9 @@ public class PacketSensor implements IMessage, IMessageHandler<PacketSensor, IMe
     public IMessage onMessage(PacketSensor message, MessageContext ctx) {
         TileEntity tileEntity = FMLClientHandler.instance().getClient().theWorld
                 .getTileEntity(message.x, message.y, message.z);
-        if (tileEntity == null || !(tileEntity instanceof TileEntityInfoPanel)) {
+        if (!(tileEntity instanceof TileEntityInfoPanel panel)) {
             return null;
         }
-        TileEntityInfoPanel panel = (TileEntityInfoPanel) tileEntity;
         ItemStack stack = panel.getStackInSlot(message.slot);
         if (stack == null || !(stack.getItem() instanceof IPanelDataSource)) {
             return null;

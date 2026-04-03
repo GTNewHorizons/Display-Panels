@@ -25,18 +25,12 @@ public class DyeUtil {
     public static final Dye[] ALL_DYES_DYE = { WHITE_DYE, ORANGE_DYE, MAGENTA_DYE, LIGHT_BLUE_DYE, YELLOW_DYE, LIME_DYE,
             PINK_DYE, LIGHT_GRAY_DYE, CYAN_DYE, PURPLE_DYE, BLUE_DYE, BROWN_DYE, GREEN_DYE, RED_DYE, BLACK_DYE };
 
-    // public static final ItemStack[] ALL_DYES =
-    // (ItemStack[]) ArrayUtils.addAll(WHITE_DYE.DYES, ORANGE_DYE.DYES, MAGENTA_DYE.DYES, LIGHT_BLUE_DYE.DYES,
-    // YELLOW_DYE.DYES, LIME_DYE.DYES,
-    // PINK_DYE.DYES, LIGHT_GRAY_DYE.DYES, CYAN_DYE.DYES, PURPLE_DYE.DYES, BLUE_DYE.DYES, BROWN_DYE.DYES,
-    // GREEN_DYE.DYES, RED_DYE.DYES, BLACK_DYE.DYES);
 
     public static boolean isADye(ItemStack itemstack) {
         Item toFind = itemstack.getItem(); // There's no setStackSize() apperently
-        // NCLog.error(BLACK_DYE.setDyes().length);
-        for (int s = 0; s < ALL_DYES_DYE.length; s++) {
-            for (int z = 0; z < ALL_DYES_DYE[s].setDyes().length; z++) {
-                if (ALL_DYES_DYE[s].setDyes()[z].getItem().equals(toFind)) {
+        for (Dye dye : ALL_DYES_DYE) {
+            for (int z = 0; z < dye.setDyes().length; z++) {
+                if (dye.setDyes()[z].getItem().equals(toFind)) {
                     return true;
                 }
             }
@@ -58,8 +52,8 @@ public class DyeUtil {
 
     private static class Dye {
 
-        private String name;
-        private int id;
+        private final String name;
+        private final int id;
         public final ItemStack[] DYES;
 
         private Dye(String name, int id) {

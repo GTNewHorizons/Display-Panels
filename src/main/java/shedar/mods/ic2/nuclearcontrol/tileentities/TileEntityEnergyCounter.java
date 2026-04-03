@@ -29,6 +29,7 @@ import ic2.core.IC2;
 import ic2.core.network.NetworkManager;
 import shedar.mods.ic2.nuclearcontrol.IC2NuclearControl;
 import shedar.mods.ic2.nuclearcontrol.ISlotItemFilter;
+import shedar.mods.ic2.nuclearcontrol.config.Configuration;
 import shedar.mods.ic2.nuclearcontrol.crossmod.EnergyStorageData;
 import shedar.mods.ic2.nuclearcontrol.utils.BlockDamages;
 
@@ -38,10 +39,10 @@ public class TileEntityEnergyCounter extends TileEntity
 
     private static final int BASE_PACKET_SIZE = 32;
     private boolean init;
-    private ItemStack inventory[];
+    private ItemStack[] inventory;
 
     protected int updateTicker;
-    protected int tickRate;
+    protected final int tickRate;
 
     public double counter;
 
@@ -63,7 +64,7 @@ public class TileEntityEnergyCounter extends TileEntity
         packetSize = BASE_PACKET_SIZE;
         prevFacing = facing = 0;
         counter = 0.0;
-        tickRate = IC2NuclearControl.instance.screenRefreshPeriod;
+        tickRate = Configuration.infoPanelRefreshPeriod;
         updateTicker = tickRate;
     }
 
@@ -105,7 +106,7 @@ public class TileEntityEnergyCounter extends TileEntity
     private void setSide(short f) {
         facing = f;
 
-        if (init && prevFacing != f) ((NetworkManager) IC2.network.get()).updateTileEntityField(this, "facing");
+        if (init && prevFacing != f) IC2.network.get().updateTileEntityField(this, "facing");
 
         prevFacing = f;
     }
@@ -275,7 +276,7 @@ public class TileEntityEnergyCounter extends TileEntity
             MinecraftForge.EVENT_BUS.post(event);
             addedToEnergyNet = true;
         }
-    };
+    }
 
     @Override
     public boolean acceptsEnergyFrom(TileEntity emitter, ForgeDirection direction) {
@@ -295,7 +296,7 @@ public class TileEntityEnergyCounter extends TileEntity
     @Override
     public boolean wrenchCanSetFacing(EntityPlayer entityPlayer, int face) {
         return getFacing() != face;
-    };
+    }
 
     @Override
     public boolean wrenchCanRemove(EntityPlayer entityPlayer) {
@@ -309,7 +310,7 @@ public class TileEntityEnergyCounter extends TileEntity
 
     @Override
     public List<String> getNetworkedFields() {
-        Vector<String> vector = new Vector<String>(2);
+        Vector<String> vector = new Vector<>(2);
         vector.add("facing");
         vector.add("powerType");
         return vector;

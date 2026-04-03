@@ -6,13 +6,14 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
 import shedar.mods.ic2.nuclearcontrol.tileentities.TileEntityEnergyCounter;
-import shedar.mods.ic2.nuclearcontrol.utils.LangHelper;
+
 import shedar.mods.ic2.nuclearcontrol.utils.StringUtils;
 
 public class EnergyCounterProvider implements IWailaDataProvider {
@@ -33,7 +34,7 @@ public class EnergyCounterProvider implements IWailaDataProvider {
             IWailaConfigHandler handler) {
         if (accessor.getTileEntity() instanceof TileEntityEnergyCounter) {
             currenttip.add(
-                    LangHelper.translate("msg.nc.waila.getEnergyCount") + StringUtils
+                    StatCollector.translateToLocal("msg.nc.waila.getEnergyCount") + StringUtils
                             .getFormatted("", ((TileEntityEnergyCounter) accessor.getTileEntity()).counter, false));
         }
         return currenttip;

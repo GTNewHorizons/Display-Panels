@@ -7,13 +7,14 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
+import shedar.mods.ic2.nuclearcontrol.Refstrings;
 
 public class SmallGuiButton extends GuiButton {
 
-    private Runnable onClick;
+    private final Runnable onClick;
 
     private static final ResourceLocation TEXTURE = new ResourceLocation(
-            "nuclearcontrol:textures/gui/GUIAdvancedInfoPanelLinesButtons.png");
+            Refstrings.ASSETS_FOLDER,"textures/gui/GUIAdvancedInfoPanelLinesButtons.png");
 
     public SmallGuiButton(int id, int x, int y, int width, int height, String displayString, Runnable onClick) {
         super(id, x, y, width, height, displayString);

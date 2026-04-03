@@ -11,8 +11,9 @@ import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import io.netty.buffer.ByteBuf;
+import net.minecraft.util.StatCollector;
 import shedar.mods.ic2.nuclearcontrol.ClientProxy;
-import shedar.mods.ic2.nuclearcontrol.utils.LangHelper;
+
 
 public class PacketChat implements IMessage, IMessageHandler<PacketChat, IMessage> {
 
@@ -37,9 +38,9 @@ public class PacketChat implements IMessage, IMessageHandler<PacketChat, IMessag
     @Override
     public IMessage onMessage(PacketChat messages, MessageContext ctx) {
         String[] chunks = messages.message.split(":");
-        messages.message = LangHelper.translate("msg.nc." + chunks[0]);
+        messages.message = StatCollector.translateToLocal("msg.nc." + chunks[0]);
         if (chunks.length > 1) {
-            List<String> list = new ArrayList<String>(Arrays.asList(chunks));
+            List<String> list = new ArrayList<>(Arrays.asList(chunks));
             list.remove(0);
             chunks = list.toArray(chunks);
             messages.message = String.format(messages.message, (Object[]) chunks);

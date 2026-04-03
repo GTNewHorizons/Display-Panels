@@ -10,15 +10,15 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import ic2.core.IC2;
 import ic2.core.network.NetworkManager;
+import shedar.mods.ic2.nuclearcontrol.Refstrings;
 import shedar.mods.ic2.nuclearcontrol.tileentities.TileEntityThermo;
 
 @SideOnly(Side.CLIENT)
 public class GuiThermoInvertRedstone extends GuiButton {
 
-    private static final String TEXTURE_FILE = "nuclearcontrol:textures/gui/GUIThermalMonitor.png";
-    private static final ResourceLocation TEXTURE_LOCATION = new ResourceLocation(TEXTURE_FILE);
+    private static final ResourceLocation TEXTURE_LOCATION = new ResourceLocation(Refstrings.ASSETS_FOLDER,"textures/gui/GUIThermalMonitor.png");
 
-    TileEntityThermo thermo;
+    final TileEntityThermo thermo;
     private boolean checked;
 
     public GuiThermoInvertRedstone(int id, int x, int y, TileEntityThermo thermo) {
@@ -50,7 +50,7 @@ public class GuiThermoInvertRedstone extends GuiButton {
             checked = !checked;
             int value = checked ? -2 : -1;
             thermo.setInvertRedstone(checked);
-            ((NetworkManager) IC2.network.get()).initiateClientTileEntityEvent(thermo, value);
+            IC2.network.get().initiateClientTileEntityEvent(thermo, value);
             return true;
         } else return false;
     }

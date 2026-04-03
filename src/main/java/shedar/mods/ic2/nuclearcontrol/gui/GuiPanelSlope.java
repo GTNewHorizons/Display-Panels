@@ -7,20 +7,20 @@ import org.lwjgl.opengl.GL11;
 
 import cpw.mods.fml.client.FMLClientHandler;
 import ic2.core.IC2;
+import shedar.mods.ic2.nuclearcontrol.Refstrings;
 import shedar.mods.ic2.nuclearcontrol.tileentities.TileEntityAdvancedInfoPanel;
 
 public class GuiPanelSlope extends GuiScreen {
 
-    private static final String TEXTURE_FILE = "nuclearcontrol:textures/gui/GUISlope.png";
-    private static final ResourceLocation TEXTURE_LOCATION = new ResourceLocation(TEXTURE_FILE);
+    private static final ResourceLocation TEXTURE_LOCATION = new ResourceLocation(Refstrings.ASSETS_FOLDER, "textures/gui/GUISlope.png");
 
-    protected int xSize = 171;
-    protected int ySize = 94;
+    protected final int xSize = 171;
+    protected final int ySize = 94;
     protected int guiLeft;
     protected int guiTop;
 
-    private GuiInfoPanel parentGui;
-    private TileEntityAdvancedInfoPanel panel;
+    private final GuiInfoPanel parentGui;
+    private final TileEntityAdvancedInfoPanel panel;
 
     public GuiPanelSlope(GuiInfoPanel parentGui, TileEntityAdvancedInfoPanel panel) {
         this.parentGui = parentGui;
@@ -55,10 +55,8 @@ public class GuiPanelSlope extends GuiScreen {
                 if (amount < 1) amount = 1;
             } else if (mouseX >= 79 && mouseX <= 92) {
                 offset = TileEntityAdvancedInfoPanel.OFFSET_ROTATE_HOR;
-                if (amount < 0) amount = 0;
             } else if (mouseX >= 137 && mouseX <= 150) {
                 offset = TileEntityAdvancedInfoPanel.OFFSET_ROTATE_VERT;
-                if (amount < 0) amount = 0;
             } else {
                 return;
             }
