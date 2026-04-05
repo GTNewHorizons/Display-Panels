@@ -234,7 +234,7 @@ public class ScreenModelInfo {
             { u2, v1 }
         };
 
-        double epsilon = 0.01;
+        double epsilon = 0.015;
 
         double cx = 0.0, cy = 0.0, cz = 0.0;
 
