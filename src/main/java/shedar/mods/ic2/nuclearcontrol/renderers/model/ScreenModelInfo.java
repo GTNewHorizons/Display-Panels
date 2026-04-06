@@ -250,6 +250,7 @@ public class ScreenModelInfo {
         cy *= 0.25;
         cz *= 0.25;
 
+        // for each point calculate a vertex towards center then move vertex fixed distance towards that center
         for (int i = 0; i < 4; i++) {
             int idx = points[i] * 3;
 
@@ -257,28 +258,24 @@ public class ScreenModelInfo {
             double y = coordinates[idx + 1];
             double z = coordinates[idx + 2];
 
-            switch (facing) {
-                case 0: // down (XZ plane)
-                case 1: // up
-                    x += (x > cx ? -border : border);
-                    z += (z > cz ? -border : border);
-                    y += epsilon * n[1];
-                    break;
+            double dx = cx - x;
+            double dy = cy - y;
+            double dz = cz - z;
 
-                case 2: // north (XY plane)
-                case 3: // south
-                    x += (x > cx ? -border : border);
-                    y += (y > cy ? -border : border);
-                    z += epsilon * n[2];
-                    break;
-
-                case 4: // west (ZY plane)
-                case 5: // east
-                    z += (z > cz ? -border : border);
-                    y += (y > cy ? -border : border);
-                    x += epsilon * n[0];
-                    break;
+            double len = Math.sqrt(dx * dx + dy * dy + dz * dz);
+            if (len > 0) {
+                dx /= len;
+                dy /= len;
+                dz /= len;
             }
+
+            x += dx * border;
+            y += dy * border;
+            z += dz * border;
+
+            x += n[0] * epsilon;
+            y += n[1] * epsilon;
+            z += n[2] * epsilon;
 
             tess.addVertexWithUV(x, y, z, UVMap[i][0], UVMap[i][1]);
         }
