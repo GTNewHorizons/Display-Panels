@@ -100,7 +100,7 @@ public class TileEntityInfoPanelExtender extends TileEntity
                 screen = panel.getScreen();
                 if (screen != null) {
                     screen.init(true, worldObj);
-                    if (panel instanceof TileEntityAdvancedInfoPanel advPanel) advPanel.screenModelInfo.update(screen);
+                    if (panel instanceof TileEntityAdvancedInfoPanel advPanel) advPanel.screenModelInfo.update(screen, advPanel.getBlockType());
                 }
             }
         }

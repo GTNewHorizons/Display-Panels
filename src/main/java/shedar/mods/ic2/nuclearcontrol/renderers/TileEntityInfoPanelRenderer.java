@@ -154,7 +154,7 @@ public class TileEntityInfoPanelRenderer extends TileEntitySpecialRenderer {
 
     private float computeThickness(TileEntityInfoPanel panel, double[] deltas) {
         if (panel instanceof TileEntityAdvancedInfoPanel adv && deltas != null) {
-            return (float) (adv.thickness / 16F - (deltas[0] + deltas[1] + deltas[2] + deltas[3]) / 4);
+            return (float) (adv.thickness / 16F - (deltas[0] + deltas[1] + deltas[2] + deltas[3]) / 4) + adv.screenModelInfo.epsilon;
         }
         return 1F;
     }

@@ -33,6 +33,8 @@ public class ScreenModelInfo {
     private double[] deltas = new double[4];
     private TileEntityAdvancedInfoPanel panel;
 
+    public final float epsilon = 0.015f;
+
     public ScreenModelInfo(TileEntityAdvancedInfoPanel panel) {
         this.panel = panel;
     }
@@ -70,16 +72,16 @@ public class ScreenModelInfo {
         }
     }
 
-    public void update(Screen screen) {
-        calculateDeltas(panel);
-        recomputeCoordinates(panel.getBlockType(), screen);
+    public void update(Screen screen, Block block) {
+        calculateDeltas();
+        recomputeCoordinates(screen, block);
     }
 
     public double[] getDeltas() {
         return deltas;
     }
 
-    private void calculateDeltas(TileEntityAdvancedInfoPanel panel) {
+    private void calculateDeltas() {
         boolean isTopBottom = panel.rotateVert != 0;
         boolean isLeftRight = panel.rotateHor != 0;
         double dTopLeft = 0;
@@ -159,7 +161,7 @@ public class ScreenModelInfo {
         }
     }
 
-    private void recomputeCoordinates(Block block, Screen screen) {
+    private void recomputeCoordinates(Screen screen, Block block) {
         // 5 -------6
         // /| /|
         // 4 -------7 |
@@ -234,8 +236,6 @@ public class ScreenModelInfo {
             { u2, v1 }
         };
 
-        double epsilon = 0.015;
-
         double cx = 0.0, cy = 0.0, cz = 0.0;
 
         for (int i = 0; i < 4; i++) {
@@ -305,7 +305,7 @@ public class ScreenModelInfo {
     public void renderScreen(Block block) {
         Screen screen = panel.getScreen();
         if (screen == null) return;
-        panel.screenModelInfo.recomputeCoordinates(block, screen);
+        panel.screenModelInfo.update(screen, block);
 
         int facing = panel.getFacing();
         Tessellator tess = Tessellator.instance;
