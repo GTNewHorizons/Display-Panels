@@ -5,37 +5,35 @@ import java.util.UUID;
 
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
 import shedar.mods.ic2.nuclearcontrol.IC2NuclearControl;
+import shedar.mods.ic2.nuclearcontrol.Refstrings;
 import shedar.mods.ic2.nuclearcontrol.api.CardState;
 import shedar.mods.ic2.nuclearcontrol.api.DisplaySettingHelper;
 import shedar.mods.ic2.nuclearcontrol.api.ICardWrapper;
 import shedar.mods.ic2.nuclearcontrol.api.IPanelDataSource;
 import shedar.mods.ic2.nuclearcontrol.api.PanelSetting;
 import shedar.mods.ic2.nuclearcontrol.api.PanelString;
-import shedar.mods.ic2.nuclearcontrol.utils.TextureResolver;
 
 public abstract class ItemCardBase extends Item implements IPanelDataSource {
+
+    public final ResourceLocation texture;
 
     public ItemCardBase(String textureItemName) {
         super();
         setMaxStackSize(1);
         canRepair = false;
         this.setCreativeTab(IC2NuclearControl.tabIC2NC);
-        setTextureName(TextureResolver.getItemTexture(textureItemName));
+        texture = new ResourceLocation(Refstrings.ASSETS_FOLDER, textureItemName);
+        setTextureName(texture.toString());
     }
 
     @Override
     public boolean isDamageable() {
         return true;
     }
-
-    /*
-     * @SuppressWarnings("rawtypes")
-     * @Override public void getSubItems(int par1, CreativeTabs par2CreativeTabs, List par3List){ //should not be
-     * created via creative inventory }
-     */
 
     @Override
     abstract public CardState update(TileEntity panel, ICardWrapper card, int range);

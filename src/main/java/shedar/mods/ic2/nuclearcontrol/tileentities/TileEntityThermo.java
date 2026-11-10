@@ -39,7 +39,7 @@ public class TileEntityThermo extends TileEntity implements INetworkDataProvider
     public short facing;
     private boolean prevInvertRedstone;
     private boolean invertRedstone;
-    private static int[] Coords = new int[3];
+    private static final int[] Coords = new int[3];
 
     protected int updateTicker;
     protected int tickRate;
@@ -95,14 +95,14 @@ public class TileEntityThermo extends TileEntity implements INetworkDataProvider
     private void setSide(short f) {
         facing = f;
 
-        if (init && prevFacing != f) ((NetworkManager) IC2.network.get()).updateTileEntityField(this, "facing");
+        if (init && prevFacing != f) IC2.network.get().updateTileEntityField(this, "facing");
 
         prevFacing = f;
     }
 
     @Override
     public List<String> getNetworkedFields() {
-        Vector<String> vector = new Vector<String>(3);
+        Vector<String> vector = new Vector<>(3);
         vector.add("heatLevel");
         vector.add("onFire");
         vector.add("facing");

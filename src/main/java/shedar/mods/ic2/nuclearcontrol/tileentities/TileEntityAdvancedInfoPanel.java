@@ -18,8 +18,10 @@ import shedar.mods.ic2.nuclearcontrol.IC2NuclearControl;
 import shedar.mods.ic2.nuclearcontrol.api.DisplaySettingHelper;
 import shedar.mods.ic2.nuclearcontrol.api.IPanelDataSource;
 import shedar.mods.ic2.nuclearcontrol.api.PanelString;
+import shedar.mods.ic2.nuclearcontrol.api.cards.CardData;
 import shedar.mods.ic2.nuclearcontrol.items.ItemUpgrade;
 import shedar.mods.ic2.nuclearcontrol.panel.CardWrapperImpl;
+import shedar.mods.ic2.nuclearcontrol.renderers.model.ScreenModelInfo;
 import shedar.mods.ic2.nuclearcontrol.utils.BlockDamages;
 import shedar.mods.ic2.nuclearcontrol.utils.DataSorter;
 import shedar.mods.ic2.nuclearcontrol.utils.NuclearNetworkHelper;
@@ -61,6 +63,8 @@ public class TileEntityAdvancedInfoPanel extends TileEntityInfoPanel {
     private byte prevRotateVert;
     private byte prevTextRotation;
 
+    public final ScreenModelInfo screenModelInfo = new ScreenModelInfo(this);
+
     public ItemStack card2;
     public ItemStack card3;
 
@@ -101,18 +105,13 @@ public class TileEntityAdvancedInfoPanel extends TileEntityInfoPanel {
 
     @Override
     public boolean isItemValid(int slotIndex, ItemStack itemstack) {
-        switch (slotIndex) {
-            case SLOT_CARD1:
-            case SLOT_CARD2:
-            case SLOT_CARD3:
-                return itemstack.getItem() instanceof IPanelDataSource;
-            case SLOT_UPGRADE_RANGE:
-                return itemstack.getItem() instanceof ItemUpgrade
-                        && (itemstack.getItemDamage() == ItemUpgrade.DAMAGE_RANGE
-                                || itemstack.getItemDamage() == ItemUpgrade.DAMAGE_WEB);
-            default:
-                return false;
-        }
+        return switch (slotIndex) {
+            case SLOT_CARD1, SLOT_CARD2, SLOT_CARD3 -> itemstack.getItem() instanceof IPanelDataSource;
+            case SLOT_UPGRADE_RANGE -> itemstack.getItem() instanceof ItemUpgrade
+                    && (itemstack.getItemDamage() == ItemUpgrade.DAMAGE_RANGE
+                    || itemstack.getItemDamage() == ItemUpgrade.DAMAGE_WEB);
+            default -> false;
+        };
     }
 
     @Override
@@ -206,32 +205,24 @@ public class TileEntityAdvancedInfoPanel extends TileEntityInfoPanel {
     }
 
     public byte getNextPowerMode() {
-        switch (powerMode) {
-            case POWER_REDSTONE:
-                return POWER_INVERTED;
-            case POWER_INVERTED:
-                return POWER_ON;
-            case POWER_ON:
-                return POWER_OFF;
-            case POWER_OFF:
-                return POWER_REDSTONE;
-        }
-        return POWER_REDSTONE;
+        return switch (powerMode) {
+            case POWER_REDSTONE -> POWER_INVERTED;
+            case POWER_INVERTED -> POWER_ON;
+            case POWER_ON -> POWER_OFF;
+            case POWER_OFF -> POWER_REDSTONE;
+            default -> POWER_REDSTONE;
+        };
     }
 
     @Override
     public boolean getPowered() {
-        switch (powerMode) {
-            case POWER_ON:
-                return true;
-            case POWER_OFF:
-                return false;
-            case POWER_REDSTONE:
-                return powered;
-            case POWER_INVERTED:
-                return !powered;
-        }
-        return false;
+        return switch (powerMode) {
+            case POWER_ON -> true;
+            case POWER_OFF -> false;
+            case POWER_REDSTONE -> powered;
+            case POWER_INVERTED -> !powered;
+            default -> false;
+        };
     }
     // </editor-fold>
 
@@ -442,18 +433,9 @@ public class TileEntityAdvancedInfoPanel extends TileEntityInfoPanel {
      */
     public List<PanelString> getSortedCardData(DisplaySettingHelper settings, ItemStack cardStack,
             CardWrapperImpl helper) {
-        List<PanelString> data = new ArrayList<>(this.getCardData(settings, cardStack, helper));
-        List<PanelString> all_data = new ArrayList<>(
-                this.getCardData(new DisplaySettingHelper(true), cardStack, helper));
-        if (!Objects.equals(helper.getTitle(), "")) {
-            PanelString title = data.remove(0);
-            all_data.remove(0);
-            getDataSorter(getIndexOfCard(cardStack)).sortListByPrefix(data, all_data);
-            data.add(0, title);
-        } else {
-            getDataSorter(getIndexOfCard(cardStack)).sortListByPrefix(data, all_data);
-        }
-        return data;
+        CardData data = this.getCardData(settings, cardStack, helper);
+        data.sortByPrefix(getDataSorter(getIndexOfCard(cardStack)));
+        return data.getCardDataWithTitle();
     }
 
     // </editor-fold>
@@ -467,13 +449,6 @@ public class TileEntityAdvancedInfoPanel extends TileEntityInfoPanel {
     @Override
     public ItemStack getWrenchDrop(EntityPlayer entityPlayer) {
         return new ItemStack(IC2NuclearControl.blockNuclearControlMain, 1, BlockDamages.DAMAGE_ADVANCED_PANEL);
-    }
-
-    public Map<Byte, Map<UUID, DataSorter>> getDataSorters() {
-        if (dataSorters == null) {
-            return new HashMap<>();
-        }
-        return dataSorters;
     }
 
     public DataSorter getDataSorter(byte slot) {

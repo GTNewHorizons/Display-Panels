@@ -52,8 +52,7 @@ public class ItemVanillaMachineCard extends ItemCardBase {
         if (target == null) return CardState.NO_TARGET;
         TileEntity tile = world.getTileEntity(target.posX, target.posY, target.posZ);
 
-        if (tile instanceof TileEntityBrewingStand) {
-            TileEntityBrewingStand brewingStand = (TileEntityBrewingStand) tile;
+        if (tile instanceof TileEntityBrewingStand brewingStand) {
             card.setString("entity", BREW_STAND);
             card.setBoolean("brewing", brewingStand.getBrewTime() > 0);
             card.setInt("brewTime", brewingStand.getBrewTime());
@@ -69,8 +68,7 @@ public class ItemVanillaMachineCard extends ItemCardBase {
             card.setTag("BrewInfo", tag);
             return CardState.OK;
             // brewingStand.getStackInSlot(3).getItem().isPotionIngredient(brewingStand.getStackInSlot(3));
-        } else if (tile instanceof TileEntityFurnace) {
-            TileEntityFurnace furnace = (TileEntityFurnace) tile;
+        } else if (tile instanceof TileEntityFurnace furnace) {
             card.setString("entity", "furnace");
             card.setBoolean("burning", furnace.isBurning());
             card.setInt("burnTime", furnace.furnaceBurnTime);
@@ -125,7 +123,7 @@ public class ItemVanillaMachineCard extends ItemCardBase {
     @Override
     public List<PanelString> getStringData(DisplaySettingHelper displaySettings, ICardWrapper card,
             boolean showLabels) {
-        List<PanelString> result = new LinkedList<PanelString>();
+        List<PanelString> result = new LinkedList<>();
         PanelString line;
 
         String machineType = card.getString("entity");
@@ -180,7 +178,7 @@ public class ItemVanillaMachineCard extends ItemCardBase {
                     text = StatCollector.translateToLocal("msg.nc.Vanilla.notBrewing");
                 }
 
-                if (result.size() > 0 && result.get(0).textRight == null) {
+                if (!result.isEmpty() && result.get(0).textRight == null) {
                     // Attach to the right of the first line if available
                     PanelString firstLine = result.get(0);
                     firstLine.textRight = text;
@@ -286,7 +284,7 @@ public class ItemVanillaMachineCard extends ItemCardBase {
 
     @Override
     public List<PanelSetting> getSettingsList() {
-        List<PanelSetting> result = new ArrayList<PanelSetting>();
+        List<PanelSetting> result = new ArrayList<>();
         result.add(
                 new NewPanelSetting(
                         StatCollector.translateToLocal("msg.nc.Vanilla.setting.activeTime"),

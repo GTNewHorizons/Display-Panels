@@ -41,7 +41,7 @@ public class TileEntityAverageCounter extends TileEntity
     protected static final int DATA_POINTS = 11 * 20;
 
     private boolean init;
-    private ItemStack inventory[];
+    private ItemStack[] inventory;
 
     // check out shedar.mods.ic2.nuclearcontrol.crossmod.EnergyStorageData
     private byte prevPowerType;
@@ -52,10 +52,10 @@ public class TileEntityAverageCounter extends TileEntity
     private short prevFacing;
     public short facing;
 
-    protected double[] data;
+    protected final double[] data;
     protected int index;
     protected int updateTicker;
-    protected int tickRate;
+    protected final int tickRate;
     protected short prevPeriod;
     public short period;
     protected int clientAverage = -1;
@@ -110,7 +110,7 @@ public class TileEntityAverageCounter extends TileEntity
     private void setSide(short f) {
         facing = f;
 
-        if (init && prevFacing != f) ((NetworkManager) IC2.network.get()).updateTileEntityField(this, "facing");
+        if (init && prevFacing != f) IC2.network.get().updateTileEntityField(this, "facing");
 
         prevFacing = f;
     }
@@ -335,7 +335,7 @@ public class TileEntityAverageCounter extends TileEntity
     @Override
     public boolean wrenchCanSetFacing(EntityPlayer entityPlayer, int face) {
         return getFacing() != face;
-    };
+    }
 
     @Override
     public boolean wrenchCanRemove(EntityPlayer entityPlayer) {
@@ -349,7 +349,7 @@ public class TileEntityAverageCounter extends TileEntity
 
     @Override
     public List<String> getNetworkedFields() {
-        Vector<String> vector = new Vector<String>(3);
+        Vector<String> vector = new Vector<>(3);
         vector.add("facing");
         vector.add("period");
         vector.add("powerType");

@@ -12,17 +12,17 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import ic2.core.IC2;
 import ic2.core.network.NetworkManager;
+import shedar.mods.ic2.nuclearcontrol.Refstrings;
 import shedar.mods.ic2.nuclearcontrol.containers.ContainerEnergyCounter;
 import shedar.mods.ic2.nuclearcontrol.utils.StringUtils;
 
 @SideOnly(Side.CLIENT)
 public class GuiEnergyCounter extends GuiContainer {
 
-    private static final String TEXTURE_FILE = "nuclearcontrol:textures/gui/GUIEnergyCounter.png";
-    private static final ResourceLocation TEXTURE_LOCATION = new ResourceLocation(TEXTURE_FILE);
+    private static final ResourceLocation TEXTURE_LOCATION = new ResourceLocation(Refstrings.ASSETS_FOLDER,"textures/gui/GUIEnergyCounter.png");
 
-    private String name;
-    private ContainerEnergyCounter container;
+    private final String name;
+    private final ContainerEnergyCounter container;
 
     public GuiEnergyCounter(Container container) {
         super(container);
@@ -41,7 +41,7 @@ public class GuiEnergyCounter extends GuiContainer {
     public void initGui() {
         super.initGui();
         initControls();
-    };
+    }
 
     @Override
     protected void drawGuiContainerForegroundLayer(int par1, int par2) {
@@ -78,6 +78,6 @@ public class GuiEnergyCounter extends GuiContainer {
     @Override
     protected void actionPerformed(GuiButton guiButton) {
         if (guiButton.id == 0)
-            ((NetworkManager) IC2.network.get()).initiateClientTileEntityEvent(container.energyCounter, 0);
+            IC2.network.get().initiateClientTileEntityEvent(container.energyCounter, 0);
     }
 }

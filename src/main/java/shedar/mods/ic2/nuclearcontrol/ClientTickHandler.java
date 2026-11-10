@@ -53,21 +53,20 @@ public class ClientTickHandler {
     @SubscribeEvent
     public void importSound(SoundLoadEvent event) {
         IC2NuclearControl ncInstance = IC2NuclearControl.instance;
-        ncInstance.availableAlarms = new ArrayList<String>();
+        ncInstance.availableAlarms = new ArrayList<>();
 
         try {
             List list = Minecraft.getMinecraft().getResourceManager()
-                    .getAllResources(new ResourceLocation("nuclearcontrol", "sounds.json"));
+                    .getAllResources(new ResourceLocation(Refstrings.ASSETS_FOLDER, "sounds.json"));
 
             for (int i = list.size() - 1; i >= 0; --i) {
                 IResource iresource = (IResource) list.get(i);
 
                 try {
-                    Map map = (Map) gson.fromJson(new InputStreamReader(iresource.getInputStream()), type);
-                    Iterator iterator1 = map.entrySet().iterator();
+                    Map map = gson.fromJson(new InputStreamReader(iresource.getInputStream()), type);
 
-                    while (iterator1.hasNext()) {
-                        Entry entry = (Entry) iterator1.next();
+                    for (Object o : map.entrySet()) {
+                        Entry entry = (Entry) o;
                         if (entry.getKey().toString().startsWith("alarm-")) {
                             String cleanedUpName = entry.getKey().toString().replace("alarm-", "");
                             if (ncInstance.availableAlarms.contains(cleanedUpName)) {
@@ -79,13 +78,13 @@ public class ClientTickHandler {
                         }
                     }
                 } catch (RuntimeException runtimeexception) {
-                    ;
+                    IC2NuclearControl.logger.error(runtimeexception);
                 }
             }
         } catch (IOException ioexception) {
-            ;
+            IC2NuclearControl.logger.error(ioexception);
         }
 
-        ncInstance.serverAllowedAlarms = new ArrayList<String>();
+        ncInstance.serverAllowedAlarms = new ArrayList<>();
     }
 }

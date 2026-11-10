@@ -25,6 +25,7 @@ import ic2.core.IC2;
 import shedar.mods.ic2.nuclearcontrol.IC2NuclearControl;
 import shedar.mods.ic2.nuclearcontrol.IRotation;
 import shedar.mods.ic2.nuclearcontrol.ISlotItemFilter;
+import shedar.mods.ic2.nuclearcontrol.config.Configuration;
 import shedar.mods.ic2.nuclearcontrol.items.ItemCard55Reactor;
 import shedar.mods.ic2.nuclearcontrol.items.ItemCardReactorSensorLocation;
 import shedar.mods.ic2.nuclearcontrol.items.ItemUpgrade;
@@ -56,7 +57,7 @@ public class TileEntityRemoteThermo extends TileEntityThermo
     public int prevRotation;
     public double energy;
     private boolean addedToEnergyNet;
-    private ItemStack inventory[];
+    private ItemStack[] inventory;
 
     public TileEntityRemoteThermo() {
         super();
@@ -94,7 +95,7 @@ public class TileEntityRemoteThermo extends TileEntityThermo
         markDirty();
 
         int fire;
-        if (energy >= IC2NuclearControl.instance.remoteThermalMonitorEnergyConsumption) {
+        if (energy >= Configuration.remoteThermalMonitorEnergyConsumption) {
             IReactor reactor = NuclearHelper.getReactorAt(worldObj, xCoord + deltaX, yCoord + deltaY, zCoord + deltaZ);
             // UUID cardType = null;
             if (reactor == null) {
@@ -176,11 +177,10 @@ public class TileEntityRemoteThermo extends TileEntityThermo
     public void updateEntity() {
         super.updateEntity();
         if (!worldObj.isRemote) { // If is server
-            int consumption = IC2NuclearControl.instance.remoteThermalMonitorEnergyConsumption;
+            int consumption = Configuration.remoteThermalMonitorEnergyConsumption;
             if (inventory[SLOT_CHARGER] != null) {
                 if (energy < maxStorage) {
-                    if (inventory[SLOT_CHARGER].getItem() instanceof IElectricItem) {
-                        IElectricItem ielectricitem = (IElectricItem) inventory[SLOT_CHARGER].getItem();
+                    if (inventory[SLOT_CHARGER].getItem() instanceof IElectricItem ielectricitem) {
 
                         if (ielectricitem.canProvideEnergy(inventory[SLOT_CHARGER])) {
                             double k = ElectricItem.manager
@@ -421,8 +421,7 @@ public class TileEntityRemoteThermo extends TileEntityThermo
                 if (Item.getIdFromItem(itemstack.getItem())
                         == Item.getIdFromItem(IC2Items.getItem("suBattery").getItem()))
                     return true;
-                if (itemstack.getItem() instanceof IElectricItem) {
-                    IElectricItem item = (IElectricItem) itemstack.getItem();
+                if (itemstack.getItem() instanceof IElectricItem item) {
                     if (item.canProvideEnergy(itemstack) && item.getTier(itemstack) <= tier) {
                         return true;
                     }
@@ -457,24 +456,12 @@ public class TileEntityRemoteThermo extends TileEntityThermo
 
     @Override
     public void rotate() {
-        int r;
-        switch (rotation) {
-            case 0:
-                r = 1;
-                break;
-            case 1:
-                r = 3;
-                break;
-            case 3:
-                r = 2;
-                break;
-            case 2:
-                r = 0;
-                break;
-            default:
-                r = 0;
-                break;
-        }
+        int r = switch (rotation) {
+            case 0 -> 1;
+            case 1 -> 3;
+            case 3 -> 2;
+            default -> 0;
+        };
         setRotation(r);
     }
 

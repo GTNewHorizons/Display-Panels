@@ -28,7 +28,7 @@ public class IC2ExpCross extends IC2Cross {
         if (par1.getItem() instanceof ItemReactorUranium || par1.getItem() instanceof ItemReactorLithiumCell
                 || par1.getItem() instanceof ItemReactorMOX) {
             int dmg = par1.getMaxDamage() - par1.getItemDamage();
-            return (dmg > 0) ? dmg : 0;
+            return Math.max(dmg, 0);
         }
 
         return -1;
@@ -45,14 +45,8 @@ public class IC2ExpCross extends IC2Cross {
     }
 
     @Override
-    public boolean isSteamReactor(TileEntity par1) {
-        return false;
-    }
-
-    @Override
     public EnergyStorageData getStorageData(TileEntity target) {
-        if (target instanceof IEnergyStorage) {
-            IEnergyStorage storage = (IEnergyStorage) target;
+        if (target instanceof IEnergyStorage storage) {
             EnergyStorageData result = new EnergyStorageData();
             result.capacity = storage.getCapacity();
             result.stored = storage.getStored();
@@ -65,10 +59,9 @@ public class IC2ExpCross extends IC2Cross {
 
     @Override
     public ReactorInfo getReactorInfo(TileEntity par1) {
-        if (par1 == null || !(par1 instanceof TileEntityNuclearReactorElectric)) {
+        if (!(par1 instanceof TileEntityNuclearReactorElectric reactor)) {
             return null;
         }
-        TileEntityNuclearReactorElectric reactor = (TileEntityNuclearReactorElectric) par1;
         ReactorInfo info = new ReactorInfo();
         info.isOnline = reactor.getActive();
         info.outTank = reactor.getoutputtank().getFluidAmount();

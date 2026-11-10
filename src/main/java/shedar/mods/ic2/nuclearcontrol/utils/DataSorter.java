@@ -28,26 +28,6 @@ public class DataSorter {
     }
 
     /**
-     * Save a custom order, and completely overwrite the one currently stored.
-     *
-     * @param newOrder the new custom order
-     */
-    public void saveCustomOrder(List<Integer> newOrder) {
-        this.customOrder = new ArrayList<>(newOrder);
-    }
-
-    /**
-     * Reset the order of the list, whilst keeping the original size.
-     */
-    public void resetOrder() {
-        int size = customOrder.size();
-        customOrder = new ArrayList<>();
-        for (int i = 0; i < size; i++) {
-            customOrder.add(i);
-        }
-    }
-
-    /**
      * Reset the order and set it to a specific size.
      *
      * @param size size to be set
@@ -122,7 +102,7 @@ public class DataSorter {
     }
 
     // Helper to extract prefix
-    private String getPrefix(String s) {
+    private static String getPrefix(String s) {
         int colonIndex = s.indexOf(':');
         return colonIndex == -1 ? s : s.substring(0, colonIndex);
     }
@@ -151,5 +131,11 @@ public class DataSorter {
 
     public int[] getArray() {
         return this.customOrder.stream().mapToInt(Integer::intValue).toArray();
+    }
+
+    @Override
+    public boolean equals(Object o){
+        if (!(o instanceof DataSorter dataSorter)) return false;
+        return this.customOrder.equals(dataSorter.customOrder);
     }
 }

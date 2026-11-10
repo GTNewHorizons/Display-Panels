@@ -11,7 +11,6 @@ import net.minecraft.world.World;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import shedar.mods.ic2.nuclearcontrol.api.CardHelper;
 import shedar.mods.ic2.nuclearcontrol.api.CardState;
 import shedar.mods.ic2.nuclearcontrol.api.DisplaySettingHelper;
 import shedar.mods.ic2.nuclearcontrol.api.IAdvancedCardSettings;
@@ -20,6 +19,7 @@ import shedar.mods.ic2.nuclearcontrol.api.ICardWrapper;
 import shedar.mods.ic2.nuclearcontrol.api.PanelSetting;
 import shedar.mods.ic2.nuclearcontrol.api.PanelString;
 import shedar.mods.ic2.nuclearcontrol.gui.GuiCardText;
+import shedar.mods.ic2.nuclearcontrol.panel.CardWrapperImpl;
 
 public class ItemCardText extends ItemCardBase implements IAdvancedCardSettings {
 
@@ -47,11 +47,11 @@ public class ItemCardText extends ItemCardBase implements IAdvancedCardSettings 
     @Override
     public List<PanelString> getStringData(DisplaySettingHelper displaySettings, ICardWrapper card,
             boolean showLabels) {
-        List<PanelString> result = new LinkedList<PanelString>();
+        List<PanelString> result = new LinkedList<>();
         boolean started = false;
         for (int i = 9; i >= 0; i--) {
             String text = card.getString("line_" + i);
-            if (text.equals("") && !started) {
+            if (text.isEmpty() && !started) {
                 continue;
             }
             started = true;
@@ -66,7 +66,7 @@ public class ItemCardText extends ItemCardBase implements IAdvancedCardSettings 
     @SideOnly(Side.CLIENT)
     @SuppressWarnings({ "rawtypes", "unchecked" })
     public void addInformation(ItemStack itemStack, EntityPlayer player, List info, boolean advanced) {
-        ICardWrapper helper = CardHelper.getWrapper(itemStack);
+        ICardWrapper helper = new CardWrapperImpl(itemStack, -1);
         String title = helper.getTitle();
         if (!"".equals(title)) info.add(title);
     }

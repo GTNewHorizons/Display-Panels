@@ -15,11 +15,11 @@ import shedar.mods.ic2.nuclearcontrol.utils.NuclearNetworkHelper;
 
 public class CardSettingsWrapperImpl implements ICardSettingsWrapper {
 
-    private ItemStack card;
-    private TileEntity panel;
+    private final ItemStack card;
+    private final TileEntity panel;
     private Map<String, Object> updateSet;
-    private GuiInfoPanel gui;
-    private int slot;
+    private final GuiInfoPanel gui;
+    private final int slot;
 
     public CardSettingsWrapperImpl(ItemStack card, TileEntity panel, GuiInfoPanel gui, int slot) {
         if (!(card.getItem() instanceof IPanelDataSource)) {
@@ -27,7 +27,7 @@ public class CardSettingsWrapperImpl implements ICardSettingsWrapper {
         }
         this.card = card;
         this.panel = panel;
-        updateSet = new HashMap<String, Object>();
+        updateSet = new HashMap<>();
         this.gui = gui;
         this.slot = slot;
     }
@@ -56,7 +56,7 @@ public class CardSettingsWrapperImpl implements ICardSettingsWrapper {
     public void commit() {
         if (!updateSet.isEmpty()) {
             NuclearNetworkHelper.setCardSettings(card, panel, updateSet, slot);
-            updateSet = new HashMap<String, Object>();
+            updateSet = new HashMap<>();
         }
 
     }

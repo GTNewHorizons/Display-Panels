@@ -8,6 +8,7 @@ import java.util.UUID;
 import net.minecraft.block.Block;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChunkCoordinates;
+import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 
 import ic2.api.item.IC2Items;
@@ -22,7 +23,7 @@ import shedar.mods.ic2.nuclearcontrol.api.NewPanelSetting;
 import shedar.mods.ic2.nuclearcontrol.api.PanelSetting;
 import shedar.mods.ic2.nuclearcontrol.api.PanelString;
 import shedar.mods.ic2.nuclearcontrol.crossmod.ic2.IC2Cross.ReactorInfo;
-import shedar.mods.ic2.nuclearcontrol.utils.LangHelper;
+
 import shedar.mods.ic2.nuclearcontrol.utils.StringUtils;
 
 public class ItemCard55Reactor extends ItemCardEnergySensorLocation implements IRemoteSensor {
@@ -47,11 +48,10 @@ public class ItemCard55Reactor extends ItemCardEnergySensorLocation implements I
     public CardState update(TileEntity panel, ICardWrapper card, int range) {
         ChunkCoordinates target = card.getTarget();
         if (target == null) return CardState.NO_TARGET;
-        // int targetType = card.getInt("targetType");
         TileEntity check = panel.getWorldObj().getTileEntity(target.posX, target.posY, target.posZ);
         if (isReactorPart(check) || panel.getWorldObj().getBlock(target.posX, target.posY, target.posZ)
                 == Block.getBlockFromItem(IC2Items.getItem("reactorvessel").getItem())) {
-            IReactor reactor = this.getReactor(panel.getWorldObj(), target.posX, target.posY, target.posZ);
+            IReactor reactor = getReactor(panel.getWorldObj(), target.posX, target.posY, target.posZ);
             if (reactor != null) {
                 ReactorInfo info = IC2NuclearControl.instance.crossIc2.getReactorInfo((TileEntity) reactor);
                 if (info == null) {
@@ -75,11 +75,10 @@ public class ItemCard55Reactor extends ItemCardEnergySensorLocation implements I
     public CardState update(World world, ICardWrapper card, int range) {
         ChunkCoordinates target = card.getTarget();
         if (target == null) return CardState.NO_TARGET;
-        // int targetType = card.getInt("targetType");
         TileEntity check = world.getTileEntity(target.posX, target.posY, target.posZ);
         if (isReactorPart(check) || world.getBlock(target.posX, target.posY, target.posZ)
                 == Block.getBlockFromItem(IC2Items.getItem("reactorvessel").getItem())) {
-            IReactor reactor = this.getReactor(world, target.posX, target.posY, target.posZ);
+            IReactor reactor = getReactor(world, target.posX, target.posY, target.posZ);
             if (reactor != null) {
                 ReactorInfo info = IC2NuclearControl.instance.crossIc2.getReactorInfo((TileEntity) reactor);
                 if (info == null) {
@@ -126,7 +125,7 @@ public class ItemCard55Reactor extends ItemCardEnergySensorLocation implements I
     @Override
     public List<PanelString> getStringData(DisplaySettingHelper displaySettings, ICardWrapper card,
             boolean showLabels) {
-        List<PanelString> result = new LinkedList<PanelString>();
+        List<PanelString> result = new LinkedList<>();
         PanelString line;
 
         double tOut = card.getInt("outputTank");
@@ -169,10 +168,10 @@ public class ItemCard55Reactor extends ItemCardEnergySensorLocation implements I
             boolean reactorPowered = card.getBoolean("Online");
             if (reactorPowered) {
                 txtColor = 0x00ff00;
-                text = LangHelper.translate("msg.nc.InfoPanelOn");
+                text = StatCollector.translateToLocal("msg.nc.InfoPanelOn");
             } else {
                 txtColor = 0xff0000;
-                text = LangHelper.translate("msg.nc.InfoPanelOff");
+                text = StatCollector.translateToLocal("msg.nc.InfoPanelOff");
             }
             if (!result.isEmpty()) {
                 PanelString firstLine = result.get(0);
@@ -190,19 +189,19 @@ public class ItemCard55Reactor extends ItemCardEnergySensorLocation implements I
 
     @Override
     public List<PanelSetting> getSettingsList() {
-        List<PanelSetting> result = new ArrayList<PanelSetting>(5);
-        result.add(new NewPanelSetting(LangHelper.translate("msg.nc.cbInfoPanelOnOff"), DISPLAY_ON, CARD_TYPE));
+        List<PanelSetting> result = new ArrayList<>(5);
+        result.add(new NewPanelSetting(StatCollector.translateToLocal("msg.nc.cbInfoPanelOnOff"), DISPLAY_ON, CARD_TYPE));
         result.add(
                 new NewPanelSetting(
-                        LangHelper.translate("msg.nc.InfoPanel55.BufferOut"),
+                        StatCollector.translateToLocal("msg.nc.InfoPanel55.BufferOut"),
                         DISPLAY_OUTPUTTank,
                         CARD_TYPE));
         result.add(
-                new NewPanelSetting(LangHelper.translate("msg.nc.InfoPanel55.BufferIn"), DISPLAY_INPUTTank, CARD_TYPE));
-        result.add(new NewPanelSetting(LangHelper.translate("msg.nc.InfoPanel55.Out"), DISPLAY_HeatUnits, CARD_TYPE));
+                new NewPanelSetting(StatCollector.translateToLocal("msg.nc.InfoPanel55.BufferIn"), DISPLAY_INPUTTank, CARD_TYPE));
+        result.add(new NewPanelSetting(StatCollector.translateToLocal("msg.nc.InfoPanel55.Out"), DISPLAY_HeatUnits, CARD_TYPE));
         result.add(
                 new NewPanelSetting(
-                        LangHelper.translate("msg.nc.InfoPanelRF.TempPROPER"),
+                        StatCollector.translateToLocal("msg.nc.InfoPanelRF.TempPROPER"),
                         DISPLAY_CoreTemp,
                         CARD_TYPE));
         return result;

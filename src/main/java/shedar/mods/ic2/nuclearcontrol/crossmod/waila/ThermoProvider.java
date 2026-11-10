@@ -6,13 +6,14 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
 import shedar.mods.ic2.nuclearcontrol.tileentities.TileEntityThermo;
-import shedar.mods.ic2.nuclearcontrol.utils.LangHelper;
+
 
 /**
  * Provider for the thermal monitor.
@@ -27,7 +28,7 @@ public class ThermoProvider implements IWailaDataProvider {
             IWailaConfigHandler handler) {
         if (accessor.getTileEntity() instanceof TileEntityThermo) {
             currenttip.add(
-                    LangHelper.translate("msg.nc.waila.getHeatLevel")
+                    StatCollector.translateToLocal("msg.nc.waila.getHeatLevel")
                             + ((TileEntityThermo) accessor.getTileEntity()).getHeatLevel().toString());
         }
         return currenttip;

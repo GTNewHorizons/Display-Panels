@@ -3,27 +3,28 @@ package shedar.mods.ic2.nuclearcontrol.gui;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.util.ResourceLocation;
 
+import net.minecraft.util.StatCollector;
 import org.lwjgl.opengl.GL11;
 
 import cpw.mods.fml.client.FMLClientHandler;
+import shedar.mods.ic2.nuclearcontrol.Refstrings;
 import shedar.mods.ic2.nuclearcontrol.tileentities.TileEntityInfoPanel;
-import shedar.mods.ic2.nuclearcontrol.utils.LangHelper;
+
 import shedar.mods.ic2.nuclearcontrol.utils.NuclearNetworkHelper;
 
 public class GuiScreenColor extends GuiScreen {
 
-    private static final String TEXTURE_FILE = "nuclearcontrol:textures/gui/GUIColors.png";
-    private static final ResourceLocation TEXTURE_LOCATION = new ResourceLocation(TEXTURE_FILE);
+    private static final ResourceLocation TEXTURE_LOCATION = new ResourceLocation(Refstrings.ASSETS_FOLDER,"textures/gui/GUIColors.png");
 
-    private GuiInfoPanel parentGui;
+    private final GuiInfoPanel parentGui;
 
-    protected int xSize = 226;
-    protected int ySize = 94;
+    protected final int xSize = 226;
+    protected final int ySize = 94;
     protected int guiLeft;
     protected int guiTop;
     private int colorText;
     private int colorBack;
-    private TileEntityInfoPanel panel;
+    private final TileEntityInfoPanel panel;
 
     public GuiScreenColor(GuiInfoPanel parentGui, TileEntityInfoPanel panel) {
         this.parentGui = parentGui;
@@ -66,8 +67,8 @@ public class GuiScreenColor extends GuiScreen {
         drawTexturedModalRect(left, top, 0, 0, xSize, ySize);
         drawTexturedModalRect(left + 5 + colorBack * 14, top + 30, 226, 0, 14, 14);
         drawTexturedModalRect(left + 5 + colorText * 14, top + 61, 226, 0, 14, 14);
-        fontRendererObj.drawString(LangHelper.translate("msg.nc.ScreenColor"), guiLeft + 8, guiTop + 20, 0x404040);
-        fontRendererObj.drawString(LangHelper.translate("msg.nc.TextColor"), guiLeft + 8, guiTop + 52, 0x404040);
+        fontRendererObj.drawString(StatCollector.translateToLocal("msg.nc.ScreenColor"), guiLeft + 8, guiTop + 20, 0x404040);
+        fontRendererObj.drawString(StatCollector.translateToLocal("msg.nc.TextColor"), guiLeft + 8, guiTop + 52, 0x404040);
 
         super.drawScreen(par1, par2, par3);
     }

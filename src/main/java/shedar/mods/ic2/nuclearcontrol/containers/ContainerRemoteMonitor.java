@@ -17,8 +17,7 @@ import shedar.mods.ic2.nuclearcontrol.items.ItemRemoteMonitor;
 
 public class ContainerRemoteMonitor extends Container {
 
-    protected ItemStack is;
-    public InventoryItem item;
+    public final InventoryItem item;
 
     private static final String NBT_KEY_UID = "UID";
     private final ItemStack itemStack;
@@ -37,7 +36,6 @@ public class ContainerRemoteMonitor extends Container {
     }
 
     public ContainerRemoteMonitor(InventoryPlayer inv, ItemStack stack, InventoryItem iItem) {
-        this.is = stack;
         this.item = iItem;
 
         Slot slot = this.addSlotToContainer(new SlotFilter(this.item, 0, 177, 21));
@@ -80,7 +78,7 @@ public class ContainerRemoteMonitor extends Container {
         if (slots.getStack() != null)
             if (slots.getStack().getItem() == IC2NuclearControl.itemRemoteMonitor) return null;
 
-        if (slots != null && slots.getHasStack()) {
+        if (slots.getHasStack()) {
             ItemStack itemstackR = slots.getStack();
             stack = itemstackR.copy();
 

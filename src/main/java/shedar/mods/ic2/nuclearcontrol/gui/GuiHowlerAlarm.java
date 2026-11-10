@@ -12,6 +12,7 @@ import org.lwjgl.opengl.GL11;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import shedar.mods.ic2.nuclearcontrol.IC2NuclearControl;
+import shedar.mods.ic2.nuclearcontrol.Refstrings;
 import shedar.mods.ic2.nuclearcontrol.containers.ContainerEmpty;
 import shedar.mods.ic2.nuclearcontrol.gui.controls.GuiHowlerAlarmListBox;
 import shedar.mods.ic2.nuclearcontrol.gui.controls.GuiHowlerAlarmSlider;
@@ -20,13 +21,12 @@ import shedar.mods.ic2.nuclearcontrol.tileentities.TileEntityHowlerAlarm;
 @SideOnly(Side.CLIENT)
 public class GuiHowlerAlarm extends GuiContainer {
 
-    private static final String TEXTURE_FILE = "nuclearcontrol:textures/gui/GUIHowlerAlarm.png";
-    private static final ResourceLocation TEXTURE_LOCATION = new ResourceLocation(TEXTURE_FILE);
+    private static final ResourceLocation TEXTURE_LOCATION = new ResourceLocation(Refstrings.ASSETS_FOLDER, "textures/gui/GUIHowlerAlarm.png");
 
-    private TileEntityHowlerAlarm alarm;
+    private final TileEntityHowlerAlarm alarm;
     private GuiHowlerAlarmSlider slider;
     private GuiHowlerAlarmListBox listBox;
-    private String name;
+    private final String name;
 
     public GuiHowlerAlarm(TileEntityHowlerAlarm alarm) {
         super(new ContainerEmpty(alarm));
@@ -52,7 +52,7 @@ public class GuiHowlerAlarm extends GuiContainer {
         List<String> items;
 
         if (alarm.getWorldObj().isRemote) {
-            items = new ArrayList<String>(IC2NuclearControl.instance.availableAlarms);
+            items = new ArrayList<>(IC2NuclearControl.instance.availableAlarms);
             items.retainAll(IC2NuclearControl.instance.serverAllowedAlarms);
         } else items = IC2NuclearControl.instance.availableAlarms;
 
@@ -60,11 +60,6 @@ public class GuiHowlerAlarm extends GuiContainer {
         buttonList.add(slider);
         buttonList.add(listBox);
 
-    }
-
-    @Override
-    public boolean doesGuiPauseGame() {
-        return false;
     }
 
     @Override

@@ -1,6 +1,5 @@
 package shedar.mods.ic2.nuclearcontrol.gui;
 
-import java.util.Iterator;
 import java.util.List;
 
 import net.minecraft.client.gui.FontRenderer;
@@ -20,6 +19,7 @@ import org.lwjgl.opengl.GL12;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import shedar.mods.ic2.nuclearcontrol.IC2NuclearControl;
+import shedar.mods.ic2.nuclearcontrol.Refstrings;
 import shedar.mods.ic2.nuclearcontrol.api.IAdvancedCardSettings;
 import shedar.mods.ic2.nuclearcontrol.api.ICardGui;
 import shedar.mods.ic2.nuclearcontrol.api.ICardSettingsWrapper;
@@ -38,11 +38,10 @@ import shedar.mods.ic2.nuclearcontrol.utils.NuclearNetworkHelper;
 @SideOnly(Side.CLIENT)
 public class GuiInfoPanel extends GuiContainer {
 
-    private static final String TEXTURE_FILE = "nuclearcontrol:textures/gui/GUIInfoPanel.png";
-    private static final ResourceLocation TEXTURE_LOCATION = new ResourceLocation(TEXTURE_FILE);
+    private static final ResourceLocation TEXTURE_LOCATION = new ResourceLocation(Refstrings.ASSETS_FOLDER,"textures/gui/GUIInfoPanel.png");
 
     protected String name;
-    protected ContainerInfoPanel container;
+    protected final ContainerInfoPanel container;
     public ItemStack prevCard;
     protected GuiTextField textboxTitle;
     protected boolean modified;
@@ -58,18 +57,6 @@ public class GuiInfoPanel extends GuiContainer {
         isColored = !this.container.panel.getColored();
     }
 
-    /*
-     * @SuppressWarnings("unchecked") protected void drawItemStack(ItemStack itemStack, int par2, int par3){
-     * @SuppressWarnings("rawtypes") List list = itemStack.getTooltip(this.mc.thePlayer,
-     * this.mc.gameSettings.advancedItemTooltips); if(container.panel.getIsWeb() && itemStack.hasTagCompound()) {
-     * NBTTagCompound tags = itemStack.getTagCompound(); if(tags.hasKey("_webSensorId")){ long id =
-     * tags.getLong("_webSensorId"); if(id>0) list.add("Web Id: "+id); } } for (int k = 0; k < list.size(); ++k){ if (k
-     * == 0){ list.set(k, "\u00a7" + Integer.toHexString(itemStack.getRarity().rarityColor) + (String)list.get(k));
-     * }else{ list.set(k, EnumChatFormatting.GRAY + (String)list.get(k)); } } FontRenderer font =
-     * itemStack.getItem().getFontRenderer(itemStack); drawHoveringText(list, par2, par3, (font == null ?
-     * fontRendererObj : font)); }
-     */
-
     @Override
     protected void drawHoveringText(List par1List, int par2, int par3, FontRenderer font) {
         if (!par1List.isEmpty()) {
@@ -78,10 +65,9 @@ public class GuiInfoPanel extends GuiContainer {
             GL11.glDisable(GL11.GL_LIGHTING);
             GL11.glDisable(GL11.GL_DEPTH_TEST);
             int k = 0;
-            Iterator iterator = par1List.iterator();
 
-            while (iterator.hasNext()) {
-                String s = (String) iterator.next();
+            for (Object o : par1List) {
+                String s = (String) o;
                 int l = font.getStringWidth(s);
 
                 if (l > k) {
@@ -154,9 +140,8 @@ public class GuiInfoPanel extends GuiContainer {
             buttonList.add(new CompactButton(112, guiLeft + xSize - 25, guiTop + 55, 18, 12, "T"));
             delta = 15;
         }
-        if (card != null && card.getItem() instanceof IPanelDataSource) {
+        if (card != null && card.getItem() instanceof IPanelDataSource source) {
             byte slot = container.panel.getIndexOfCard(card);
-            IPanelDataSource source = (IPanelDataSource) card.getItem();
             if (source instanceof IAdvancedCardSettings) {
                 buttonList.add(new CompactButton(111, guiLeft + xSize - 25, guiTop + 55 + delta, 18, 12, "..."));
             }
@@ -208,7 +193,7 @@ public class GuiInfoPanel extends GuiContainer {
     public void initGui() {
         super.initGui();
         initControls();
-    };
+    }
 
     @Override
     protected void drawGuiContainerForegroundLayer(int par1, int par2) {
@@ -278,15 +263,14 @@ public class GuiInfoPanel extends GuiContainer {
         } else if (button.id == 111) {
             ItemStack card = getActiveCard();
             if (card == null) return;
-            if (card != null && card.getItem() instanceof IAdvancedCardSettings) {
+            if (card.getItem() instanceof IAdvancedCardSettings) {
                 ICardWrapper helper = new CardWrapperImpl(card, 0);
                 Object guiObject = ((IAdvancedCardSettings) card.getItem()).getSettingsScreen(helper);
-                if (!(guiObject instanceof GuiScreen)) {
+                if (!(guiObject instanceof GuiScreen gui)) {
                     IC2NuclearControl.logger
                             .warn("Invalid card, getSettingsScreen method should return GuiScreen object");
                     return;
                 }
-                GuiScreen gui = (GuiScreen) guiObject;
                 ICardSettingsWrapper wrapper = new CardSettingsWrapperImpl(card, container.panel, this, 0);
                 ((ICardGui) gui).setCardSettingsHelper(wrapper);
                 mc.displayGuiScreen(gui);

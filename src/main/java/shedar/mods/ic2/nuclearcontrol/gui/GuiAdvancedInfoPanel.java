@@ -18,6 +18,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import ic2.core.IC2;
 import shedar.mods.ic2.nuclearcontrol.IC2NuclearControl;
+import shedar.mods.ic2.nuclearcontrol.Refstrings;
 import shedar.mods.ic2.nuclearcontrol.api.IAdvancedCardSettings;
 import shedar.mods.ic2.nuclearcontrol.api.ICardGui;
 import shedar.mods.ic2.nuclearcontrol.api.ICardSettingsWrapper;
@@ -34,8 +35,7 @@ import shedar.mods.ic2.nuclearcontrol.tileentities.TileEntityAdvancedInfoPanel;
 @SideOnly(Side.CLIENT)
 public class GuiAdvancedInfoPanel extends GuiInfoPanel {
 
-    private static final String TEXTURE_FILE = "nuclearcontrol:textures/gui/GUIAdvancedInfoPanel.png";
-    private static final ResourceLocation TEXTURE_LOCATION = new ResourceLocation(TEXTURE_FILE);
+    private static final ResourceLocation TEXTURE_LOCATION = new ResourceLocation(Refstrings.ASSETS_FOLDER,"textures/gui/GUIAdvancedInfoPanel.png");
 
     private static final int ID_LABELS = 1;
     private static final int ID_SLOPE = 2;
@@ -161,7 +161,7 @@ public class GuiAdvancedInfoPanel extends GuiInfoPanel {
             return;
         willReturn = false;
         initialized = true;
-        int h = fontRendererObj.FONT_HEIGHT + 1;
+
         buttonList.clear();
         prevCard = card;
 
@@ -227,9 +227,7 @@ public class GuiAdvancedInfoPanel extends GuiInfoPanel {
                         192,
                         15 + 80));
 
-        if (card != null && card.getItem() instanceof IPanelDataSource) {
-            byte slot = container.panel.getIndexOfCard(card);
-            IPanelDataSource source = (IPanelDataSource) card.getItem();
+        if (card != null && card.getItem() instanceof IPanelDataSource source) {
             if (source instanceof IAdvancedCardSettings) {
                 // settings
                 buttonList.add(
@@ -304,17 +302,13 @@ public class GuiAdvancedInfoPanel extends GuiInfoPanel {
     }
 
     private int getIconPowerTopOffset(byte mode) {
-        switch (mode) {
-            case TileEntityAdvancedInfoPanel.POWER_REDSTONE:
-                return 15 + 16 * 2;
-            case TileEntityAdvancedInfoPanel.POWER_INVERTED:
-                return 15 + 16 * 3;
-            case TileEntityAdvancedInfoPanel.POWER_ON:
-                return 15 + 16 * 4;
-            case TileEntityAdvancedInfoPanel.POWER_OFF:
-                return 15 + 16 * 5;
-        }
-        return 15 + 16 * 2;
+        return switch (mode) {
+            case TileEntityAdvancedInfoPanel.POWER_REDSTONE -> 15 + 16 * 2;
+            case TileEntityAdvancedInfoPanel.POWER_INVERTED -> 15 + 16 * 3;
+            case TileEntityAdvancedInfoPanel.POWER_ON -> 15 + 16 * 4;
+            case TileEntityAdvancedInfoPanel.POWER_OFF -> 15 + 16 * 5;
+            default -> 15 + 16 * 2;
+        };
     }
 
     @Override
@@ -346,8 +340,7 @@ public class GuiAdvancedInfoPanel extends GuiInfoPanel {
             }
             case ID_LABELS -> {
                 boolean checked = !container.panel.getShowLabels();
-                if (button instanceof IconButton) {
-                    IconButton iButton = (IconButton) button;
+                if (button instanceof IconButton iButton) {
                     iButton.textureTop = getIconLabelsTopOffset(checked);
                 }
                 int value = checked ? -1 : -2;
@@ -357,8 +350,7 @@ public class GuiAdvancedInfoPanel extends GuiInfoPanel {
             }
             case ID_POWER -> {
                 byte mode = ((TileEntityAdvancedInfoPanel) container.panel).getNextPowerMode();
-                if (button instanceof IconButton) {
-                    IconButton iButton = (IconButton) button;
+                if (button instanceof IconButton iButton) {
                     iButton.textureTop = getIconPowerTopOffset(mode);
                 }
                 IC2.network.get().initiateClientTileEntityEvent(container.panel, mode);
@@ -368,15 +360,9 @@ public class GuiAdvancedInfoPanel extends GuiInfoPanel {
                 willReturn = true;
                 mc.displayGuiScreen(slopeGui);
             }
-            case ID_TRANSPARENCY -> {
-                IC2.network.get().initiateClientTileEntityEvent(container.panel, ID_TRANSPARENCY);
-            }
-            case ID_ROTATELEFT -> {
-                IC2.network.get().initiateClientTileEntityEvent(container.panel, ID_ROTATELEFT);
-            }
-            case ID_ROTATERIGHT -> {
-                IC2.network.get().initiateClientTileEntityEvent(container.panel, ID_ROTATERIGHT);
-            }
+            case ID_TRANSPARENCY -> IC2.network.get().initiateClientTileEntityEvent(container.panel, ID_TRANSPARENCY);
+            case ID_ROTATELEFT -> IC2.network.get().initiateClientTileEntityEvent(container.panel, ID_ROTATELEFT);
+            case ID_ROTATERIGHT -> IC2.network.get().initiateClientTileEntityEvent(container.panel, ID_ROTATERIGHT);
             case ID_LINES -> {
                 ItemStack card = getActiveCard();
                 if (((IPanelDataSource) card.getItem()).getSettingsList() != null) {

@@ -11,28 +11,28 @@ import cpw.mods.fml.relauncher.SideOnly;
 import ic2.core.IC2;
 import ic2.core.network.NetworkManager;
 import shedar.mods.ic2.nuclearcontrol.IC2NuclearControl;
+import shedar.mods.ic2.nuclearcontrol.Refstrings;
+import shedar.mods.ic2.nuclearcontrol.config.Configuration;
 import shedar.mods.ic2.nuclearcontrol.tileentities.TileEntityHowlerAlarm;
 
 @SideOnly(Side.CLIENT)
 public class GuiHowlerAlarmSlider extends GuiButton {
 
-    private static final String TEXTURE_FILE = "nuclearcontrol:textures/gui/GUIHowlerAlarm.png";
-    private static final ResourceLocation TEXTURE_LOCATION = new ResourceLocation(TEXTURE_FILE);
+    private static final ResourceLocation TEXTURE_LOCATION = new ResourceLocation(Refstrings.ASSETS_FOLDER,"textures/gui/GUIHowlerAlarm.png");
 
     public float sliderValue;
     public boolean dragging;
-    private int minValue = 0;
+    private final int minValue = 0;
     private int maxValue = 256;
-    private int step = 8;
-    private String label;
-    private TileEntityHowlerAlarm alarm;
+    private final String label;
+    private final TileEntityHowlerAlarm alarm;
 
     public GuiHowlerAlarmSlider(int id, int x, int y, String label, TileEntityHowlerAlarm alarm) {
         super(id, x, y, 107, 16, label);
         this.alarm = alarm;
         dragging = false;
         this.label = label;
-        if (alarm.getWorldObj().isRemote) maxValue = IC2NuclearControl.instance.maxAlarmRange;
+        if (alarm.getWorldObj().isRemote) maxValue = Configuration.maxAlarmRange;
         int currentRange = alarm.getRange();
         if (alarm.getWorldObj().isRemote && currentRange > maxValue) currentRange = maxValue;
         sliderValue = ((float) currentRange - minValue) / (maxValue - minValue);
@@ -40,6 +40,7 @@ public class GuiHowlerAlarmSlider extends GuiButton {
     }
 
     private int getNormalizedValue() {
+        int step = 8;
         return (minValue + (int) Math.floor((maxValue - minValue) * sliderValue)) / step * step;
     }
 
@@ -54,7 +55,7 @@ public class GuiHowlerAlarmSlider extends GuiButton {
         if (alarm.getRange() != newValue) {
             // alarm.setRange(newValue);
 
-            ((NetworkManager) IC2.network.get()).initiateClientTileEntityEvent(alarm, newValue);
+            IC2.network.get().initiateClientTileEntityEvent(alarm, newValue);
         }
         displayString = String.format(label, newValue);
     }
