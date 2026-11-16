@@ -116,7 +116,7 @@ public class TileEntityInfoPanel extends TileEntity
     public AxisAlignedBB getRenderBoundingBox() {
         Screen screen = getScreen();
         if (screen == null) return super.getRenderBoundingBox();
-        return AxisAlignedBB.getBoundingBox(screen.minX, screen.minY, screen.minZ, screen.maxX, screen.maxY, screen.maxZ);
+        return screen.getBoundingBox();
     }
 
 
