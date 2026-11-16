@@ -1,22 +1,20 @@
 package shedar.mods.ic2.nuclearcontrol.gui;
 
+import com.gtnewhorizon.gtnhlib.config.ConfigException;
+import com.gtnewhorizon.gtnhlib.config.SimpleGuiConfig;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraftforge.common.config.ConfigElement;
-import net.minecraftforge.common.config.Configuration;
 
-import cpw.mods.fml.client.config.GuiConfig;
-import shedar.mods.ic2.nuclearcontrol.IC2NuclearControl;
+import shedar.mods.ic2.nuclearcontrol.Refstrings;
+import shedar.mods.ic2.nuclearcontrol.config.Configuration;
 
-public class ConfigGui extends GuiConfig {
+public class ConfigGui extends SimpleGuiConfig {
 
-    public ConfigGui(GuiScreen parent) {
+    public ConfigGui(GuiScreen parentScreen) throws ConfigException {
         super(
-                parent,
-                new ConfigElement(IC2NuclearControl.config.configuration.getCategory(Configuration.CATEGORY_GENERAL))
-                        .getChildElements(),
-                "IC2NuclearControl",
-                false,
-                false,
-                GuiConfig.getAbridgedConfigPath(IC2NuclearControl.config.configuration.toString()));
+                parentScreen,
+                Refstrings.MOD_ID,
+                Refstrings.MOD_NAME,
+                true,
+                Configuration.class);
     }
 }

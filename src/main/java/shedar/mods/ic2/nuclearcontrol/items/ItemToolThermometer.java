@@ -4,23 +4,31 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
 import ic2.api.reactor.IReactor;
 import ic2.api.reactor.IReactorChamber;
 import shedar.mods.ic2.nuclearcontrol.IC2NuclearControl;
+import shedar.mods.ic2.nuclearcontrol.Refstrings;
 import shedar.mods.ic2.nuclearcontrol.utils.NuclearHelper;
 import shedar.mods.ic2.nuclearcontrol.utils.NuclearNetworkHelper;
-import shedar.mods.ic2.nuclearcontrol.utils.TextureResolver;
 
 public class ItemToolThermometer extends Item {
 
+    public final ResourceLocation texture;
     public ItemToolThermometer() {
         super();
         setMaxDamage(102);
         setMaxStackSize(1);
         setCreativeTab(IC2NuclearControl.tabIC2NC);
-        setTextureName(TextureResolver.getItemTexture("thermometer"));
+        texture = new ResourceLocation(Refstrings.ASSETS_FOLDER, getTextureName());
+        setTextureName(texture.toString());
+
+    }
+
+    protected String getTextureName(){
+        return "thermometer";
     }
 
     protected boolean canTakeDamage(ItemStack itemstack, int i) {
@@ -51,7 +59,9 @@ public class ItemToolThermometer extends Item {
                 damage(itemstack, 1, player);
                 return true;
             }
-        } catch (NullPointerException e) {}
+        } catch (NullPointerException e) {
+            IC2NuclearControl.logger.error(e);
+        }
         return false;
 
     }

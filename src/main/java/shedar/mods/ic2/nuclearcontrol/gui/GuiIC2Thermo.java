@@ -12,6 +12,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import ic2.core.IC2;
 import ic2.core.network.NetworkManager;
+import shedar.mods.ic2.nuclearcontrol.Refstrings;
 import shedar.mods.ic2.nuclearcontrol.containers.ContainerEmpty;
 import shedar.mods.ic2.nuclearcontrol.gui.controls.CompactButton;
 import shedar.mods.ic2.nuclearcontrol.gui.controls.GuiThermoInvertRedstone;
@@ -20,12 +21,11 @@ import shedar.mods.ic2.nuclearcontrol.tileentities.TileEntityThermo;
 @SideOnly(Side.CLIENT)
 public class GuiIC2Thermo extends GuiContainer {
 
-    private static final String TEXTURE_FILE = "nuclearcontrol:textures/gui/GUIThermalMonitor.png";
-    private static final ResourceLocation TEXTURE_LOCATION = new ResourceLocation(TEXTURE_FILE);
+    private static final ResourceLocation TEXTURE_LOCATION = new ResourceLocation(Refstrings.ASSETS_FOLDER,"textures/gui/GUIThermalMonitor.png");
 
-    private TileEntityThermo thermo;
+    private final TileEntityThermo thermo;
     private GuiTextField textboxHeat = null;
-    private String name;
+    private final String name;
 
     public GuiIC2Thermo(TileEntityThermo thermo) {
         super(new ContainerEmpty(thermo));
@@ -47,11 +47,10 @@ public class GuiIC2Thermo extends GuiContainer {
             heat += delta;
             if (heat < 0) heat = 0;
             if (heat >= 1000000) heat = 1000000;
-            if (thermo.getHeatLevel().intValue() != heat) {
-                // thermo.setHeatLevel(heat);
-                ((NetworkManager) IC2.network.get()).initiateClientTileEntityEvent(thermo, heat);
+            if (thermo.getHeatLevel() != heat) {
+                IC2.network.get().initiateClientTileEntityEvent(thermo, heat);
             }
-            textboxHeat.setText(new Integer(heat).toString());
+            textboxHeat.setText(Integer.toString(heat));
         }
     }
 
@@ -86,11 +85,6 @@ public class GuiIC2Thermo extends GuiContainer {
     public void updateScreen() {
         super.updateScreen();
         if (textboxHeat != null) textboxHeat.updateCursorCounter();
-    }
-
-    @Override
-    public boolean doesGuiPauseGame() {
-        return false;
     }
 
     @Override

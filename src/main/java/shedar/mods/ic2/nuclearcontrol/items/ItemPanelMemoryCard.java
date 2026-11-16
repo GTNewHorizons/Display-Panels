@@ -9,22 +9,25 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import shedar.mods.ic2.nuclearcontrol.IC2NuclearControl;
+import shedar.mods.ic2.nuclearcontrol.Refstrings;
 import shedar.mods.ic2.nuclearcontrol.tileentities.TileEntityInfoPanel;
-import shedar.mods.ic2.nuclearcontrol.utils.TextureResolver;
 
 public class ItemPanelMemoryCard extends Item {
 
+    public final ResourceLocation texture;
     public ItemPanelMemoryCard() {
         super();
         setMaxStackSize(1);
         setCreativeTab(IC2NuclearControl.tabIC2NC);
-        setTextureName(TextureResolver.getItemTexture("panelMemoryCard"));
+        texture = new ResourceLocation(Refstrings.ASSETS_FOLDER, "panelMemoryCard");
+        setTextureName(texture.toString());
     }
 
     @Override

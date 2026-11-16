@@ -7,6 +7,7 @@ import java.util.UUID;
 
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChunkCoordinates;
+import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -18,7 +19,7 @@ import shedar.mods.ic2.nuclearcontrol.api.NewPanelSetting;
 import shedar.mods.ic2.nuclearcontrol.api.PanelSetting;
 import shedar.mods.ic2.nuclearcontrol.api.PanelString;
 import shedar.mods.ic2.nuclearcontrol.items.ItemCardEnergySensorLocation;
-import shedar.mods.ic2.nuclearcontrol.utils.LangHelper;
+
 import shedar.mods.ic2.nuclearcontrol.utils.StringUtils;
 
 public class ItemCardRFEnergyLocation extends ItemCardEnergySensorLocation {
@@ -35,9 +36,7 @@ public class ItemCardRFEnergyLocation extends ItemCardEnergySensorLocation {
         ChunkCoordinates target = card.getTarget();
         if (target == null) return CardState.NO_TARGET;
         TileEntity tile = panel.getWorldObj().getTileEntity(target.posX, target.posY, target.posZ);
-        // NCLog.fatal(tile instanceof IEnergyHandler);
-        if (tile instanceof IEnergyHandler) {
-            IEnergyHandler iEnergyStorage = (IEnergyHandler) tile;
+        if (tile instanceof IEnergyHandler iEnergyStorage) {
             card.setInt("energyL", iEnergyStorage.getEnergyStored(ForgeDirection.UNKNOWN));
             card.setInt("maxStorageL", iEnergyStorage.getMaxEnergyStored(ForgeDirection.UNKNOWN));
             card.setInt("range_trigger_amount", iEnergyStorage.getEnergyStored(ForgeDirection.UNKNOWN));
@@ -52,9 +51,7 @@ public class ItemCardRFEnergyLocation extends ItemCardEnergySensorLocation {
         ChunkCoordinates target = card.getTarget();
         if (target == null) return CardState.NO_TARGET;
         TileEntity tile = world.getTileEntity(target.posX, target.posY, target.posZ);
-        // NCLog.fatal(tile instanceof IEnergyHandler);
-        if (tile instanceof IEnergyHandler) {
-            IEnergyHandler iEnergyStorage = (IEnergyHandler) tile;
+        if (tile instanceof IEnergyHandler iEnergyStorage) {
             card.setInt("energyL", iEnergyStorage.getEnergyStored(ForgeDirection.UNKNOWN));
             card.setInt("maxStorageL", iEnergyStorage.getMaxEnergyStored(ForgeDirection.UNKNOWN));
             card.setInt("range_trigger_amount", iEnergyStorage.getEnergyStored(ForgeDirection.UNKNOWN));
@@ -72,7 +69,7 @@ public class ItemCardRFEnergyLocation extends ItemCardEnergySensorLocation {
     @Override
     public List<PanelString> getStringData(DisplaySettingHelper displaySettings, ICardWrapper card,
             boolean showLabels) {
-        List<PanelString> result = new LinkedList<PanelString>();
+        List<PanelString> result = new LinkedList<>();
         PanelString line;
 
         double energy = card.getDouble("energyL");
@@ -106,11 +103,11 @@ public class ItemCardRFEnergyLocation extends ItemCardEnergySensorLocation {
 
     @Override
     public List<PanelSetting> getSettingsList() {
-        List<PanelSetting> result = new ArrayList<PanelSetting>();
-        result.add(new NewPanelSetting(LangHelper.translate("1"), DISPLAY_ENERGY, CARD_TYPE));
-        result.add(new NewPanelSetting(LangHelper.translate("2"), DISPLAY_STORAGE, CARD_TYPE));
-        result.add(new NewPanelSetting(LangHelper.translate("3"), DISPLAY_FREE, CARD_TYPE));
-        result.add(new NewPanelSetting(LangHelper.translate("4"), DISPLAY_PERCENTAGE, CARD_TYPE));
+        List<PanelSetting> result = new ArrayList<>();
+        result.add(new NewPanelSetting(StatCollector.translateToLocal("1"), DISPLAY_ENERGY, CARD_TYPE));
+        result.add(new NewPanelSetting(StatCollector.translateToLocal("2"), DISPLAY_STORAGE, CARD_TYPE));
+        result.add(new NewPanelSetting(StatCollector.translateToLocal("3"), DISPLAY_FREE, CARD_TYPE));
+        result.add(new NewPanelSetting(StatCollector.translateToLocal("4"), DISPLAY_PERCENTAGE, CARD_TYPE));
         return result;
     }
 }

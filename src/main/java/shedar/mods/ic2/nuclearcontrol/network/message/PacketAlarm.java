@@ -9,6 +9,7 @@ import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import io.netty.buffer.ByteBuf;
 import shedar.mods.ic2.nuclearcontrol.IC2NuclearControl;
+import shedar.mods.ic2.nuclearcontrol.config.Configuration;
 
 public class PacketAlarm implements IMessage, IMessageHandler<PacketAlarm, IMessage> {
 
@@ -17,9 +18,15 @@ public class PacketAlarm implements IMessage, IMessageHandler<PacketAlarm, IMess
 
     public PacketAlarm() {}
 
+    @Deprecated
     public PacketAlarm(int range, String alarms) {
         maxAlarmRange = range;
         allowedAlarms = alarms;
+    }
+
+    public PacketAlarm(int range, String[] alarms){
+        maxAlarmRange = range;
+        allowedAlarms = String.join(",", alarms);
     }
 
     @Override
@@ -36,8 +43,8 @@ public class PacketAlarm implements IMessage, IMessageHandler<PacketAlarm, IMess
 
     @Override
     public IMessage onMessage(PacketAlarm message, MessageContext ctx) {
-        IC2NuclearControl.instance.maxAlarmRange = message.maxAlarmRange;
-        IC2NuclearControl.instance.serverAllowedAlarms = new ArrayList<String>(
+        Configuration.maxAlarmRange = message.maxAlarmRange;
+        IC2NuclearControl.instance.serverAllowedAlarms = new ArrayList<>(
                 Arrays.asList(message.allowedAlarms.split(",")));
         return null;
     }

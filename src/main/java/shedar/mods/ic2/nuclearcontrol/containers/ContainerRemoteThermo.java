@@ -11,8 +11,8 @@ import shedar.mods.ic2.nuclearcontrol.tileentities.TileEntityRemoteThermo;
 
 public class ContainerRemoteThermo extends Container {
 
-    public TileEntityRemoteThermo remoteThermo;
-    private EntityPlayer player;
+    public final TileEntityRemoteThermo remoteThermo;
+    private final EntityPlayer player;
     private double lastEnergy = -1;
 
     public ContainerRemoteThermo(EntityPlayer player, TileEntityRemoteThermo remoteThermo) {
@@ -46,8 +46,8 @@ public class ContainerRemoteThermo extends Container {
     public void detectAndSendChanges() {
         super.detectAndSendChanges();
         int energy = (int) remoteThermo.energy; // ?
-        for (int i = 0; i < crafters.size(); i++) {
-            ICrafting crafting = (ICrafting) crafters.get(i);
+        for (Object crafter : crafters) {
+            ICrafting crafting = (ICrafting) crafter;
 
             if (lastEnergy != energy) {
                 crafting.sendProgressBarUpdate(this, 0, energy);
@@ -78,7 +78,7 @@ public class ContainerRemoteThermo extends Container {
                 {
                     mergeItemStack(items, remoteThermo.getSizeInventory(), inventorySlots.size(), false);
                     if (items.stackSize == 0) {
-                        slot.putStack((ItemStack) null);
+                        slot.putStack(null);
                     } else {
                         slot.onSlotChanged();
                         if (initialCount != items.stackSize) return items;
@@ -93,12 +93,12 @@ public class ContainerRemoteThermo extends Container {
                         if (targetStack == null) {
                             Slot targetSlot = (Slot) this.inventorySlots.get(i);
                             targetSlot.putStack(items);
-                            slot.putStack((ItemStack) null);
+                            slot.putStack(null);
                             break;
                         } else if (items.isStackable() && items.isItemEqual(targetStack)) {
                             mergeItemStack(items, i, i + 1, false);
                             if (items.stackSize == 0) {
-                                slot.putStack((ItemStack) null);
+                                slot.putStack(null);
                             } else {
                                 slot.onSlotChanged();
                                 if (initialCount != items.stackSize) return items;

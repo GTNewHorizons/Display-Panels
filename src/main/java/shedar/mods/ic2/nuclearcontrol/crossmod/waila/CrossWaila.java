@@ -9,6 +9,10 @@ import shedar.mods.ic2.nuclearcontrol.tileentities.TileEntityThermo;
 
 public class CrossWaila {
 
+    @SuppressWarnings("unused")
+    /**
+     * Gets passed through WAILA under the form of an IMC message
+     */
     public static void callbackRegister(IWailaRegistrar register) {
         register.registerBodyProvider(new ThermoProvider(), TileEntityThermo.class);
         register.registerBodyProvider(new InfoPanelProvider(), TileEntityInfoPanel.class);

@@ -12,8 +12,8 @@ import shedar.mods.ic2.nuclearcontrol.utils.NuclearNetworkHelper;
 
 public class ContainerEnergyCounter extends Container {
 
-    public TileEntityEnergyCounter energyCounter;
-    private EntityPlayer player;
+    public final TileEntityEnergyCounter energyCounter;
+    private final EntityPlayer player;
     private double lastCounter = -1;
 
     public ContainerEnergyCounter(EntityPlayer player, TileEntityEnergyCounter energyCounter) {
@@ -46,8 +46,8 @@ public class ContainerEnergyCounter extends Container {
     public void detectAndSendChanges() {
         super.detectAndSendChanges();
         double counter = energyCounter.counter;
-        for (int i = 0; i < crafters.size(); i++) {
-            ICrafting crafting = (ICrafting) crafters.get(i);
+        for (Object crafter : crafters) {
+            ICrafting crafting = (ICrafting) crafter;
 
             if (lastCounter != counter) {
                 NuclearNetworkHelper.sendEnergyCounterValue(energyCounter, crafting);
@@ -79,7 +79,7 @@ public class ContainerEnergyCounter extends Container {
                 {
                     mergeItemStack(items, energyCounter.getSizeInventory(), inventorySlots.size(), false);
                     if (items.stackSize == 0) {
-                        slot.putStack((ItemStack) null);
+                        slot.putStack(null);
                     } else {
                         slot.onSlotChanged();
                         if (initialCount != items.stackSize) return items;
@@ -94,12 +94,12 @@ public class ContainerEnergyCounter extends Container {
                         if (targetStack == null) {
                             Slot targetSlot = (Slot) this.inventorySlots.get(i);
                             targetSlot.putStack(items);
-                            slot.putStack((ItemStack) null);
+                            slot.putStack(null);
                             break;
                         } else if (items.isStackable() && items.isItemEqual(targetStack)) {
                             mergeItemStack(items, i, i + 1, false);
                             if (items.stackSize == 0) {
-                                slot.putStack((ItemStack) null);
+                                slot.putStack(null);
                             } else {
                                 slot.onSlotChanged();
                                 if (initialCount != items.stackSize) return items;

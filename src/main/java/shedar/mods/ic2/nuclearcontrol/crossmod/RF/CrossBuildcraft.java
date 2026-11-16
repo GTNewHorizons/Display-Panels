@@ -9,11 +9,7 @@ import buildcraft.api.tools.IToolWrench;
 
 public class CrossBuildcraft {
 
-    private boolean _isApiAvailable = false;
-
-    public boolean isApiAvailable() {
-        return _isApiAvailable;
-    }
+    private boolean _isApiAvailable;
 
     public CrossBuildcraft() {
         try {
@@ -32,9 +28,5 @@ public class CrossBuildcraft {
     public boolean isWrench(ItemStack itemStack, TileEntity target, EntityPlayer player) {
         return _isApiAvailable && itemStack.getItem() instanceof IToolWrench
                 && ((IToolWrench) itemStack.getItem()).canWrench(player, target.xCoord, target.yCoord, target.zCoord);
-    }
-
-    public boolean isTankContainer(Object obj) {
-        return _isApiAvailable && obj instanceof IFluidHandler;
     }
 }

@@ -11,11 +11,6 @@ import codechicken.nei.guihook.IContainerTooltipHandler;
 public class TooltipHandler implements IContainerTooltipHandler {
 
     @Override
-    public List<String> handleTooltip(GuiContainer gui, int mousex, int mousey, List<String> currenttip) {
-        return currenttip;
-    }
-
-    @Override
     public List<String> handleItemDisplayName(GuiContainer gui, ItemStack itemstack, List<String> arg2) {
         if (itemstack != null && itemstack.hasTagCompound()) {
             NBTTagCompound tags = itemstack.getTagCompound();
@@ -26,10 +21,4 @@ public class TooltipHandler implements IContainerTooltipHandler {
         }
         return arg2;
     }
-
-    @Override
-    public List<String> handleItemTooltip(GuiContainer arg0, ItemStack arg1, int arg2, int arg3, List<String> arg4) {
-        return arg4;
-    }
-
 }

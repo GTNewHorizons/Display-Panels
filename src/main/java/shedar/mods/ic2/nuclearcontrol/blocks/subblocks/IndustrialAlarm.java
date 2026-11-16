@@ -6,6 +6,8 @@ import net.minecraft.inventory.Container;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 
+import net.minecraft.util.ResourceLocation;
+import shedar.mods.ic2.nuclearcontrol.Refstrings;
 import shedar.mods.ic2.nuclearcontrol.containers.ContainerEmpty;
 import shedar.mods.ic2.nuclearcontrol.gui.GuiIndustrialAlarm;
 import shedar.mods.ic2.nuclearcontrol.tileentities.TileEntityHowlerAlarm;
@@ -17,29 +19,15 @@ public class IndustrialAlarm extends Subblock {
     private static final int DAMAGE = BlockDamages.DAMAGE_INDUSTRIAL_ALARM;
     private static final float[] BOUNDS = { 0.125F, 0, 0.125F, 0.875F, 0.4375F, 0.875F };
 
-    public static final byte I_BACK = 0;
-
-    public static final byte I_SIDES_HOR_DARK = 1;
-    public static final byte I_SIDES_HOR_MID = 2;
-    public static final byte I_SIDES_HOR_BRIGHT = 3;
-
-    public static final byte I_SIDES_VERT_DARK = 4;
-    public static final byte I_SIDES_VERT_MID = 5;
-    public static final byte I_SIDES_VERT_BRIGHT = 6;
-
-    public static final byte I_FACE_DARK = 7;
-    public static final byte I_FACE_MID = 8;
-    public static final byte I_FACE_BRIGHT = 9;
-
-    private IIcon[] icons = new IIcon[10];
+    private final IIcon[] icons = new IIcon[IndustrialAlarmSides.values.length];
 
     private static final byte[][] mapping = {
-            { I_BACK, I_FACE_DARK, I_SIDES_HOR_DARK, I_SIDES_HOR_DARK, I_SIDES_HOR_DARK, I_SIDES_HOR_DARK },
-            { I_FACE_DARK, I_BACK, I_SIDES_HOR_DARK, I_SIDES_HOR_DARK, I_SIDES_HOR_DARK, I_SIDES_HOR_DARK },
-            { I_SIDES_HOR_DARK, I_SIDES_HOR_DARK, I_BACK, I_FACE_DARK, I_SIDES_VERT_DARK, I_SIDES_VERT_DARK },
-            { I_SIDES_HOR_DARK, I_SIDES_HOR_DARK, I_FACE_DARK, I_BACK, I_SIDES_VERT_DARK, I_SIDES_VERT_DARK },
-            { I_SIDES_VERT_DARK, I_SIDES_VERT_DARK, I_SIDES_VERT_DARK, I_SIDES_VERT_DARK, I_BACK, I_FACE_DARK },
-            { I_SIDES_VERT_DARK, I_SIDES_VERT_DARK, I_SIDES_VERT_DARK, I_SIDES_VERT_DARK, I_FACE_DARK, I_BACK } };
+            { IndustrialAlarmSides.BACK.id, IndustrialAlarmSides.FACE_DARK.id, IndustrialAlarmSides.SIDES_HOR_DARK.id, IndustrialAlarmSides.SIDES_HOR_DARK.id, IndustrialAlarmSides.SIDES_HOR_DARK.id, IndustrialAlarmSides.SIDES_HOR_DARK.id },
+            { IndustrialAlarmSides.FACE_DARK.id, IndustrialAlarmSides.BACK.id, IndustrialAlarmSides.SIDES_HOR_DARK.id, IndustrialAlarmSides.SIDES_HOR_DARK.id, IndustrialAlarmSides.SIDES_HOR_DARK.id, IndustrialAlarmSides.SIDES_HOR_DARK.id },
+            { IndustrialAlarmSides.SIDES_HOR_DARK.id, IndustrialAlarmSides.SIDES_HOR_DARK.id, IndustrialAlarmSides.BACK.id, IndustrialAlarmSides.FACE_DARK.id, IndustrialAlarmSides.SIDES_VERT_DARK.id, IndustrialAlarmSides.SIDES_VERT_DARK.id },
+            { IndustrialAlarmSides.SIDES_HOR_DARK.id, IndustrialAlarmSides.SIDES_HOR_DARK.id, IndustrialAlarmSides.FACE_DARK.id, IndustrialAlarmSides.BACK.id, IndustrialAlarmSides.SIDES_VERT_DARK.id, IndustrialAlarmSides.SIDES_VERT_DARK.id },
+            { IndustrialAlarmSides.SIDES_VERT_DARK.id, IndustrialAlarmSides.SIDES_VERT_DARK.id, IndustrialAlarmSides.SIDES_VERT_DARK.id, IndustrialAlarmSides.SIDES_VERT_DARK.id, IndustrialAlarmSides.BACK.id, IndustrialAlarmSides.FACE_DARK.id },
+            { IndustrialAlarmSides.SIDES_VERT_DARK.id, IndustrialAlarmSides.SIDES_VERT_DARK.id, IndustrialAlarmSides.SIDES_VERT_DARK.id, IndustrialAlarmSides.SIDES_VERT_DARK.id, IndustrialAlarmSides.FACE_DARK.id, IndustrialAlarmSides.BACK.id } };
 
     public IndustrialAlarm() {
         super(DAMAGE, "tile.blockIndustrialAlarm");
@@ -87,19 +75,31 @@ public class IndustrialAlarm extends Subblock {
 
     @Override
     public void registerIcons(IIconRegister iconRegister) {
-        icons[I_BACK] = iconRegister.registerIcon("nuclearcontrol:industrialAlarm/back");
-
-        icons[I_SIDES_HOR_DARK] = iconRegister.registerIcon("nuclearcontrol:industrialAlarm/sidesHor0");
-        icons[I_SIDES_HOR_MID] = iconRegister.registerIcon("nuclearcontrol:industrialAlarm/sidesHor1");
-        icons[I_SIDES_HOR_BRIGHT] = iconRegister.registerIcon("nuclearcontrol:industrialAlarm/sidesHor2");
-
-        icons[I_SIDES_VERT_DARK] = iconRegister.registerIcon("nuclearcontrol:industrialAlarm/sidesVert0");
-        icons[I_SIDES_VERT_MID] = iconRegister.registerIcon("nuclearcontrol:industrialAlarm/sidesVert1");
-        icons[I_SIDES_VERT_BRIGHT] = iconRegister.registerIcon("nuclearcontrol:industrialAlarm/sidesVert2");
-
-        icons[I_FACE_DARK] = iconRegister.registerIcon("nuclearcontrol:industrialAlarm/face0");
-        icons[I_FACE_MID] = iconRegister.registerIcon("nuclearcontrol:industrialAlarm/face1");
-        icons[I_FACE_BRIGHT] = iconRegister.registerIcon("nuclearcontrol:industrialAlarm/face2");
+        for (IndustrialAlarmSides side: IndustrialAlarmSides.values){
+            icons[side.id] = iconRegister.registerIcon(side.texture.toString());
+        }
     }
 
+    public enum IndustrialAlarmSides{
+        BACK(0, "industrialAlarm/back"),
+        SIDES_HOR_DARK(1, "industrialAlarm/sidesHor0"),
+        SIDES_HOR_MID(2, "industrialAlarm/sidesHor1"),
+        SIDES_HOR_BRIGHT(3, "industrialAlarm/sidesHor2"),
+        SIDES_VERT_DARK(4, "industrialAlarm/sidesVert0"),
+        SIDES_VERT_MID(5, "industrialAlarm/sidesVert1"),
+        SIDES_VERT_BRIGHT(6, "industrialAlarm/sidesVert2"),
+        FACE_DARK(7, "industrialAlarm/face0"),
+        FACE_MID(8, "industrialAlarm/face1"),
+        FACE_BRIGHT(9, "industrialAlarm/face2");
+
+        public static final IndustrialAlarmSides[] values = IndustrialAlarmSides.values();
+
+        public final byte id;
+        public final ResourceLocation texture;
+
+        IndustrialAlarmSides(int id, String ressourcePath){
+            this.id = (byte) id;
+            this.texture = new ResourceLocation(Refstrings.ASSETS_FOLDER, ressourcePath);
+        }
+    }
 }

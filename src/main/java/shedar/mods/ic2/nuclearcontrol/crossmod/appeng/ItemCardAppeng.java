@@ -13,6 +13,7 @@ import net.minecraft.world.World;
 
 import appeng.api.storage.data.IAEItemStack;
 import appeng.tile.crafting.TileCraftingMonitorTile;
+import shedar.mods.ic2.nuclearcontrol.IC2NuclearControl;
 import shedar.mods.ic2.nuclearcontrol.api.CardState;
 import shedar.mods.ic2.nuclearcontrol.api.DisplaySettingHelper;
 import shedar.mods.ic2.nuclearcontrol.api.ICardWrapper;
@@ -20,7 +21,7 @@ import shedar.mods.ic2.nuclearcontrol.api.NewPanelSetting;
 import shedar.mods.ic2.nuclearcontrol.api.PanelSetting;
 import shedar.mods.ic2.nuclearcontrol.api.PanelString;
 import shedar.mods.ic2.nuclearcontrol.items.ItemCardEnergySensorLocation;
-import shedar.mods.ic2.nuclearcontrol.utils.LangHelper;
+
 import shedar.mods.ic2.nuclearcontrol.utils.StringUtils;
 
 public class ItemCardAppeng extends ItemCardEnergySensorLocation {
@@ -50,19 +51,17 @@ public class ItemCardAppeng extends ItemCardEnergySensorLocation {
         if (targetType == 1) {
             TileEntity check = world.getTileEntity(target.posX, target.posY, target.posZ);
             if (check instanceof TileEntityNetworkLink) {
-                TileEntityNetworkLink tileNetworkLink = (TileEntityNetworkLink) check;
-                card.setInt("ByteTotal", tileNetworkLink.getTOTALBYTES());
-                card.setInt("UsedBytes", tileNetworkLink.getUSEDBYTES());
-                card.setInt("ItemsTotal", tileNetworkLink.getITEMTYPETOTAL());
-                card.setInt("UsedItems", tileNetworkLink.getUSEDITEMTYPE());
+                card.setInt("ByteTotal", TileEntityNetworkLink.getTOTALBYTES());
+                card.setInt("UsedBytes", TileEntityNetworkLink.getUSEDBYTES());
+                card.setInt("ItemsTotal", TileEntityNetworkLink.getITEMTYPETOTAL());
+                card.setInt("UsedItems", TileEntityNetworkLink.getUSEDITEMTYPE());
                 return CardState.OK;
             } else {
                 return CardState.NO_TARGET;
             }
         } else if (targetType == 2) {
             TileEntity check = world.getTileEntity(target.posX, target.posY, target.posZ);
-            if (check instanceof TileCraftingMonitorTile) {
-                TileCraftingMonitorTile monitorTile = (TileCraftingMonitorTile) check;
+            if (check instanceof TileCraftingMonitorTile monitorTile) {
                 Item crafter;
                 int size;
                 if (monitorTile.getJobProgress() instanceof IAEItemStack ais) {
@@ -90,19 +89,17 @@ public class ItemCardAppeng extends ItemCardEnergySensorLocation {
         if (targetType == 1) {
             TileEntity check = panel.getWorldObj().getTileEntity(target.posX, target.posY, target.posZ);
             if (check instanceof TileEntityNetworkLink) {
-                TileEntityNetworkLink tileNetworkLink = (TileEntityNetworkLink) check;
-                card.setInt("ByteTotal", tileNetworkLink.getTOTALBYTES());
-                card.setInt("UsedBytes", tileNetworkLink.getUSEDBYTES());
-                card.setInt("ItemsTotal", tileNetworkLink.getITEMTYPETOTAL());
-                card.setInt("UsedItems", tileNetworkLink.getUSEDITEMTYPE());
+                card.setInt("ByteTotal", TileEntityNetworkLink.getTOTALBYTES());
+                card.setInt("UsedBytes", TileEntityNetworkLink.getUSEDBYTES());
+                card.setInt("ItemsTotal", TileEntityNetworkLink.getITEMTYPETOTAL());
+                card.setInt("UsedItems", TileEntityNetworkLink.getUSEDITEMTYPE());
                 return CardState.OK;
             } else {
                 return CardState.NO_TARGET;
             }
         } else if (targetType == 2) {
             TileEntity check = panel.getWorldObj().getTileEntity(target.posX, target.posY, target.posZ);
-            if (check instanceof TileCraftingMonitorTile) {
-                TileCraftingMonitorTile monitorTile = (TileCraftingMonitorTile) check;
+            if (check instanceof TileCraftingMonitorTile monitorTile) {
                 Item crafter;
                 int size;
                 if (monitorTile.getJobProgress() instanceof IAEItemStack ais) {
@@ -125,7 +122,7 @@ public class ItemCardAppeng extends ItemCardEnergySensorLocation {
     @Override
     public List<PanelString> getStringData(DisplaySettingHelper displaySettings, ICardWrapper card,
             boolean showLabels) {
-        List<PanelString> result = new LinkedList<PanelString>();
+        List<PanelString> result = new LinkedList<>();
         PanelString line;
         int TYPE = card.getInt("targetType");
 
@@ -158,7 +155,9 @@ public class ItemCardAppeng extends ItemCardEnergySensorLocation {
             String localName = "item.null.name";
             try {
                 localName = StatCollector.translateToLocal(item.getUnlocalizedName() + ".name");
-            } catch (NullPointerException e) {}
+            } catch (NullPointerException e) {
+                IC2NuclearControl.logger.error(e);
+            }
             if (localName == "item.null.name" || localName.equals("Applied Energistics Card")) {
                 localName = StatCollector.translateToLocal("msg.null.craft");
             }
@@ -182,11 +181,11 @@ public class ItemCardAppeng extends ItemCardEnergySensorLocation {
 
     @Override
     public List<PanelSetting> getSettingsList() {
-        List<PanelSetting> result = new ArrayList<PanelSetting>(4);
-        result.add(new NewPanelSetting(LangHelper.translate("1"), DISPLAY_BYTES, CARD_TYPE));
-        result.add(new NewPanelSetting(LangHelper.translate("2"), DISPLAY_ITEMS, CARD_TYPE));
-        result.add(new NewPanelSetting(LangHelper.translate("3"), DISPLAY_CRAFTER, CARD_TYPE));
-        result.add(new NewPanelSetting(LangHelper.translate("4"), DISPLAY_CRAFTSTACK, CARD_TYPE));
+        List<PanelSetting> result = new ArrayList<>(4);
+        result.add(new NewPanelSetting(StatCollector.translateToLocal("1"), DISPLAY_BYTES, CARD_TYPE));
+        result.add(new NewPanelSetting(StatCollector.translateToLocal("2"), DISPLAY_ITEMS, CARD_TYPE));
+        result.add(new NewPanelSetting(StatCollector.translateToLocal("3"), DISPLAY_CRAFTER, CARD_TYPE));
+        result.add(new NewPanelSetting(StatCollector.translateToLocal("4"), DISPLAY_CRAFTSTACK, CARD_TYPE));
         return result;
     }
 }

@@ -10,12 +10,12 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChunkCoordinates;
+import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import ic2.api.reactor.IReactor;
-import shedar.mods.ic2.nuclearcontrol.api.CardHelper;
 import shedar.mods.ic2.nuclearcontrol.api.CardState;
 import shedar.mods.ic2.nuclearcontrol.api.DisplaySettingHelper;
 import shedar.mods.ic2.nuclearcontrol.api.ICardWrapper;
@@ -23,7 +23,8 @@ import shedar.mods.ic2.nuclearcontrol.api.IRemoteSensor;
 import shedar.mods.ic2.nuclearcontrol.api.NewPanelSetting;
 import shedar.mods.ic2.nuclearcontrol.api.PanelSetting;
 import shedar.mods.ic2.nuclearcontrol.api.PanelString;
-import shedar.mods.ic2.nuclearcontrol.utils.LangHelper;
+
+import shedar.mods.ic2.nuclearcontrol.panel.CardWrapperImpl;
 import shedar.mods.ic2.nuclearcontrol.utils.NuclearHelper;
 import shedar.mods.ic2.nuclearcontrol.utils.StringUtils;
 
@@ -121,7 +122,7 @@ public class ItemCardReactorSensorLocation extends ItemCardBase implements IRemo
     @SideOnly(Side.CLIENT)
     @SuppressWarnings({ "rawtypes", "unchecked" })
     public void addInformation(ItemStack itemStack, EntityPlayer player, List info, boolean advanced) {
-        ICardWrapper helper = CardHelper.getWrapper(itemStack);
+        ICardWrapper helper = new CardWrapperImpl(itemStack, 1);
         ChunkCoordinates target = helper.getTarget();
         if (target != null) {
             String title = helper.getTitle();
@@ -136,7 +137,7 @@ public class ItemCardReactorSensorLocation extends ItemCardBase implements IRemo
     @Override
     public List<PanelString> getStringData(DisplaySettingHelper displaySettings, ICardWrapper card,
             boolean showLabels) {
-        List<PanelString> result = new LinkedList<PanelString>();
+        List<PanelString> result = new LinkedList<>();
         String text;
         PanelString line;
         if (displaySettings.getSetting(DISPLAY_HEAT)) {
@@ -184,12 +185,12 @@ public class ItemCardReactorSensorLocation extends ItemCardBase implements IRemo
             boolean reactorPowered = card.getBoolean("reactorPoweredB");
             if (reactorPowered) {
                 txtColor = 0x00ff00;
-                text = LangHelper.translate("msg.nc.InfoPanelOn");
+                text = StatCollector.translateToLocal("msg.nc.InfoPanelOn");
             } else {
                 txtColor = 0xff0000;
-                text = LangHelper.translate("msg.nc.InfoPanelOff");
+                text = StatCollector.translateToLocal("msg.nc.InfoPanelOff");
             }
-            if (result.size() > 0) {
+            if (!result.isEmpty()) {
                 PanelString firstLine = result.get(0);
                 firstLine.textRight = text;
                 firstLine.colorRight = txtColor;
@@ -205,14 +206,14 @@ public class ItemCardReactorSensorLocation extends ItemCardBase implements IRemo
 
     @Override
     public List<PanelSetting> getSettingsList() {
-        List<PanelSetting> result = new ArrayList<PanelSetting>(6);
-        result.add(new NewPanelSetting(LangHelper.translate("msg.nc.cbInfoPanelOnOff"), DISPLAY_ONOFF, CARD_TYPE));
-        result.add(new NewPanelSetting(LangHelper.translate("msg.nc.cbInfoPanelHeat"), DISPLAY_HEAT, CARD_TYPE));
-        result.add(new NewPanelSetting(LangHelper.translate("msg.nc.cbInfoPanelMaxHeat"), DISPLAY_MAXHEAT, CARD_TYPE));
-        result.add(new NewPanelSetting(LangHelper.translate("msg.nc.cbInfoPanelMelting"), DISPLAY_MELTING, CARD_TYPE));
-        result.add(new NewPanelSetting(LangHelper.translate("msg.nc.cbInfoPanelOutput"), DISPLAY_OUTPUT, CARD_TYPE));
+        List<PanelSetting> result = new ArrayList<>(6);
+        result.add(new NewPanelSetting(StatCollector.translateToLocal("msg.nc.cbInfoPanelOnOff"), DISPLAY_ONOFF, CARD_TYPE));
+        result.add(new NewPanelSetting(StatCollector.translateToLocal("msg.nc.cbInfoPanelHeat"), DISPLAY_HEAT, CARD_TYPE));
+        result.add(new NewPanelSetting(StatCollector.translateToLocal("msg.nc.cbInfoPanelMaxHeat"), DISPLAY_MAXHEAT, CARD_TYPE));
+        result.add(new NewPanelSetting(StatCollector.translateToLocal("msg.nc.cbInfoPanelMelting"), DISPLAY_MELTING, CARD_TYPE));
+        result.add(new NewPanelSetting(StatCollector.translateToLocal("msg.nc.cbInfoPanelOutput"), DISPLAY_OUTPUT, CARD_TYPE));
         result.add(
-                new NewPanelSetting(LangHelper.translate("msg.nc.cbInfoPanelTimeRemaining"), DISPLAY_TIME, CARD_TYPE));
+                new NewPanelSetting(StatCollector.translateToLocal("msg.nc.cbInfoPanelTimeRemaining"), DISPLAY_TIME, CARD_TYPE));
         return result;
     }
 

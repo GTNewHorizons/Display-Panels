@@ -11,7 +11,6 @@ dependencies {
     compileOnly("com.github.GTNewHorizons:GT5-Unofficial:5.09.52.331:dev") {transitive = false}
 
     compileOnly("com.github.GTNewHorizons:BuildCraft:7.1.55:dev") {transitive = false}
-    compileOnly("curse.maven:bigreactors-241994:2282591") {transitive = false}
-    compileOnly("curse.maven:mekanism-268560:2475797") {transitive = false}
-    compileOnly("net.sourceforge.argo:argo:6.0") {transitive = false}
+    implementation rfg.deobf("curse.maven:cofh-core-69162:2388751")
+    implementation("com.github.GTNewHorizons:Hodgepodge:2.7.113:dev")
 }

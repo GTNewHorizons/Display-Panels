@@ -13,21 +13,20 @@ import ic2.api.item.ElectricItem;
 import ic2.api.item.IElectricItem;
 import ic2.api.reactor.IReactor;
 import shedar.mods.ic2.nuclearcontrol.utils.NuclearNetworkHelper;
-import shedar.mods.ic2.nuclearcontrol.utils.TextureResolver;
 
 public class ItemToolDigitalThermometer extends ItemToolThermometer implements IElectricItem {
 
-    public int tier;
-    public int ratio;
-    public int transfer;
+    public final int tier;
 
     public ItemToolDigitalThermometer(int k, int l, int i1) {
         super();
         setMaxDamage(101);
-        setTextureName(TextureResolver.getItemTexture("thermometerDigital"));
         tier = k;
-        ratio = l;
-        transfer = i1;
+    }
+
+    @Override
+    protected String getTextureName(){
+        return "thermometerDigital";
     }
 
     @Override

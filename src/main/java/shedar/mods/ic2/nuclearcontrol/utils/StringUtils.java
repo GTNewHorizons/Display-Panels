@@ -5,6 +5,7 @@ import java.text.DecimalFormatSymbols;
 import java.util.LinkedList;
 import java.util.List;
 
+import net.minecraft.util.StatCollector;
 import shedar.mods.ic2.nuclearcontrol.api.CardState;
 import shedar.mods.ic2.nuclearcontrol.api.PanelString;
 
@@ -24,7 +25,7 @@ public class StringUtils {
     }
 
     public static String getFormatted(String resourceName, String value, boolean showLabels) {
-        if (showLabels) return String.format(LangHelper.translate(resourceName), value);
+        if (showLabels) return StatCollector.translateToLocalFormatted(resourceName, value);
         else return value;
     }
 
@@ -32,26 +33,18 @@ public class StringUtils {
         return getFormatted(resourceName, getFormatter().format(value), showLabels);
     }
 
-    public static String getFormattedKey(String resourceName, Object... arguments) {
-        return String.format(LangHelper.translate(resourceName), arguments);
-    }
-
     public static List<PanelString> getStateMessage(CardState state) {
-        List<PanelString> result = new LinkedList<PanelString>();
+        List<PanelString> result = new LinkedList<>();
         PanelString line = new PanelString();
         switch (state) {
             case OUT_OF_RANGE:
-                line.textCenter = LangHelper.translate("msg.nc.InfoPanelOutOfRange");
+                line.textCenter = StatCollector.translateToLocal("msg.nc.InfoPanelOutOfRange");
                 break;
             case INVALID_CARD:
-                line.textCenter = LangHelper.translate("msg.nc.InfoPanelInvalidCard");
+                line.textCenter = StatCollector.translateToLocal("msg.nc.InfoPanelInvalidCard");
                 break;
             case NO_TARGET:
-                line.textCenter = LangHelper.translate("msg.nc.InfoPanelNoTarget");
-                break;
-            case CUSTOM_ERROR:
-                break;
-            case OK:
+                line.textCenter = StatCollector.translateToLocal("msg.nc.InfoPanelNoTarget");
                 break;
             default:
                 break;

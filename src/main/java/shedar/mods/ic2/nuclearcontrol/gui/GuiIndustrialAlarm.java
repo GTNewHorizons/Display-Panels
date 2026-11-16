@@ -8,6 +8,7 @@ import org.lwjgl.opengl.GL11;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import shedar.mods.ic2.nuclearcontrol.Refstrings;
 import shedar.mods.ic2.nuclearcontrol.containers.ContainerEmpty;
 import shedar.mods.ic2.nuclearcontrol.gui.controls.GuiHowlerAlarmSlider;
 import shedar.mods.ic2.nuclearcontrol.tileentities.TileEntityHowlerAlarm;
@@ -15,12 +16,11 @@ import shedar.mods.ic2.nuclearcontrol.tileentities.TileEntityHowlerAlarm;
 @SideOnly(Side.CLIENT)
 public class GuiIndustrialAlarm extends GuiContainer {
 
-    private static final String TEXTURE_FILE = "nuclearcontrol:textures/gui/GUIIndustrialAlarm.png";
-    private static final ResourceLocation TEXTURE_LOCATION = new ResourceLocation(TEXTURE_FILE);
+    private static final ResourceLocation TEXTURE_LOCATION = new ResourceLocation(Refstrings.ASSETS_FOLDER,"textures/gui/GUIIndustrialAlarm.png");
 
-    private TileEntityHowlerAlarm alarm;
+    private final TileEntityHowlerAlarm alarm;
     private GuiHowlerAlarmSlider slider;
-    private String name;
+    private final String name;
 
     public GuiIndustrialAlarm(TileEntityHowlerAlarm alarm) {
         super(new ContainerEmpty(alarm));
@@ -44,11 +44,6 @@ public class GuiIndustrialAlarm extends GuiContainer {
                 StatCollector.translateToLocal("msg.nc.HowlerAlarmSoundRange"),
                 alarm);
         buttonList.add(slider);
-    }
-
-    @Override
-    public boolean doesGuiPauseGame() {
-        return false;
     }
 
     @Override

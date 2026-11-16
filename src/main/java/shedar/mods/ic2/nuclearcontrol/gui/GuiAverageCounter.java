@@ -12,6 +12,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import ic2.core.IC2;
 import ic2.core.network.NetworkManager;
+import shedar.mods.ic2.nuclearcontrol.Refstrings;
 import shedar.mods.ic2.nuclearcontrol.containers.ContainerAverageCounter;
 import shedar.mods.ic2.nuclearcontrol.crossmod.EnergyStorageData;
 import shedar.mods.ic2.nuclearcontrol.utils.StringUtils;
@@ -19,11 +20,10 @@ import shedar.mods.ic2.nuclearcontrol.utils.StringUtils;
 @SideOnly(Side.CLIENT)
 public class GuiAverageCounter extends GuiContainer {
 
-    private static final String TEXTURE_FILE = "nuclearcontrol:textures/gui/GUIEnergyCounter.png";
-    private static final ResourceLocation TEXTURE_LOCATION = new ResourceLocation(TEXTURE_FILE);
+    private static final ResourceLocation TEXTURE_LOCATION = new ResourceLocation(Refstrings.ASSETS_FOLDER, "textures/gui/GUIEnergyCounter.png");
 
-    private String name;
-    private ContainerAverageCounter container;
+    private final String name;
+    private final ContainerAverageCounter container;
 
     public GuiAverageCounter(Container container) {
         super(container);
@@ -83,21 +83,13 @@ public class GuiAverageCounter extends GuiContainer {
 
     @Override
     protected void actionPerformed(GuiButton guiButton) {
-        int event = 0;
-        switch (guiButton.id) {
-            case 1:
-                event = 1;
-                break;
-            case 2:
-                event = 3;
-                break;
-            case 3:
-                event = 5;
-                break;
-            case 4:
-                event = 10;
-                break;
-        }
-        ((NetworkManager) IC2.network.get()).initiateClientTileEntityEvent(container.averageCounter, event);
+        int event = switch (guiButton.id) {
+            case 1 -> 1;
+            case 2 -> 3;
+            case 3 -> 5;
+            case 4 -> 10;
+            default -> 0;
+        };
+        IC2.network.get().initiateClientTileEntityEvent(container.averageCounter, event);
     }
 }

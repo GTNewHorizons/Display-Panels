@@ -11,7 +11,7 @@ import shedar.mods.ic2.nuclearcontrol.crossmod.ModLib;
 
 public class CrossGregTech {
 
-    private boolean _isApiAvailable;
+    private final boolean _isApiAvailable;
 
     public CrossGregTech() {
         if (Loader.isModLoaded(ModLib.GT)) {
@@ -38,7 +38,7 @@ public class CrossGregTech {
                 int maxDamage = rod.getMaxDamageEx();
                 int currentDmg = ItemRadioactiveCellIC.getDurabilityOfStack(stack);
                 int dmg = maxDamage - currentDmg;
-                return (dmg > 0) ? dmg : 0;
+                return Math.max(dmg, 0);
             } else {
                 return -1;
             }

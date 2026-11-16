@@ -6,13 +6,14 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
 import shedar.mods.ic2.nuclearcontrol.tileentities.TileEntityAverageCounter;
-import shedar.mods.ic2.nuclearcontrol.utils.LangHelper;
+
 import shedar.mods.ic2.nuclearcontrol.utils.StringUtils;
 
 public class AverageCounterProvider implements IWailaDataProvider {
@@ -33,12 +34,12 @@ public class AverageCounterProvider implements IWailaDataProvider {
             IWailaConfigHandler handler) {
         if (accessor.getTileEntity() instanceof TileEntityAverageCounter) {
             currenttip.add(
-                    LangHelper.translate("msg.nc.waila.getEnergyAverage") + StringUtils.getFormatted(
+                    StatCollector.translateToLocal("msg.nc.waila.getEnergyAverage") + StringUtils.getFormatted(
                             "",
                             ((TileEntityAverageCounter) accessor.getTileEntity()).getClientAverage(),
                             false));
             currenttip.add(
-                    LangHelper.translate("msg.nc.waila.getPeriod") + StringUtils
+                    StatCollector.translateToLocal("msg.nc.waila.getPeriod") + StringUtils
                             .getFormatted("", ((TileEntityAverageCounter) accessor.getTileEntity()).period, false));
         }
         return currenttip;

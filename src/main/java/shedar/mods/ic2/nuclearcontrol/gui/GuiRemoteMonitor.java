@@ -9,9 +9,12 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
+import net.minecraft.util.StatCollector;
 import org.lwjgl.opengl.GL11;
 
+import shedar.mods.ic2.nuclearcontrol.IC2NuclearControl;
 import shedar.mods.ic2.nuclearcontrol.InventoryItem;
+import shedar.mods.ic2.nuclearcontrol.Refstrings;
 import shedar.mods.ic2.nuclearcontrol.api.CardState;
 import shedar.mods.ic2.nuclearcontrol.api.IPanelDataSource;
 import shedar.mods.ic2.nuclearcontrol.api.PanelString;
@@ -21,15 +24,15 @@ import shedar.mods.ic2.nuclearcontrol.items.ItemTimeCard;
 import shedar.mods.ic2.nuclearcontrol.network.ChannelHandler;
 import shedar.mods.ic2.nuclearcontrol.network.message.PacketServerUpdate;
 import shedar.mods.ic2.nuclearcontrol.panel.CardWrapperImpl;
-import shedar.mods.ic2.nuclearcontrol.utils.LangHelper;
-import shedar.mods.ic2.nuclearcontrol.utils.NCLog;
+
 import shedar.mods.ic2.nuclearcontrol.utils.StringUtils;
 
 public class GuiRemoteMonitor extends GuiContainer {
 
     public static final int REMOTEMONITOR_GUI = 17;
-    private InventoryItem inv;
-    private EntityPlayer e;
+    private static final ResourceLocation TEXTURE_LOCATION = new ResourceLocation(Refstrings.ASSETS_FOLDER, "textures/gui/GUIRemoteMonitor.png");
+    private final InventoryItem inv;
+    private final EntityPlayer e;
 
     public GuiRemoteMonitor(InventoryPlayer inv, ItemStack stack, InventoryItem inventoryItem, EntityPlayer player) {
         super(new ContainerRemoteMonitor(inv, stack, inventoryItem));
@@ -49,7 +52,7 @@ public class GuiRemoteMonitor extends GuiContainer {
     @Override
     protected void drawGuiContainerBackgroundLayer(float par1, int par2, int par3) {
         GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-        this.mc.renderEngine.bindTexture(new ResourceLocation("nuclearcontrol", "textures/gui/GUIRemoteMonitor.png"));
+        this.mc.renderEngine.bindTexture(TEXTURE_LOCATION);
         int x = (width - xSize) / 2;
         int y = (height - ySize) / 2;
         this.drawTexturedModalRect(x, y, 0, 0, 204, ySize);
@@ -57,13 +60,12 @@ public class GuiRemoteMonitor extends GuiContainer {
 
     @Override
     protected void drawGuiContainerForegroundLayer(int par1, int par2) {
-        List<PanelString> joinedData = new LinkedList<PanelString>();
+        List<PanelString> joinedData = new LinkedList<>();
         boolean anyCardFound = true;
         InventoryItem itemInv = new InventoryItem(e.getHeldItem());
 
         if (inv.getStackInSlot(0) != null && itemInv.getStackInSlot(0) != null
-                && inv.getStackInSlot(0).getItem() instanceof IPanelDataSource) {
-            IPanelDataSource card = (IPanelDataSource) inv.getStackInSlot(0).getItem();
+                && inv.getStackInSlot(0).getItem() instanceof IPanelDataSource card) {
             CardWrapperImpl helper = new CardWrapperImpl(itemInv.getStackInSlot(0), 0);
             joinedData.clear();
             ChannelHandler.network.sendToServer(new PacketServerUpdate(inv.getStackInSlot(0)));
@@ -81,24 +83,24 @@ public class GuiRemoteMonitor extends GuiContainer {
 
     private List<PanelString> getRemoteCustomMSG() {
         PanelString line = new PanelString();
-        List<PanelString> result = new LinkedList<PanelString>();
-        line.textCenter = LangHelper.translate("nc.msg.notValid");
+        List<PanelString> result = new LinkedList<>();
+        line.textCenter = StatCollector.translateToLocal("nc.msg.notValid");
         result.add(line);
         line = new PanelString();
-        line.textCenter = LangHelper.translate("nc.msg.notValid2");
+        line.textCenter = StatCollector.translateToLocal("nc.msg.notValid2");
         result.add(line);
         line = new PanelString();
         line.textCenter = "";
         result.add(line);
         line = new PanelString();
-        line.textCenter = LangHelper.translate("nc.msg.notValid3");
+        line.textCenter = StatCollector.translateToLocal("nc.msg.notValid3");
         result.add(line);
         return result;
     }
 
     private void drawCardStuff(Boolean anyCardFound, List<PanelString> joinedData) {
         if (!anyCardFound) {
-            NCLog.fatal(
+            IC2NuclearControl.logger.fatal(
                     "This should never happen. If you see this report immediately to NC2 repo. Include GuiRemoteMonitorError-123 in the report!");
             return;
         }

@@ -21,6 +21,7 @@ import ic2.core.network.ClientModifiable;
 import ic2.core.network.NetworkManager;
 import shedar.mods.ic2.nuclearcontrol.IC2NuclearControl;
 import shedar.mods.ic2.nuclearcontrol.IRedstoneConsumer;
+import shedar.mods.ic2.nuclearcontrol.config.Configuration;
 import shedar.mods.ic2.nuclearcontrol.utils.BlockDamages;
 import shedar.mods.ic2.nuclearcontrol.utils.RedstoneHelper;
 
@@ -49,7 +50,7 @@ public class TileEntityHowlerAlarm extends TileEntity implements INetworkDataPro
     private String prevSoundName;
 
     private int updateTicker;
-    protected int tickRate;
+    protected final int tickRate;
     private TileEntitySound sound;
     private int color;
 
@@ -62,7 +63,7 @@ public class TileEntityHowlerAlarm extends TileEntity implements INetworkDataPro
         powered = false;
         prevPowered = false;
         soundName = "";
-        range = IC2NuclearControl.instance.alarmRange;
+        range = Configuration.alarmRange;
         soundReceived = false;
         color = 16777215;
         if (FMLCommonHandler.instance().getEffectiveSide().isClient()) {
@@ -126,7 +127,7 @@ public class TileEntityHowlerAlarm extends TileEntity implements INetworkDataPro
     private void setSide(short f) {
         facing = f;
 
-        if (init && prevFacing != f) ((NetworkManager) IC2.network.get()).updateTileEntityField(this, "facing");
+        if (init && prevFacing != f) IC2.network.get().updateTileEntityField(this, "facing");
 
         prevFacing = f;
     }
@@ -162,7 +163,6 @@ public class TileEntityHowlerAlarm extends TileEntity implements INetworkDataPro
                     sound.stopAlarm();
                 }
             }
-            // NetworkHelper.updateTileEntityField(this, "powered");
             IC2.network.get().updateTileEntityField(this, "powered");
         }
 
@@ -192,7 +192,7 @@ public class TileEntityHowlerAlarm extends TileEntity implements INetworkDataPro
 
     private float getNormalizedRange() {
         if (worldObj.isRemote) {
-            return Math.min(range, IC2NuclearControl.instance.SMPMaxAlarmRange) / BASE_SOUND_RANGE;
+            return Math.min(range, Configuration.SMPMaxAlarmRange) / BASE_SOUND_RANGE;
         }
         return range / BASE_SOUND_RANGE;
     }
@@ -238,7 +238,7 @@ public class TileEntityHowlerAlarm extends TileEntity implements INetworkDataPro
 
     @Override
     public List<String> getNetworkedFields() {
-        Vector<String> vector = new Vector<String>(2);
+        Vector<String> vector = new Vector<>(2);
         vector.add("facing");
         vector.add("powered");
         vector.add("range");

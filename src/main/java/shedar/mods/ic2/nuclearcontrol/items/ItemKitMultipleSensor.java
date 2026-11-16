@@ -9,15 +9,16 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.util.IIcon;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidTankInfo;
 
 import ic2.core.block.generator.tileentity.TileEntityBaseGenerator;
 import shedar.mods.ic2.nuclearcontrol.IC2NuclearControl;
+import shedar.mods.ic2.nuclearcontrol.Refstrings;
 import shedar.mods.ic2.nuclearcontrol.tileentities.TileEntityAverageCounter;
 import shedar.mods.ic2.nuclearcontrol.tileentities.TileEntityEnergyCounter;
 import shedar.mods.ic2.nuclearcontrol.utils.LiquidStorageHelper;
-import shedar.mods.ic2.nuclearcontrol.utils.TextureResolver;
 
 public class ItemKitMultipleSensor extends ItemSensorKitBase {
 
@@ -25,9 +26,9 @@ public class ItemKitMultipleSensor extends ItemSensorKitBase {
     public static final int TYPE_LIQUID = 1;
     public static final int TYPE_GENERATOR = 2;
 
-    private static final String TEXTURE_KIT_COUNTER = "kitCounter";
-    private static final String TEXTURE_KIT_LIQUID = "kitLiquid";
-    private static final String TEXTURE_KIT_GENERATOR = "kitGenerator";
+    private static final ResourceLocation TEXTURE_KIT_COUNTER = new ResourceLocation(Refstrings.ASSETS_FOLDER,"kitCounter");
+    private static final ResourceLocation TEXTURE_KIT_LIQUID = new ResourceLocation(Refstrings.ASSETS_FOLDER,"kitLiquid");
+    private static final ResourceLocation TEXTURE_KIT_GENERATOR = new ResourceLocation(Refstrings.ASSETS_FOLDER,"kitGenerator");
 
     private IIcon iconCounter;
     private IIcon iconLiquid;
@@ -40,35 +41,29 @@ public class ItemKitMultipleSensor extends ItemSensorKitBase {
     @Override
     public String getUnlocalizedName(ItemStack stack) {
         int damage = stack.getItemDamage();
-        switch (damage) {
-            case TYPE_COUNTER:
-                return "item.ItemCounterSensorKit";
-            case TYPE_LIQUID:
-                return "item.ItemLiquidSensorKit";
-            case TYPE_GENERATOR:
-                return "item.ItemGeneratorSensorKit";
-        }
-        return "";
+        return switch (damage) {
+            case TYPE_COUNTER -> "item.ItemCounterSensorKit";
+            case TYPE_LIQUID -> "item.ItemLiquidSensorKit";
+            case TYPE_GENERATOR -> "item.ItemGeneratorSensorKit";
+            default -> "";
+        };
     }
 
     @Override
     public void registerIcons(IIconRegister iconRegister) {
-        iconCounter = iconRegister.registerIcon(TextureResolver.getItemTexture(TEXTURE_KIT_COUNTER));
-        iconLiquid = iconRegister.registerIcon(TextureResolver.getItemTexture(TEXTURE_KIT_LIQUID));
-        iconGenerator = iconRegister.registerIcon(TextureResolver.getItemTexture(TEXTURE_KIT_GENERATOR));
+        iconCounter = iconRegister.registerIcon(TEXTURE_KIT_COUNTER.toString());
+        iconLiquid = iconRegister.registerIcon(TEXTURE_KIT_LIQUID.toString());
+        iconGenerator = iconRegister.registerIcon(TEXTURE_KIT_GENERATOR.toString());
     }
 
     @Override
     public IIcon getIconFromDamage(int damage) {
-        switch (damage) {
-            case TYPE_COUNTER:
-                return iconCounter;
-            case TYPE_LIQUID:
-                return iconLiquid;
-            case TYPE_GENERATOR:
-                return iconGenerator;
-        }
-        return null;
+        return switch (damage) {
+            case TYPE_COUNTER -> iconCounter;
+            case TYPE_LIQUID -> iconLiquid;
+            case TYPE_GENERATOR -> iconGenerator;
+            default -> null;
+        };
     }
 
     @Override
@@ -78,8 +73,7 @@ public class ItemKitMultipleSensor extends ItemSensorKitBase {
         switch (damage) {
             case TYPE_COUNTER:
                 TileEntity entity = world.getTileEntity(x, y, z);
-                if (entity != null
-                        && (entity instanceof TileEntityEnergyCounter || entity instanceof TileEntityAverageCounter)) {
+                if ((entity instanceof TileEntityEnergyCounter || entity instanceof TileEntityAverageCounter)) {
                     return new ChunkCoordinates(x, y, z);
                 }
                 break;
@@ -91,7 +85,7 @@ public class ItemKitMultipleSensor extends ItemSensorKitBase {
                 break;
             case TYPE_GENERATOR:
                 TileEntity tileentity = world.getTileEntity(x, y, z);
-                if (tileentity != null && tileentity instanceof TileEntityBaseGenerator) {
+                if (tileentity instanceof TileEntityBaseGenerator) {
                     return new ChunkCoordinates(x, y, z);
                 }
                 break;
@@ -103,15 +97,12 @@ public class ItemKitMultipleSensor extends ItemSensorKitBase {
 
     @Override
     protected ItemStack getItemStackByDamage(int damage) {
-        switch (damage) {
-            case TYPE_COUNTER:
-                return new ItemStack(IC2NuclearControl.itemMultipleSensorLocationCard, 1, TYPE_COUNTER);
-            case TYPE_LIQUID:
-                return new ItemStack(IC2NuclearControl.itemMultipleSensorLocationCard, 1, TYPE_LIQUID);
-            case TYPE_GENERATOR:
-                return new ItemStack(IC2NuclearControl.itemMultipleSensorLocationCard, 1, TYPE_GENERATOR);
-        }
-        return null;
+        return switch (damage) {
+            case TYPE_COUNTER -> new ItemStack(IC2NuclearControl.itemMultipleSensorLocationCard, 1, TYPE_COUNTER);
+            case TYPE_LIQUID -> new ItemStack(IC2NuclearControl.itemMultipleSensorLocationCard, 1, TYPE_LIQUID);
+            case TYPE_GENERATOR -> new ItemStack(IC2NuclearControl.itemMultipleSensorLocationCard, 1, TYPE_GENERATOR);
+            default -> null;
+        };
     }
 
     @SuppressWarnings({ "unchecked", "rawtypes" })

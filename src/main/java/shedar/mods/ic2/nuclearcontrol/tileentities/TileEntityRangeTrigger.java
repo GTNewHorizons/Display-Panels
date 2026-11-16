@@ -31,6 +31,7 @@ import shedar.mods.ic2.nuclearcontrol.api.IPanelDataSource;
 import shedar.mods.ic2.nuclearcontrol.api.IRangeTriggerable;
 import shedar.mods.ic2.nuclearcontrol.api.IRemoteSensor;
 import shedar.mods.ic2.nuclearcontrol.blocks.subblocks.RangeTrigger;
+import shedar.mods.ic2.nuclearcontrol.config.Configuration;
 import shedar.mods.ic2.nuclearcontrol.items.ItemUpgrade;
 import shedar.mods.ic2.nuclearcontrol.panel.CardWrapperImpl;
 import shedar.mods.ic2.nuclearcontrol.utils.BlockDamages;
@@ -48,9 +49,9 @@ public class TileEntityRangeTrigger extends TileEntity
     private static final int STATE_ACTIVE = 1;
 
     protected int updateTicker;
-    protected int tickRate;
+    protected final int tickRate;
     protected boolean init;
-    private ItemStack inventory[];
+    private ItemStack[] inventory;
 
     @ClientModifiable
     private ItemStack card;
@@ -97,7 +98,6 @@ public class TileEntityRangeTrigger extends TileEntity
     public void setInvertRedstone(boolean value) {
         invertRedstone = value;
         if (prevInvertRedstone != value) {
-            // worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, worldObj.getBlock(xCoord, yCoord, zCoord));
             worldObj.notifyBlockChange(xCoord, yCoord, zCoord, worldObj.getBlock(xCoord, yCoord, zCoord));
             IC2.network.get().updateTileEntityField(this, "invertRedstone");
         }
@@ -112,7 +112,7 @@ public class TileEntityRangeTrigger extends TileEntity
     private void setSide(short f) {
         facing = f;
 
-        if (init && prevFacing != f) ((NetworkManager) IC2.network.get()).updateTileEntityField(this, "facing");
+        if (init && prevFacing != f) IC2.network.get().updateTileEntityField(this, "facing");
 
         prevFacing = f;
     }
@@ -188,7 +188,7 @@ public class TileEntityRangeTrigger extends TileEntity
         inventory = new ItemStack[2];// card + range upgrades
         card = null;
         init = false;
-        tickRate = IC2NuclearControl.instance.rangeTriggerRefreshPeriod;
+        tickRate = Configuration.rangeTriggerRefreshPeriod;
         updateTicker = tickRate;
         facing = 0;
         prevFacing = 0;
@@ -202,7 +202,7 @@ public class TileEntityRangeTrigger extends TileEntity
 
     @Override
     public List<String> getNetworkedFields() {
-        List<String> list = new ArrayList<String>(7);
+        List<String> list = new ArrayList<>(7);
         list.add("facing");
         list.add("rotation");
         list.add("card");
@@ -259,11 +259,6 @@ public class TileEntityRangeTrigger extends TileEntity
             }
         }
         markDirty();
-    }
-
-    @Override
-    public void invalidate() {
-        super.invalidate();
     }
 
     @Override
@@ -423,24 +418,22 @@ public class TileEntityRangeTrigger extends TileEntity
             }
 
         }
-    };
+    }
 
     @Override
     public boolean isItemValid(int slotIndex, ItemStack itemstack) {
-        switch (slotIndex) {
-            case SLOT_CARD:
-                return itemstack.getItem() instanceof IRangeTriggerable;
-            default:
-                return itemstack.getItem() instanceof ItemUpgrade
-                        && itemstack.getItemDamage() == ItemUpgrade.DAMAGE_RANGE;
-        }
+        return switch (slotIndex) {
+            case SLOT_CARD -> itemstack.getItem() instanceof IRangeTriggerable;
+            default -> itemstack.getItem() instanceof ItemUpgrade
+                    && itemstack.getItemDamage() == ItemUpgrade.DAMAGE_RANGE;
+        };
 
     }
 
     @Override
     public boolean wrenchCanSetFacing(EntityPlayer entityPlayer, int face) {
         return !entityPlayer.isSneaking() && getFacing() != face;
-    };
+    }
 
     @Override
     public float getWrenchDropRate() {
@@ -501,24 +494,12 @@ public class TileEntityRangeTrigger extends TileEntity
 
     @Override
     public void rotate() {
-        int r;
-        switch (rotation) {
-            case 0:
-                r = 1;
-                break;
-            case 1:
-                r = 3;
-                break;
-            case 3:
-                r = 2;
-                break;
-            case 2:
-                r = 0;
-                break;
-            default:
-                r = 0;
-                break;
-        }
+        int r = switch (rotation) {
+            case 0 -> 1;
+            case 1 -> 3;
+            case 3 -> 2;
+            default -> 0;
+        };
         setRotation(r);
     }
 
